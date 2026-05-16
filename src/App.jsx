@@ -4,6 +4,7 @@ import PublicLayout from './layouts/PublicLayout';
 import AdminLayout from './layouts/AdminLayout';
 import LandingPage from './pages/public/LandingPage';
 import MapViewPage from './pages/public/MapViewPage';
+import OurTeam from './pages/public/OurTeam';
 import Login from './pages/admin/Login';
 import ManageData from './pages/admin/ManageData';
 import UserManagement from './pages/admin/UserManagement';
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<LandingPage />} />
           <Route path="map" element={<MapViewPage />} />
+          <Route path="our-team" element={<OurTeam />} />
         </Route>
 
         {/* Admin Routes */}

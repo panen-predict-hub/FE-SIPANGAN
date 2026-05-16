@@ -186,7 +186,7 @@ const MapComponent = () => {
 
 
   return (
-    <div className="w-full h-full flex flex-col gap-2 relative overflow-hidden">
+    <div className="w-full lg:h-full flex flex-col gap-2 relative lg:overflow-hidden">
       {/* Premium Header */}
       <MapHeader
         selectedCommodity={selectedCommodity}
@@ -237,11 +237,6 @@ const MapComponent = () => {
         </div>
       </div>
     </div>
-
-
-
-
-
   );
 };
 

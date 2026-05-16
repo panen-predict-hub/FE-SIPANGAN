@@ -63,7 +63,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
         </button>
       </div>
 
-      <div className="flex-1 p-4 space-y-4">
+      <div className="flex-1 p-4 space-y-4 overflow-y-auto custom-scrollbar">
         {/* Stats Grid - Stable layout to prevent flicker */}
         <div className={`grid grid-cols-1 ${predictedPrice > 0 ? 'sm:grid-cols-2' : 'sm:grid-cols-1'} gap-4`}>
           <div className={`p-5 bg-gray-800/20 rounded-2xl border border-gray-700/20 hover:border-emerald-500/30 transition-colors duration-300 ${isLoading ? 'animate-pulse' : ''}`}>

@@ -159,6 +159,8 @@ const PriceTable = ({ commodities }) => {
     }
   };
 
+
+
   const handleDelete = (id) => {
     showAlert({
       title: 'Delete Price Record?',
