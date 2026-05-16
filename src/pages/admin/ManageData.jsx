@@ -4,6 +4,7 @@ import { Database, Package, TrendingUp, ChevronRight, CloudRain, Loader2 } from 
 import { commodityService, weatherService } from '../../api/services';
 import CommodityTable from './components/CommodityTable';
 import PriceTable from './components/PriceTable';
+import CustomAlert from '../../components/CustomAlert';
 
 const ManageData = () => {
   const [activeTab, setActiveTab] = useState('prices'); // default to prices
@@ -11,6 +12,24 @@ const ManageData = () => {
   const [commodities, setCommodities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [syncingWeather, setSyncingWeather] = useState(false);
+
+  // Alert State
+  const [alertConfig, setAlertConfig] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info',
+    isConfirm: false,
+    onConfirm: null
+  });
+
+  const showAlert = (config) => {
+    setAlertConfig({ ...config, isOpen: true });
+  };
+
+  const closeAlert = () => {
+    setAlertConfig({ ...alertConfig, isOpen: false });
+  };
 
   const tabs = [
     { id: 'prices', label: 'Price Records', icon: TrendingUp, color: 'text-blue-500' },
@@ -44,10 +63,18 @@ const ManageData = () => {
     try {
       setSyncingWeather(true);
       await weatherService.syncWeather();
-      alert('Weather data synchronized successfully!');
+      showAlert({
+        title: 'Success!',
+        message: 'Weather data synchronized successfully!',
+        type: 'success'
+      });
     } catch (error) {
       console.error('Failed to sync weather:', error);
-      alert('Failed to synchronize weather data. Please try again.');
+      showAlert({
+        title: 'Error!',
+        message: 'Failed to synchronize weather data. Please try again.',
+        type: 'error'
+      });
     } finally {
       setSyncingWeather(false);
     }
@@ -155,6 +182,10 @@ const ManageData = () => {
           </motion.div>
         </AnimatePresence>
       </div>
+      <CustomAlert
+        {...alertConfig}
+        onClose={closeAlert}
+      />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { userService } from '../../api/services';
 import { UserPlus, Trash2, Shield, User as UserIcon, Loader2, AlertCircle, CheckCircle2, ChevronDown, Edit2, Search, ChevronRight, Users, ShieldCheck, UserCog } from 'lucide-react';
+import CustomAlert from '../../components/CustomAlert';
 
 const UserManagement = () => {
   const currentUserRole = localStorage.getItem('userRole') || 'operator';
@@ -9,8 +10,24 @@ const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  
+  // Alert State
+  const [alertConfig, setAlertConfig] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info',
+    isConfirm: false,
+    onConfirm: null
+  });
+
+  const showAlert = (config) => {
+    setAlertConfig({ ...config, isOpen: true });
+  };
+
+  const closeAlert = () => {
+    setAlertConfig({ ...alertConfig, isOpen: false });
+  };
   const [showAddModal, setShowAddModal] = useState(false);
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -42,7 +59,11 @@ const UserManagement = () => {
 
       setUsers(fetchedUsers);
     } catch (err) {
-      setError('Gagal mengambil data pengguna.');
+      showAlert({
+        title: 'Error',
+        message: 'Gagal mengambil data pengguna.',
+        type: 'error'
+      });
     } finally {
       setLoading(false);
     }
@@ -64,17 +85,29 @@ const UserManagement = () => {
         if (formData.password) updateData.password = formData.password;
 
         await userService.update(editingUser.id, updateData);
-        setSuccess('Data pengguna berhasil diperbarui!');
+        showAlert({
+          title: 'Berhasil!',
+          message: 'Data pengguna berhasil diperbarui!',
+          type: 'success'
+        });
       } else {
         await userService.create(formData);
-        setSuccess('Pengguna berhasil ditambahkan!');
+        showAlert({
+          title: 'Berhasil!',
+          message: 'Pengguna berhasil ditambahkan!',
+          type: 'success'
+        });
       }
       setShowAddModal(false);
       setEditingUser(null);
       setFormData({ username: '', password: '', fullname: '', role: 'operator' });
       fetchUsers();
     } catch (err) {
-      setError(err.response?.data?.message || 'Gagal menyimpan data pengguna.');
+      showAlert({
+        title: 'Gagal!',
+        message: err.response?.data?.message || 'Gagal menyimpan data pengguna.',
+        type: 'error'
+      });
     } finally {
       setActionLoading(false);
     }
@@ -91,19 +124,34 @@ const UserManagement = () => {
     setShowAddModal(true);
   };
 
-  const handleDeleteUser = async (id) => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) return;
-
-    setActionLoading(true);
-    try {
-      await userService.delete(id);
-      setSuccess('Pengguna berhasil dihapus.');
-      fetchUsers();
-    } catch (err) {
-      setError(err.response?.data?.message || 'Gagal menghapus pengguna.');
-    } finally {
-      setActionLoading(false);
-    }
+  const handleDeleteUser = (id) => {
+    showAlert({
+      title: 'Hapus Pengguna?',
+      message: 'Apakah Anda yakin ingin menghapus pengguna ini? Aksi ini tidak dapat dibatalkan.',
+      type: 'error',
+      isConfirm: true,
+      confirmText: 'Hapus Sekarang',
+      onConfirm: async () => {
+        setActionLoading(true);
+        try {
+          await userService.delete(id);
+          showAlert({
+            title: 'Terhapus!',
+            message: 'Pengguna berhasil dihapus.',
+            type: 'success'
+          });
+          fetchUsers();
+        } catch (err) {
+          showAlert({
+            title: 'Gagal!',
+            message: err.response?.data?.message || 'Gagal menghapus pengguna.',
+            type: 'error'
+          });
+        } finally {
+          setActionLoading(false);
+        }
+      }
+    });
   };
 
   const filteredUsers = users.filter(user =>
@@ -267,23 +315,7 @@ const UserManagement = () => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {(error || success) && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className={`p-4 rounded-2xl flex items-center gap-4 border ${
-              error
-                ? 'bg-red-500/10 border-red-500/20 text-red-400'
-                : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-            }`}
-          >
-            {error ? <AlertCircle size={20} /> : <CheckCircle2 size={20} />}
-            <span className="text-xs font-bold uppercase tracking-wide">{error || success}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
 
       {/* Tabs Navigation */}
       <div className="flex items-center gap-2 p-1 bg-white/5 backdrop-blur-xl border border-white/5 rounded-2xl w-full max-w-fit overflow-x-auto no-scrollbar">
@@ -525,6 +557,10 @@ const UserManagement = () => {
           </div>
         )}
       </AnimatePresence>
+      <CustomAlert
+        {...alertConfig}
+        onClose={closeAlert}
+      />
     </div>
   );
 };

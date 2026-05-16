@@ -205,10 +205,8 @@ const ActivityLogs = () => {
                     </td>
                     <td className="px-6 py-4 text-white font-bold text-sm tracking-tight">{log.fullname}</td>
                     <td className="px-6 py-4">
-                      <div className="max-w-[160px]">
-                        <div className={`inline-flex px-3 py-1.5 rounded-lg text-[9px] font-black border text-center items-center justify-center ${getActionColor(log.action)}`}>
-                          {getActionLabel(log.action)}
-                        </div>
+                      <div className={`inline-flex px-3 py-1.5 rounded-lg text-[9px] font-black border text-center items-center justify-center whitespace-nowrap ${getActionColor(log.action)}`}>
+                        {getActionLabel(log.action)}
                       </div>
                     </td>
                     <td className="px-6 py-4 text-gray-400 text-xs font-medium max-w-md line-clamp-2 whitespace-normal break-words">{formatDetails(log.details)}</td>
