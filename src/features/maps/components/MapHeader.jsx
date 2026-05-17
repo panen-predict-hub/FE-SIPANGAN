@@ -1,11 +1,25 @@
 import React from 'react';
-import { TrendingUp, Map as MapIcon, Package, HelpCircle } from 'lucide-react';
+import { TrendingUp, Map as MapIcon, Package, HelpCircle, GitCompare } from 'lucide-react';
 import CustomDropdown from '../../../components/CustomDropdown';
 
-const MapHeader = ({ selectedCommodity, onCommodityChange, commodities = [], onOpenGuide }) => {
-  const commodityOptions = commodities.length > 0
-    ? commodities.map(c => ({ label: c.name, value: c.name }))
-    : [{ label: "Beras Medium", value: "Beras Medium" }];
+const MapHeader = ({ selectedCommodity, onCommodityChange, commodities = [], onOpenGuide, onOpenCompare }) => {
+  const commodityOptions = React.useMemo(() => {
+    if (commodities.length === 0) {
+      return [{ label: "Beras Medium", value: "Beras Medium" }];
+    }
+    
+    // Map commodities to selector option format
+    const mapped = commodities.map(c => ({ label: c.name, value: c.name }));
+    
+    // Find 'Beras Medium' and bubble it to the first position
+    const index = mapped.findIndex(c => c.value.toLowerCase() === 'beras medium');
+    if (index > -1) {
+      const [berasMedium] = mapped.splice(index, 1);
+      return [berasMedium, ...mapped];
+    }
+    
+    return mapped;
+  }, [commodities]);
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-gray-900/60 backdrop-blur-xl p-3 border border-gray-800/50 rounded-2xl shadow-2xl gap-4 relative z-[1001]">
@@ -39,6 +53,15 @@ const MapHeader = ({ selectedCommodity, onCommodityChange, commodities = [], onO
             </div>
           </div>
         </div>
+
+        <button
+          onClick={onOpenCompare}
+          className="flex items-center justify-center gap-2 px-5 py-4 bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20 text-indigo-400 font-black uppercase tracking-widest text-[10px] rounded-2xl transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(99,102,241,0.05)] self-end h-[56px] shrink-0"
+          title="Bandingkan Dua Wilayah"
+        >
+          <GitCompare size={15} />
+          <span className="hidden sm:inline">Bandingkan</span>
+        </button>
 
         <button
           onClick={onOpenGuide}

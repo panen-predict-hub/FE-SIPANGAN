@@ -9,6 +9,7 @@ import MapVisualizer from './components/MapVisualizer';
 import PriceSidebar from './components/PriceSidebar';
 import RegionList from './components/RegionList';
 import GuideModal from './components/GuideModal';
+import CompareModal from './components/CompareModal';
 
 
 const MapComponent = () => {
@@ -17,6 +18,7 @@ const MapComponent = () => {
   const [selectedRange, setSelectedRange] = useState(12);
   const [commodities, setCommodities] = useState([]);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   const { geoData, isLoading: isMapLoading, error: mapError } = useMapData();
 
@@ -204,6 +206,7 @@ const MapComponent = () => {
         onCommodityChange={handleCommodityChange}
         commodities={commodities}
         onOpenGuide={() => setIsGuideOpen(true)}
+        onOpenCompare={() => setIsCompareOpen(true)}
       />
 
       <div className="flex-1 flex flex-col lg:flex-row gap-4 relative min-h-0">
@@ -253,6 +256,14 @@ const MapComponent = () => {
       <GuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
+      />
+
+      {/* Interactive Region Comparison Modal */}
+      <CompareModal
+        isOpen={isCompareOpen}
+        onClose={() => setIsCompareOpen(false)}
+        regionList={regionList}
+        selectedCommodity={selectedCommodity}
       />
     </div>
   );
