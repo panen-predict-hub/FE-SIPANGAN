@@ -3,6 +3,7 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogOut, Database, User, Map, Menu, X, ShieldCheck, History } from 'lucide-react';
 import { authService } from '../api/services';
 import AlertNotification from '../components/AlertNotification';
+import iconSipangan from '../assets/icons/sipangan-icon.png';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -70,9 +71,7 @@ const AdminLayout = () => {
       `}>
         <div className="p-8 flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-default">
-            <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
-              <Database className="text-white" size={20} />
-            </div>
+            <img src={iconSipangan} alt="Sipangan Logo" className="w-10 h-10 rounded-xl object-cover shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform" />
             <div className="flex flex-col">
               <span className="font-black text-white tracking-tighter text-lg leading-none">SIPANGAN</span>
               <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mt-1">Control Center</span>

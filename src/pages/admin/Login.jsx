@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { authService } from '../../api/services';
 import { Shield, Lock, User, Loader2, Database } from 'lucide-react';
+import iconSipangan from '../../assets/icons/sipangan-icon.png';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -83,9 +84,7 @@ const Login = () => {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           
           <div className="text-center mb-10">
-            <div className="w-16 h-16 bg-emerald-500 rounded-2xl mx-auto flex items-center justify-center shadow-2xl shadow-emerald-500/30 mb-6 rotate-3 hover:rotate-0 transition-transform duration-500">
-              <Database className="text-white" size={28} />
-            </div>
+            <img src={iconSipangan} alt="Sipangan Logo" className="w-16 h-16 rounded-2xl mx-auto object-cover shadow-2xl shadow-emerald-500/30 mb-6 rotate-3 hover:rotate-0 transition-transform duration-500" />
             <h1 className="text-3xl font-black text-white tracking-tighter mb-2">SIPANGAN</h1>
             <p className="text-xs font-black text-gray-500 uppercase tracking-[0.3em]">Administrator Access</p>
           </div>

@@ -65,7 +65,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
 
       <div className="flex-1 p-4 space-y-4 overflow-y-auto custom-scrollbar">
         {/* Stats Grid - Stable layout to prevent flicker */}
-        <div className={`grid grid-cols-1 ${predictedPrice > 0 ? 'sm:grid-cols-2' : 'sm:grid-cols-1'} gap-4`}>
+        <div className={`grid grid-cols-1 ${predictedPrice > 0 || isLoading ? 'sm:grid-cols-2' : 'sm:grid-cols-1'} gap-4`}>
           <div className={`p-5 bg-gray-800/20 rounded-2xl border border-gray-700/20 hover:border-emerald-500/30 transition-colors duration-300 ${isLoading ? 'animate-pulse' : ''}`}>
             <div className="flex items-center justify-between mb-3">
               <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Current Price</p>
@@ -81,31 +81,39 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
             </p>
           </div>
 
-          {predictedPrice > 0 && !isLoading && (
-            <div className="p-5 bg-amber-500/5 rounded-2xl border border-amber-500/10 transition-colors duration-300 animate-in fade-in zoom-in duration-500">
-                <>
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-[10px] text-amber-500/60 uppercase font-black tracking-widest">Forecasted Price</p>
-                    <div className="p-1.5 bg-amber-500/10 rounded-lg">
-                      <TrendingUp size={14} className="text-amber-500" />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <p className="text-2xl font-black text-white">
-                      <span className="text-xs text-amber-500 mr-1">Rp</span>
-                      {new Intl.NumberFormat('id-ID').format(predictedPrice)}
-                    </p>
-                    {(currentPrice || priceFromHistory) > 0 && (
-                      <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${predictedPrice >= (currentPrice || priceFromHistory) ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
-                        {predictedPrice >= (currentPrice || priceFromHistory) ? '+' : ''}{((predictedPrice - (currentPrice || priceFromHistory)) / (currentPrice || priceFromHistory) * 100).toFixed(1)}%
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-[9px] text-gray-500 font-bold uppercase mt-1">Next Month Estimate</p>
-                </>
+          {/* Show Forecasted Price or Shimmers / Skeletons if loading */}
+          {isLoading ? (
+            <div className="p-5 bg-gray-800/10 rounded-2xl border border-gray-700/15 animate-pulse flex flex-col justify-between h-[104px] transition-all duration-300">
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] text-gray-500/60 uppercase font-black tracking-widest">Forecasted Price</p>
+                <div className="w-7 h-7 bg-gray-800/50 rounded-lg"></div>
               </div>
-            )}
-          </div>
+              <div className="h-6 w-28 bg-gray-800 rounded-md"></div>
+              <div className="h-3 w-20 bg-gray-800/50 rounded-md"></div>
+            </div>
+          ) : predictedPrice > 0 ? (
+            <div className="p-5 bg-amber-500/5 rounded-2xl border border-amber-500/10 transition-colors duration-300 animate-in fade-in zoom-in duration-500">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[10px] text-amber-500/60 uppercase font-black tracking-widest">Forecasted Price</p>
+                <div className="p-1.5 bg-amber-500/10 rounded-lg">
+                  <TrendingUp size={14} className="text-amber-500" />
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <p className="text-2xl font-black text-white">
+                  <span className="text-xs text-amber-500 mr-1">Rp</span>
+                  {new Intl.NumberFormat('id-ID').format(predictedPrice)}
+                </p>
+                {(currentPrice || priceFromHistory) > 0 && (
+                  <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${predictedPrice >= (currentPrice || priceFromHistory) ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
+                    {predictedPrice >= (currentPrice || priceFromHistory) ? '+' : ''}{((predictedPrice - (currentPrice || priceFromHistory)) / (currentPrice || priceFromHistory) * 100).toFixed(1)}%
+                  </span>
+                )}
+              </div>
+              <p className="text-[9px] text-gray-500 font-bold uppercase mt-1">Next Month Estimate</p>
+            </div>
+          ) : null}
+        </div>
 
         {regionId && <WeatherWidget regionId={regionId} />}
 
@@ -116,15 +124,93 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-6 animate-pulse"
+              className="space-y-6"
             >
-              {/* Chart Skeleton */}
-              <div className="space-y-4">
-                <div className="h-4 w-32 bg-gray-800/50 rounded"></div>
-                <div className="h-[320px] bg-gray-800/20 rounded-3xl border border-gray-800/50"></div>
+              {/* Range & Info Selector Skeleton */}
+              <div className="flex items-center justify-between animate-pulse">
+                <div className="space-y-2">
+                  <div className="h-3 w-28 bg-gray-800 rounded-md"></div>
+                  <div className="h-2.5 w-40 bg-gray-800/60 rounded-md"></div>
+                </div>
+                {/* Pill range selector placeholder */}
+                <div className="flex bg-gray-800/30 p-1 rounded-xl border border-gray-800/50 gap-1.5">
+                  <div className="w-7 h-5 bg-gray-800 rounded-lg"></div>
+                  <div className="w-7 h-5 bg-gray-800 rounded-lg"></div>
+                  <div className="w-7 h-5 bg-gray-800 rounded-lg"></div>
+                </div>
               </div>
-              {/* Info Card Skeleton */}
-              <div className="h-24 bg-gray-800/20 rounded-2xl border border-gray-700/10"></div>
+
+              {/* Advanced Chart Skeleton with mock lines & grid */}
+              <div className="h-[200px] lg:h-[250px] w-full bg-gray-800/10 rounded-3xl p-6 border border-gray-800/30 relative overflow-hidden animate-pulse flex flex-col justify-between">
+                {/* Vertical Y-axis tick lines & mock values */}
+                <div className="flex-1 flex gap-4">
+                  {/* Mock Y-axis */}
+                  <div className="flex flex-col justify-between h-full pb-6 text-right pr-2">
+                    <div className="h-2 w-6 bg-gray-800 rounded"></div>
+                    <div className="h-2 w-6 bg-gray-800 rounded"></div>
+                    <div className="h-2 w-6 bg-gray-800 rounded"></div>
+                    <div className="h-2 w-6 bg-gray-800 rounded"></div>
+                  </div>
+                  
+                  {/* Grid Lines and Area Path */}
+                  <div className="flex-1 h-full relative border-l border-b border-gray-800/40 pb-6 flex flex-col justify-between">
+                    {/* Horizontal grid lines */}
+                    <div className="w-full border-t border-gray-800/30"></div>
+                    <div className="w-full border-t border-gray-800/30"></div>
+                    <div className="w-full border-t border-gray-800/30"></div>
+                    
+                    {/* Futuristic Mock SVG Line & Gradient Wave */}
+                    <div className="absolute inset-0 bottom-6 opacity-30">
+                      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
+                        <defs>
+                          <linearGradient id="skeletonGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#374151" stopOpacity="0.4" />
+                            <stop offset="100%" stopColor="#1f2937" stopOpacity="0" />
+                          </linearGradient>
+                        </defs>
+                        {/* Shimmering line */}
+                        <path 
+                          d="M0,80 Q20,30 40,60 T80,20 T100,40 L100,100 L0,100 Z" 
+                          fill="url(#skeletonGrad)" 
+                          stroke="#4b5563" 
+                          strokeWidth="2" 
+                          className="animate-pulse"
+                        />
+                        <path 
+                          d="M0,80 Q20,30 40,60 T80,20 T100,40" 
+                          fill="none" 
+                          stroke="#10b981" 
+                          strokeWidth="1.5" 
+                          strokeDasharray="3 3"
+                          className="animate-pulse opacity-40"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mock X-axis along bottom */}
+                <div className="flex justify-between pl-12 pt-2 border-t border-gray-800/20">
+                  <div className="h-2 w-8 bg-gray-800 rounded"></div>
+                  <div className="h-2 w-8 bg-gray-800 rounded"></div>
+                  <div className="h-2 w-8 bg-gray-800 rounded"></div>
+                  <div className="h-2 w-8 bg-gray-800 rounded"></div>
+                </div>
+              </div>
+
+              {/* Detailed Info Card Skeleton */}
+              <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-5 flex gap-4 animate-pulse">
+                <div className="w-7 h-7 bg-emerald-500/10 border border-emerald-500/20 rounded-lg shrink-0 flex items-center justify-center">
+                  <div className="w-3.5 h-3.5 bg-emerald-500/30 rounded-full"></div>
+                </div>
+                <div className="flex-1 space-y-2">
+                  <div className="h-3.5 w-32 bg-emerald-500/20 rounded-md"></div>
+                  <div className="space-y-1.5">
+                    <div className="h-2.5 w-full bg-gray-800 rounded"></div>
+                    <div className="h-2.5 w-[90%] bg-gray-800 rounded"></div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           ) : prices.length > 0 ? (
             <motion.div 
@@ -188,7 +274,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
                     )}
                   </AnimatePresence>
 
-                  <div className={`h-[200px] lg:h-[250px] w-full bg-gray-800/10 rounded-3xl p-4 border border-gray-800/30 transition-all duration-500 ${isLoading ? 'opacity-40 grayscale' : 'opacity-100'}`}>
+                  <div className={`h-[200px] lg:h-[250px] w-full bg-gray-800/10 rounded-3xl p-4 border border-gray-800/30 transition-all duration-500 ${isLoading ? 'opacity-40 grayscale animate-pulse' : 'opacity-100'}`}>
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={prices} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <defs>
@@ -258,7 +344,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
               </div>
 
               {/* Info Cards */}
-              <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-5">
+              <div className={`bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-5 ${isLoading ? 'animate-pulse' : ''}`}>
                 <div className="flex gap-4">
                   <div className="mt-1">
                     <Info className="text-emerald-500" size={18} />

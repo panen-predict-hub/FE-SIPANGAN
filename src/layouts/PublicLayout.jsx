@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Map, LayoutDashboard, Menu, X, Shield, ChevronRight, Users } from 'lucide-react';
 import AlertNotification from '../components/AlertNotification';
+import iconSipangan from '../assets/icons/sipangan-icon.png';
 
 const PublicLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -43,9 +44,7 @@ const PublicLayout = () => {
             </button>
 
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-emerald-500/20">
-                S
-              </div>
+              <img src={iconSipangan} alt="Sipangan Logo" className="w-9 h-9 rounded-xl object-cover shadow-lg shadow-emerald-500/20" />
               <div className="flex flex-col">
                 <span className="font-black tracking-tight leading-none">SIPANGAN</span>
                 <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mt-1 text-emerald-500/80">Intelligence Hub</span>
@@ -107,7 +106,7 @@ const PublicLayout = () => {
       <aside className={`fixed top-0 left-0 bottom-0 w-[300px] bg-gray-950 border-r border-white/5 z-[9002] transition-transform duration-500 ease-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}>
         <div className="p-6 h-16 border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-emerald-500 rounded-lg flex items-center justify-center font-black text-white text-xs">S</div>
+            <img src={iconSipangan} alt="Sipangan Logo" className="w-7 h-7 rounded-lg object-cover" />
             <span className="font-black text-sm tracking-tight">SIPANGAN</span>
           </div>
           <button
