@@ -72,8 +72,6 @@ const UserManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setActionLoading(true);
-    setError('');
-    setSuccess('');
 
     try {
       if (editingUser) {

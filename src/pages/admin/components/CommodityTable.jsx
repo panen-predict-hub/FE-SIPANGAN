@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Loader2, Package, Calendar, Search } from 'lucide-react';
+import { Plus, Edit2, Trash2, Loader2, Package, Calendar, Search, FileText } from 'lucide-react';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import AdminModal from './AdminModal';
 import CustomAlert from '../../../components/CustomAlert';
 import { commodityService } from '../../../api/services';
@@ -108,6 +110,108 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
     });
   };
 
+  const exportToPDF = () => {
+    try {
+      const doc = new jsPDF();
+      
+      // Header & Branding
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(20);
+      doc.setTextColor(30, 41, 59); // Slate-800
+      doc.text("SIPANGAN", 14, 20);
+      
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8);
+      doc.setTextColor(16, 185, 129); // Emerald-500
+      doc.text("INTELLIGENCE HUB", 14, 24);
+      
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(100, 116, 139); // Slate-500
+      doc.text("Katalog Resmi Komoditas Pangan Jawa Timur", 14, 30);
+      
+      // Right-aligned report metadata
+      doc.setFontSize(9);
+      doc.setTextColor(100, 116, 139);
+      const todayStr = new Date().toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      doc.text(`Tanggal Cetak: ${todayStr}`, 196, 20, { align: 'right' });
+      doc.text(`Total Komoditas: ${filteredCommodities.length}`, 196, 25, { align: 'right' });
+      
+      // Horizontal line
+      doc.setDrawColor(226, 232, 240); // Slate-200
+      doc.setLineWidth(0.5);
+      doc.line(14, 34, 196, 34);
+      
+      // Print active filters
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105); // Slate-600
+      let filterText = "Pencarian: ";
+      if (searchTerm) filterText += `"${searchTerm}"`;
+      else filterText += "Semua Komoditas";
+      doc.text(filterText, 14, 41);
+      
+      // Table Data
+      const tableColumn = ["No", "Tanggal Input", "Nama Komoditas", "Satuan Ukur"];
+      const tableRows = filteredCommodities.map((item, index) => [
+        index + 1,
+        new Date(item.created_at || item.date || Date.now()).toLocaleDateString('id-ID'),
+        item.name,
+        item.unit || 'kg'
+      ]);
+      
+      autoTable(doc, {
+        startY: 46,
+        head: [tableColumn],
+        body: tableRows,
+        theme: 'striped',
+        headStyles: { 
+          fillColor: [16, 185, 129], // Emerald-500 theme to match CommodityTable
+          textColor: [255, 255, 255],
+          fontSize: 9,
+          fontStyle: 'bold'
+        },
+        alternateRowStyles: {
+          fillColor: [248, 250, 252] // Slate-50 background for alternate rows
+        },
+        styles: { 
+          font: "helvetica", 
+          fontSize: 8,
+          cellPadding: 3
+        },
+        columnStyles: {
+          0: { width: 15, halign: 'center' },
+          1: { width: 45 },
+          2: { width: 95 },
+          3: { width: 30, halign: 'right' }
+        }
+      });
+      
+      // Save PDF
+      const filename = `Katalog_Komoditas_Sipangan_${new Date().toISOString().slice(0,10)}.pdf`;
+      doc.save(filename);
+      
+      showAlert({
+        title: 'Berhasil!',
+        message: 'Laporan Katalog PDF berhasil diunduh.',
+        type: 'success'
+      });
+    } catch (error) {
+      console.error('Failed to export PDF:', error);
+      showAlert({
+        title: 'Gagal!',
+        message: 'Terjadi kesalahan saat memproses laporan PDF.',
+        type: 'error'
+      });
+    }
+  };
+
   const filteredCommodities = commodities.filter(c => 
     c.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -143,6 +247,14 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
             </div>
           </div>
           
+          <button
+            onClick={exportToPDF}
+            disabled={loading || filteredCommodities.length === 0}
+            className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/5 hover:border-white/10 text-gray-300 hover:text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all active:scale-95 shrink-0"
+          >
+            <FileText size={18} className="text-emerald-500" /> <span>Export PDF</span>
+          </button>
+
           <button
             onClick={() => handleOpenModal()}
             className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-emerald-500/20 active:scale-95 shrink-0"

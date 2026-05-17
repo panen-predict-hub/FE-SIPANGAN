@@ -16,7 +16,7 @@ axiosClient.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response?.status === 403) {
-      alert('Anda tidak memiliki izin untuk melakukan aksi ini.');
+      console.warn('[HTTP 403] Forbidden access attempt.');
       return Promise.reject(error);
     }
 

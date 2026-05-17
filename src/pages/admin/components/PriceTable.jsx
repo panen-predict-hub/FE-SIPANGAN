@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Loader2, TrendingUp, Filter, Calendar, MapPin, Package } from 'lucide-react';
+import { Plus, Edit2, Trash2, Loader2, TrendingUp, Filter, Calendar, MapPin, Package, FileText } from 'lucide-react';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import AdminModal from './AdminModal';
 import CustomAlert from '../../../components/CustomAlert';
 import CustomDropdown from '../../../components/CustomDropdown';
@@ -192,6 +194,111 @@ const PriceTable = ({ commodities }) => {
     });
   };
 
+  const exportToPDF = () => {
+    try {
+      const doc = new jsPDF();
+      
+      // Header & Branding
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(20);
+      doc.setTextColor(30, 41, 59); // Slate-800
+      doc.text("SIPANGAN", 14, 20);
+      
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8);
+      doc.setTextColor(59, 130, 246); // Blue-500
+      doc.text("INTELLIGENCE HUB", 14, 24);
+      
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(100, 116, 139); // Slate-500
+      doc.text("Laporan Resmi Analisis Harga Pangan Jawa Timur", 14, 30);
+      
+      // Right-aligned report metadata
+      doc.setFontSize(9);
+      doc.setTextColor(100, 116, 139);
+      const todayStr = new Date().toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      doc.text(`Tanggal Cetak: ${todayStr}`, 196, 20, { align: 'right' });
+      doc.text(`Total Records: ${prices.length}`, 196, 25, { align: 'right' });
+      
+      // Horizontal line
+      doc.setDrawColor(226, 232, 240); // Slate-200
+      doc.setLineWidth(0.5);
+      doc.line(14, 34, 196, 34);
+      
+      // Print active filters
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105); // Slate-600
+      let filterText = "Filter Terpasang: ";
+      if (filters.commodity) filterText += `Komoditas [${filters.commodity}]   `;
+      if (filters.region) filterText += `Wilayah [${filters.region}]`;
+      if (!filters.commodity && !filters.region) filterText += "Semua Komoditas & Wilayah";
+      doc.text(filterText, 14, 41);
+      
+      // Table Data
+      const tableColumn = ["No", "Tanggal", "Wilayah", "Komoditas", "Harga"];
+      const tableRows = prices.map((item, index) => [
+        index + 1,
+        new Date(item.date).toLocaleDateString('id-ID'),
+        item.region,
+        item.commodity_name || filters.commodity || "Semua Komoditas",
+        `Rp ${(parseInt(item.price) || 0).toLocaleString('id-ID')}`
+      ]);
+      
+      autoTable(doc, {
+        startY: 46,
+        head: [tableColumn],
+        body: tableRows,
+        theme: 'striped',
+        headStyles: { 
+          fillColor: [59, 130, 246], // Blue-500 theme to match PriceTable
+          textColor: [255, 255, 255],
+          fontSize: 9,
+          fontStyle: 'bold'
+        },
+        alternateRowStyles: {
+          fillColor: [248, 250, 252] // Slate-50 background for alternate rows
+        },
+        styles: { 
+          font: "helvetica", 
+          fontSize: 8,
+          cellPadding: 3
+        },
+        columnStyles: {
+          0: { width: 10, halign: 'center' },
+          1: { width: 35 },
+          2: { width: 55 },
+          3: { width: 50 },
+          4: { width: 30, halign: 'right' }
+        }
+      });
+      
+      // Save PDF
+      const filename = `Laporan_Harga_Sipangan_${new Date().toISOString().slice(0,10)}.pdf`;
+      doc.save(filename);
+      
+      showAlert({
+        title: 'Berhasil!',
+        message: 'Laporan PDF berhasil diunduh.',
+        type: 'success'
+      });
+    } catch (error) {
+      console.error('Failed to export PDF:', error);
+      showAlert({
+        title: 'Gagal!',
+        message: 'Terjadi kesalahan saat memproses laporan PDF.',
+        type: 'error'
+      });
+    }
+  };
+
   const commodityOptions = [
     { label: 'All Commodities', value: '' },
     ...commodities.map(c => ({ label: c.name, value: c.name }))
@@ -236,6 +343,14 @@ const PriceTable = ({ commodities }) => {
               />
             </div>
           </div>
+
+          <button
+            onClick={exportToPDF}
+            disabled={loading || prices.length === 0}
+            className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/5 hover:border-white/10 text-gray-300 hover:text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all active:scale-95 shrink-0"
+          >
+            <FileText size={18} className="text-blue-500" /> <span>Export PDF</span>
+          </button>
 
           <button
             onClick={() => handleOpenModal()}
