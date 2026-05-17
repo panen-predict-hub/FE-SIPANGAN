@@ -1,5 +1,16 @@
 import React from 'react';
-import { Cloud, Droplets, Thermometer, Wind, Loader2 } from 'lucide-react';
+import { 
+  Cloud, 
+  Droplets, 
+  Thermometer, 
+  Wind, 
+  Loader2,
+  Sun,
+  CloudRain,
+  CloudDrizzle,
+  CloudLightning,
+  CloudSun 
+} from 'lucide-react';
 import useWeather from '../hooks/useWeather';
 
 const WeatherWidget = ({ regionId }) => {
@@ -30,12 +41,29 @@ const WeatherWidget = ({ regionId }) => {
   }
 
   const getIcon = (condition) => {
-    switch (condition?.toLowerCase()) {
-      case 'rain': return <Cloud className="text-blue-400" size={24} />;
-      case 'clear': return <Wind className="text-amber-400" size={24} />;
-      case 'clouds': return <Cloud className="text-gray-400" size={24} />;
-      default: return <Cloud className="text-emerald-400" size={24} />;
+    const cond = condition?.toLowerCase() || '';
+    if (cond.includes('rain') || cond.includes('hujan')) {
+      return <CloudRain className="text-blue-400 animate-bounce" size={24} style={{ animationDuration: '2s' }} />;
     }
+    if (cond.includes('drizzle') || cond.includes('gerimis')) {
+      return <CloudDrizzle className="text-sky-300" size={24} />;
+    }
+    if (cond.includes('thunderstorm') || cond.includes('badai') || cond.includes('petir')) {
+      return <CloudLightning className="text-amber-500 animate-pulse" size={24} />;
+    }
+    if (cond.includes('clear') || cond.includes('sunny') || cond.includes('cerah')) {
+      return <Sun className="text-amber-400 animate-spin" size={24} style={{ animationDuration: '10s' }} />;
+    }
+    if (cond.includes('cloud') || cond.includes('awan') || cond.includes('berawan')) {
+      if (cond.includes('partly') || cond.includes('sebagian')) {
+        return <CloudSun className="text-gray-300" size={24} />;
+      }
+      return <Cloud className="text-slate-400" size={24} />;
+    }
+    if (cond.includes('wind') || cond.includes('angin') || cond.includes('berangin')) {
+      return <Wind className="text-teal-400" size={24} />;
+    }
+    return <Cloud className="text-emerald-400" size={24} />;
   };
 
   return (
