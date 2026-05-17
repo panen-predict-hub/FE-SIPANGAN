@@ -92,7 +92,7 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
       case 'waspada': return '#f59e0b';
       case 'kritis': 
       case 'bahaya': return '#e11d48';
-      default: return '#3b82f6';
+      default: return '#64748b';
     }
   };
 

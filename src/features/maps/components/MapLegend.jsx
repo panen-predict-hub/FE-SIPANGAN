@@ -3,7 +3,6 @@ import React from 'react';
 const MapLegend = () => {
   const legendItems = [
     { label: 'AMAN', color: '#10b981', desc: 'Harga Stabil' },
-    { label: 'NORMAL', color: '#3b82f6', desc: 'Sesuai Pasar' },
     { label: 'WASPADA', color: '#f59e0b', desc: 'Tren Menaik' },
     { label: 'KRITIS', color: '#e11d48', desc: 'Lonjakan Harga' },
     { label: 'TANPA DATA', color: '#64748b', desc: 'Update Pending' }

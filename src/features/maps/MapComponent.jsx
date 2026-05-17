@@ -116,7 +116,7 @@ const MapComponent = () => {
             ...f,
             properties: {
               ...f.properties,
-              status: priceData?.status || 'aman',
+              status: priceData ? (priceData.status || 'aman') : 'tanpa_data',
               price: priceData?.current_price || 0,
               previousPrice: priceData?.previous_price || 0,
               trend: priceData?.trend || 'stable',

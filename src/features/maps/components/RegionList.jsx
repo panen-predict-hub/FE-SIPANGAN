@@ -23,6 +23,7 @@ const RegionList = ({ regions, onRegionClick, selectedCommodity }) => {
       case 'waspada': return 'text-amber-500';
       case 'kritis':
       case 'bahaya': return 'text-rose-500';
+      case 'tanpa_data': return 'text-slate-400';
       default: return 'text-blue-500';
     }
   };
@@ -66,17 +67,17 @@ const RegionList = ({ regions, onRegionClick, selectedCommodity }) => {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-emerald-400 transition-colors">
-                    {region.name}
+                     {region.name}
                   </h4>
                   <div className="flex items-center gap-2 mt-1">
                     <span className={`text-[10px] font-black uppercase tracking-tighter ${getStatusColor(region.status)}`}>
-                      {region.status || 'NORMAL'}
+                      {region.status === 'tanpa_data' ? 'Tanpa Data' : (region.status || 'NORMAL')}
                     </span>
                     <span className="w-1 h-1 bg-gray-700 rounded-full"></span>
                     <div className="flex items-center gap-1">
-                      <TrendingUp size={10} className="text-amber-500" />
+                      {region.price > 0 && <TrendingUp size={10} className="text-amber-500" />}
                       <span className="text-[10px] text-gray-400 font-bold">
-                        {region.price ? `Rp ${new Intl.NumberFormat('id-ID').format(region.price)}` : 'No Price'}
+                        {region.price > 0 ? `Rp ${new Intl.NumberFormat('id-ID').format(region.price)}` : 'Belum Terdata'}
                       </span>
                     </div>
                   </div>

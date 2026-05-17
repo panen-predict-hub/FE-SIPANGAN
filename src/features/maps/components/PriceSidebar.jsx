@@ -9,6 +9,8 @@ import WeatherWidget from './WeatherWidget';
 const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, isLoading, selectedRange, onRangeChange, onClose }) => {
   if (!region) return null;
 
+  const isNoData = status?.toLowerCase() === 'tanpa_data' || currentPrice === 0;
+
   const getStatusColor = (s) => {
     switch (s?.toLowerCase()) {
       case 'aman':
@@ -16,6 +18,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
       case 'waspada': return { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/20' };
       case 'kritis':
       case 'bahaya': return { bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/20' };
+      case 'tanpa_data': return { bg: 'bg-slate-500/10', text: 'text-slate-400', border: 'border-slate-500/20' };
       default: return { bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/20' };
     }
   };
@@ -49,7 +52,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
               Region Analytics
             </span>
             <span className={`px-2 py-0.5 ${statusStyle.bg} ${statusStyle.text} text-[9px] font-black uppercase tracking-widest rounded-md border ${statusStyle.border} animate-pulse`}>
-              Status: {status || 'Normal'}
+              Status: {status === 'tanpa_data' ? 'Tanpa Data' : (status || 'Normal')}
             </span>
           </div>
           <h3 className="text-2xl font-black text-white tracking-tight">{region}</h3>
@@ -69,15 +72,22 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
           <div className={`p-5 bg-gray-800/20 rounded-2xl border border-gray-700/20 hover:border-emerald-500/30 transition-colors duration-300 ${isLoading ? 'animate-pulse' : ''}`}>
             <div className="flex items-center justify-between mb-3">
               <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Current Price</p>
-              <div className={`p-1.5 ${calculatedTrend === 'up' ? 'bg-red-500/10' : calculatedTrend === 'down' ? 'bg-emerald-500/10' : 'bg-blue-500/10'} rounded-lg`}>
-                {calculatedTrend === 'up' ? <TrendingUp size={14} className="text-red-500" /> : 
+              <div className={`p-1.5 ${isNoData ? 'bg-slate-500/10' : calculatedTrend === 'up' ? 'bg-red-500/10' : calculatedTrend === 'down' ? 'bg-emerald-500/10' : 'bg-blue-500/10'} rounded-lg`}>
+                {isNoData ? <ArrowRight size={14} className="text-slate-500" /> :
+                 calculatedTrend === 'up' ? <TrendingUp size={14} className="text-red-500" /> : 
                  calculatedTrend === 'down' ? <TrendingDown size={14} className="text-emerald-500" /> : 
                  <ArrowRight size={14} className="text-blue-500" />}
               </div>
             </div>
             <p className="text-2xl font-black text-white">
-              <span className="text-xs text-emerald-500 mr-1">Rp</span>
-              {new Intl.NumberFormat('id-ID').format(priceFromHistory || currentPrice || 0)}
+              {isNoData ? (
+                <span className="text-sm font-bold text-gray-500 uppercase tracking-widest">Belum Terdata</span>
+              ) : (
+                <>
+                  <span className="text-xs text-emerald-500 mr-1">Rp</span>
+                  {new Intl.NumberFormat('id-ID').format(priceFromHistory || currentPrice || 0)}
+                </>
+              )}
             </p>
           </div>
 
@@ -212,7 +222,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
                 </div>
               </div>
             </motion.div>
-          ) : prices.length > 0 ? (
+          ) : (prices.length > 0 && !isNoData) ? (
             <motion.div 
               key="content"
               initial={{ opacity: 0, y: 10 }}
@@ -364,15 +374,15 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="h-full w-full flex flex-col items-center justify-center text-center p-10 space-y-4"
+              className="h-full w-full flex flex-col items-center justify-center text-center p-10 space-y-4 py-16"
             >
-              <div className="w-20 h-20 bg-gray-800/50 rounded-full flex items-center justify-center border border-gray-700/50">
-                <Calendar className="text-gray-600" size={32} />
+              <div className="w-20 h-20 bg-gray-800/50 rounded-full flex items-center justify-center border border-gray-700/50 shadow-lg">
+                <Calendar className="text-gray-500" size={32} />
               </div>
               <div>
-                <p className="text-white font-black uppercase tracking-widest text-xs mb-2">No Historical Data</p>
-                <p className="text-gray-500 text-[11px] font-medium leading-relaxed">
-                  We couldn't find any historical price records for this region and commodity combination.
+                <p className="text-white font-black uppercase tracking-widest text-xs mb-2">Tidak Ada Data Historis</p>
+                <p className="text-gray-500 text-[11px] font-medium leading-relaxed max-w-xs mx-auto">
+                  Belum ada catatan riwayat harga komoditas yang terdata untuk wilayah ini. Silakan pilih wilayah atau komoditas lain.
                 </p>
               </div>
             </motion.div>
