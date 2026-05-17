@@ -1,8 +1,8 @@
 import React from 'react';
-import { TrendingUp, Map as MapIcon, Package } from 'lucide-react';
+import { TrendingUp, Map as MapIcon, Package, HelpCircle } from 'lucide-react';
 import CustomDropdown from '../../../components/CustomDropdown';
 
-const MapHeader = ({ selectedCommodity, onCommodityChange, commodities = [] }) => {
+const MapHeader = ({ selectedCommodity, onCommodityChange, commodities = [], onOpenGuide }) => {
   const commodityOptions = commodities.length > 0
     ? commodities.map(c => ({ label: c.name, value: c.name }))
     : [{ label: "Beras Medium", value: "Beras Medium" }];
@@ -24,22 +24,34 @@ const MapHeader = ({ selectedCommodity, onCommodityChange, commodities = [] }) =
         </div>
       </div>
 
-      <div className="flex items-center gap-4 bg-gray-800/30 p-1.5 rounded-2xl border border-gray-700/50 w-full md:w-auto">
-        <div className="flex flex-col w-full md:w-auto">
-          <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-0.5 ml-1">Commodity Selector</label>
-          <div className="w-full md:w-64">
-            <CustomDropdown
-              value={selectedCommodity}
-              onChange={onCommodityChange}
-              options={commodityOptions}
-              placeholder="Select Commodity"
-              icon={Package}
-            />
+      <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+        <div className="flex items-center gap-4 bg-gray-800/30 p-1.5 rounded-2xl border border-gray-700/50 flex-1 md:flex-none">
+          <div className="flex flex-col w-full">
+            <label className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-0.5 ml-1">Commodity Selector</label>
+            <div className="w-full md:w-64">
+              <CustomDropdown
+                value={selectedCommodity}
+                onChange={onCommodityChange}
+                options={commodityOptions}
+                placeholder="Select Commodity"
+                icon={Package}
+              />
+            </div>
           </div>
         </div>
+
+        <button
+          onClick={onOpenGuide}
+          className="flex items-center justify-center gap-2 px-5 py-4 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 font-black uppercase tracking-widest text-[10px] rounded-2xl transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.05)] self-end h-[56px] shrink-0"
+          title="Buka Panduan Penggunaan Peta"
+        >
+          <HelpCircle size={15} />
+          <span className="hidden sm:inline">Panduan</span>
+        </button>
       </div>
     </div>
   );
 };
 
 export default MapHeader;
+

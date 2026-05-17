@@ -8,6 +8,7 @@ import MapHeader from './components/MapHeader';
 import MapVisualizer from './components/MapVisualizer';
 import PriceSidebar from './components/PriceSidebar';
 import RegionList from './components/RegionList';
+import GuideModal from './components/GuideModal';
 
 
 const MapComponent = () => {
@@ -15,8 +16,18 @@ const MapComponent = () => {
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedRange, setSelectedRange] = useState(12);
   const [commodities, setCommodities] = useState([]);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const { geoData, isLoading: isMapLoading, error: mapError } = useMapData();
+
+  useEffect(() => {
+    // Auto-open guide on the user's first visit to the map page
+    const hasSeenGuide = localStorage.getItem('hasSeenMapGuide');
+    if (!hasSeenGuide) {
+      setIsGuideOpen(true);
+      localStorage.setItem('hasSeenMapGuide', 'true');
+    }
+  }, []);
   const {
     regionPrices,
     isLoading: isPriceLoading,
@@ -192,6 +203,7 @@ const MapComponent = () => {
         selectedCommodity={selectedCommodity}
         onCommodityChange={handleCommodityChange}
         commodities={commodities}
+        onOpenGuide={() => setIsGuideOpen(true)}
       />
 
       <div className="flex-1 flex flex-col lg:flex-row gap-4 relative min-h-0">
@@ -236,6 +248,12 @@ const MapComponent = () => {
           )}
         </div>
       </div>
+
+      {/* Interactive Guide Modal */}
+      <GuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+      />
     </div>
   );
 };
