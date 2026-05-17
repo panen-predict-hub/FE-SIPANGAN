@@ -164,10 +164,10 @@ const LandingPage = () => {
             Jika Anda memiliki pertanyaan, masukan, atau tawaran kerja sama untuk mengembangkan platform ini ke skala nasional, silakan hubungi kami.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <a href="mailto:contact@sipangan.id" className="px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/20 hover:scale-[1.05] transition-all flex items-center justify-center gap-2">
+            <a href="mailto:syahrefaldi@gmail.com" className="px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/20 hover:scale-[1.05] transition-all flex items-center justify-center gap-2">
               📧 Hubungi via Email
             </a>
-            <a href="https://github.com/labib-project/sipangan" target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-xs border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2">
+            <a href="https://github.com/panen-predict-hub" target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-xs border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2">
               💻 GitHub Repository
             </a>
           </div>
