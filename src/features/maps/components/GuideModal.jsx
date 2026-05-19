@@ -22,14 +22,22 @@ const GuideModal = ({ isOpen, onClose }) => {
       badge: "Navigasi Peta",
       content: (
         <div className="space-y-4">
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Peta digital interaktif kami mencakup seluruh wilayah kabupaten dan kota di Jawa Timur. Anda dapat langsung mengarahkan kursor dan mengeklik daerah tertentu.
+          <p className="text-gray-400 text-xs leading-relaxed">
+            Peta digital interaktif kami mencakup seluruh wilayah di Jawa Timur. Desain kami ramah terhadap perangkat seluler (HP) dengan fitur navigasi ganda.
           </p>
-          <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 flex gap-3 items-start">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-black mt-0.5">1</span>
-            <p className="text-xs text-gray-300 font-medium leading-normal">
-              <strong>Klik Wilayah:</strong> Mengeklik area pada peta akan membuka panel analisis harga terperinci untuk komoditas yang dipilih di sebelah kanan.
-            </p>
+          <div className="space-y-2">
+            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-3 flex gap-3 items-start">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-black mt-0.5">1</span>
+              <p className="text-[11px] text-gray-300 font-medium leading-normal">
+                <strong>Klik Wilayah:</strong> Ketuk wilayah pada peta untuk membuka analisis tren harga dan ramalan pasokan AI di bilah samping/bawah.
+              </p>
+            </div>
+            <div className="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-3 flex gap-3 items-start">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-400 text-xs font-black mt-0.5">2</span>
+              <p className="text-[11px] text-gray-300 font-medium leading-normal">
+                <strong>Scroll-Lock Seluler:</strong> Di HP, gunakan tombol <span className="text-blue-400 font-bold">🔒 Peta Terkunci</span> untuk mengaktifkan kunci peta agar Anda bisa men-scroll halaman web ke bawah dengan lancar tanpa macet!
+              </p>
+            </div>
           </div>
         </div>
       )
@@ -41,7 +49,7 @@ const GuideModal = ({ isOpen, onClose }) => {
       badge: "Status Ketahanan",
       content: (
         <div className="space-y-3">
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <p className="text-gray-400 text-xs leading-relaxed">
             Choropleth warna pada peta disesuaikan secara dinamis berdasarkan perbandingan harga riil pasar dengan ambang batas normal:
           </p>
           <div className="space-y-2 pt-1">
@@ -77,17 +85,17 @@ const GuideModal = ({ isOpen, onClose }) => {
       badge: "AI Forecast",
       content: (
         <div className="space-y-4">
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <p className="text-gray-400 text-xs leading-relaxed">
             Setelah Anda memilih daerah, bilah analisis samping akan menyajikan chart komprehensif yang menampilkan:
           </p>
           <div className="grid grid-cols-2 gap-3 pt-1">
             <div className="p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col justify-center">
               <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider mb-1">Data Historis</span>
-              <p className="text-[10px] text-gray-400 leading-normal font-medium">Rekaman tren fluktuasi harga komoditas selama 12 bulan terakhir.</p>
+              <p className="text-[9px] text-gray-400 leading-normal font-medium">Rekaman tren fluktuasi harga komoditas selama 12 bulan terakhir.</p>
             </div>
             <div className="p-3 bg-purple-500/5 border border-purple-500/10 rounded-xl flex flex-col justify-center">
               <span className="text-[10px] font-black text-purple-400 uppercase tracking-wider mb-1">AI Prediction</span>
-              <p className="text-[10px] text-gray-400 leading-normal font-medium">Estimasi harga masa depan yang diproses oleh model prediktif machine learning.</p>
+              <p className="text-[9px] text-gray-400 leading-normal font-medium">Estimasi harga masa depan yang diproses oleh model prediktif machine learning.</p>
             </div>
           </div>
         </div>
