@@ -5,9 +5,9 @@ import {
   TrendingUp,
   ShieldCheck,
   Zap,
-  BarChart3,
   Layers,
-  ArrowRight
+  ArrowRight,
+  BrainCircuit
 } from 'lucide-react';
 import PriceMarquee from '../../components/PriceMarquee';
 
@@ -19,7 +19,7 @@ const LandingPage = () => {
         <div className="relative text-center space-y-6 md:space-y-8 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500 max-w-full text-center">
             <Zap size={12} fill="currentColor" className="shrink-0" /> 
-            <span className="truncate">Waypoint - Coding Camp 2026</span>
+            <span className="truncate">Sistem & Analisis Ketahanan Pangan</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.1] md:leading-[0.95] animate-in fade-in slide-in-from-bottom duration-700 delay-100">
@@ -27,7 +27,7 @@ const LandingPage = () => {
           </h1>
 
           <p className="text-xs sm:text-base md:text-xl text-gray-400 font-medium max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-700 delay-200">
-            SIPANGAN adalah aplikasi inovatif hasil pengembangan Capstone Project untuk memonitor distribusi, fluktuasi harga, dan prediksi ketahanan komoditas pasar secara Real-Time.
+            SIPANGAN adalah platform analitik cerdas berbasis spasial dan AI yang dirancang untuk memantau stabilitas harga, memetakan rantai pasok, dan memproyeksikan ketahanan komoditas pangan secara real-time demi mencegah krisis pasokan.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4 animate-in fade-in slide-in-from-bottom duration-700 delay-300 w-full max-w-md mx-auto sm:max-w-none">
@@ -42,7 +42,7 @@ const LandingPage = () => {
               href="#about"
               className="w-full sm:w-auto text-center justify-center px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-xs sm:text-sm border border-white/5 hover:border-white/10 transition-all flex items-center"
             >
-              Tentang Proyek
+              Pelajari Fitur
             </a>
           </div>
         </div>
@@ -62,21 +62,21 @@ const LandingPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10">
           <div className="space-y-6">
             <div className="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-300 text-[10px] font-black uppercase tracking-widest">
-              Latar Belakang
+              Latar Belakang & Urgensi
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
               Membangun Ekosistem <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 block sm:inline">Pangan yang Transparan.</span>
             </h2>
             <p className="text-gray-400 font-medium text-xs sm:text-base leading-relaxed">
-              Aplikasi ini dikembangkan secara khusus sebagai pemenuhan tugas akhir (Capstone Project) dari program <strong>Coding Camp 2026</strong>. 
-              Fokus utama kami adalah mengatasi ketimpangan informasi harga pangan dan mendeteksi secara dini potensi kelangkaan komoditas di wilayah Jawa Timur.
+              Fluktuasi harga pangan yang ekstrem dan ketimpangan rantai pasok menjadi tantangan utama dalam menjaga stabilitas inflasi pangan daerah. 
+              <strong> SIPANGAN</strong> hadir sebagai solusi analitik berbasis data untuk mengatasi asimetri informasi harga, memitigasi risiko kelangkaan pasokan, serta mendeteksi secara dini gejolak harga komoditas pokok di wilayah Jawa Timur sebelum berdampak luas ke masyarakat.
             </p>
             <div className="space-y-3 pt-2">
               {[
-                "Memanfaatkan data historis untuk mendeteksi anomali harga.",
-                "Memberikan peringatan dini (Alert) saat terjadi lonjakan ekstrem.",
-                "Menampilkan pemetaan spasial surplus/defisit pangan antar daerah.",
-                "Sistem manajemen data admin yang terintegrasi dan aman."
+                "Mendeteksi anomali harga pasar di tingkat kabupaten/kota secara instan.",
+                "Pemberian peringatan dini (Early Warning) otomatis saat terjadi lonjakan harga ekstrem.",
+                "Pemetaan spasial surplus dan defisit pangan berbasis data geografis real-time.",
+                "Pengambilan keputusan berbasis data AI untuk intervensi kebijakan ketahanan pasar."
               ].map((step, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <div className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 bg-emerald-500 rounded-full flex items-center justify-center text-[9px] sm:text-[10px] font-black text-white mt-0.5">
@@ -112,29 +112,29 @@ const LandingPage = () => {
       <section id="features" className="relative px-4 md:px-0">
         <div className="text-center mb-10 md:mb-16 space-y-3">
           <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Teknologi & Fitur Mutakhir</h2>
-          <p className="text-xs sm:text-sm text-gray-500 font-medium">Solusi arsitektur cerdas yang menenagai SIPANGAN.</p>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">Solusi analisis komprehensif yang menenagai kedaulatan informasi pangan SIPANGAN.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {[
             {
-              title: "Geospatial Visualizer",
-              desc: "Pemetaan interaktif berbasis TopoJSON yang memungkinkan Anda melihat distribusi surplus dan defisit harga komoditas per wilayah secara langsung.",
+              title: "Geospatial Market Intelligence",
+              desc: "Pemetaan spasial berbasis peta choropleth dinamis untuk memetakan disparitas harga riil, surplus, dan defisit pasokan di 38 kabupaten/kota secara instan.",
               icon: MapIcon,
               color: "text-blue-500",
               bg: "bg-blue-500/10"
             },
             {
-              title: "Automated Early Warning",
-              desc: "Sistem pendeteksi anomali harga otomatis. Operator tidak perlu mengecek manual; sistem akan membunyikan 'Alert' bila terdeteksi lonjakan harga kritis.",
-              icon: Zap,
-              color: "text-emerald-500",
-              bg: "bg-emerald-500/10"
+              title: "AI Predictive Analytics",
+              desc: "Penerapan algoritma peramalan cerdas yang menganalisis data historis beruntun untuk memproyeksikan estimasi harga komoditas pada bulan berikutnya secara presisi.",
+              icon: BrainCircuit,
+              color: "text-purple-500",
+              bg: "bg-purple-500/10"
             },
             {
-              title: "Enterprise Security",
-              desc: "Keamanan data tingkat tinggi dengan autentikasi JWT Multi-Role (Super Admin, Admin, Operator) dan enkripsi untuk melindungi integritas sistem.",
-              icon: ShieldCheck,
+              title: "Early Warning System (EWS)",
+              desc: "Sistem deteksi anomali otomatis yang langsung mengklasifikasikan tingkat kerawanan wilayah menjadi status Aman, Waspada, atau Krisis secara akurat.",
+              icon: Zap,
               color: "text-amber-500",
               bg: "bg-amber-500/10"
             }
@@ -156,12 +156,12 @@ const LandingPage = () => {
       <section className="text-center py-12 md:py-20 relative border-t border-white/5 px-4 md:px-0 mt-16 md:mt-20">
         <div className="max-w-2xl mx-auto space-y-6 md:space-y-8">
           <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-blue-500/10 border border-blue-500/20 mb-1">
-            <span className="text-lg sm:text-2xl font-black text-blue-500">C26</span>
+            <span className="text-lg sm:text-2xl font-black text-blue-500">S26</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Dikembangkan Oleh Tim Capstone</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Kolaborasi & Hubungi Pengembang</h2>
           <p className="text-xs sm:text-sm text-gray-500 font-medium leading-relaxed max-w-xl mx-auto">
-            Terima kasih telah menggunakan SIPANGAN. Proyek ini merupakan bagian dari karya inovasi di <strong>Coding Camp 2026</strong>. 
-            Jika Anda memiliki pertanyaan, masukan, atau tawaran kerja sama untuk mengembangkan platform ini ke skala nasional, silakan hubungi kami.
+            SIPANGAN dirancang oleh para praktisi teknologi dan ilmuwan data untuk mewujudkan kedaulatan pangan berbasis integrasi teknologi modern. 
+            Jika Anda tertarik berkolaborasi, membutuhkan integrasi data sistem informasi pangan daerah, atau ingin memperluas cakupan platform ini ke skala nasional, silakan hubungi kami.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2 w-full max-w-sm sm:max-w-none mx-auto">
             <a 
@@ -180,7 +180,7 @@ const LandingPage = () => {
             </a>
           </div>
           <p className="text-[8px] sm:text-[10px] text-gray-600 font-bold uppercase tracking-widest pt-6">
-            &copy; 2026 SIPANGAN - Coding Camp Capstone Project. All rights reserved.
+            &copy; 2026 SIPANGAN - Sistem Informasi Ketahanan Pangan. All rights reserved.
           </p>
         </div>
       </section>
