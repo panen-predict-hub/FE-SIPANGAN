@@ -15,6 +15,7 @@ export const commodityService = {
   getAll: () => axiosClient.get('commodities'),
   create: (data) => axiosClient.post('commodities', data),
   update: (id, data) => axiosClient.put(`commodities/${id}`, data),
+  updateThreshold: (id, data) => axiosClient.put(`commodities/${id}/threshold`, data),
   delete: (id) => axiosClient.delete(`commodities/${id}`),
 };
 

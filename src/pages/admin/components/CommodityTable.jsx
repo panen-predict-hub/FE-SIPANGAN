@@ -9,7 +9,13 @@ import { commodityService } from '../../../api/services';
 const CommodityTable = ({ commodities, loading, onRefresh }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCommodity, setCurrentCommodity] = useState(null);
-  const [formData, setFormData] = useState({ name: '', unit: 'kg' });
+  const [formData, setFormData] = useState({
+    name: '',
+    unit: 'kg',
+    waspada_percentage: 10,
+    kritis_percentage: 25,
+    het_nominal: ''
+  });
   const [submitting, setSubmitting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -38,10 +44,22 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
   const handleOpenModal = (commodity = null) => {
     if (commodity) {
       setCurrentCommodity(commodity);
-      setFormData({ name: commodity.name, unit: commodity.unit || 'kg' });
+      setFormData({
+        name: commodity.name,
+        unit: commodity.unit || 'kg',
+        waspada_percentage: commodity.waspada_percentage !== undefined && commodity.waspada_percentage !== null ? commodity.waspada_percentage : 10,
+        kritis_percentage: commodity.kritis_percentage !== undefined && commodity.kritis_percentage !== null ? commodity.kritis_percentage : 25,
+        het_nominal: commodity.het_nominal !== undefined && commodity.het_nominal !== null ? commodity.het_nominal : ''
+      });
     } else {
       setCurrentCommodity(null);
-      setFormData({ name: '', unit: 'kg' });
+      setFormData({
+        name: '',
+        unit: 'kg',
+        waspada_percentage: 10,
+        kritis_percentage: 25,
+        het_nominal: ''
+      });
     }
     setIsModalOpen(true);
   };
@@ -50,28 +68,40 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
     e.preventDefault();
     setSubmitting(true);
     try {
+      const thresholdData = {
+        waspada_percentage: Number(formData.waspada_percentage),
+        kritis_percentage: Number(formData.kritis_percentage),
+        het_nominal: formData.het_nominal !== '' && formData.het_nominal !== null && formData.het_nominal !== undefined ? Number(formData.het_nominal) : null
+      };
+
       if (currentCommodity) {
-        await commodityService.update(currentCommodity.id, formData);
+        await commodityService.update(currentCommodity.id, { name: formData.name, unit: formData.unit });
+        await commodityService.updateThreshold(currentCommodity.id, thresholdData);
         showAlert({
-          title: 'Updated!',
-          message: 'Commodity has been updated successfully.',
+          title: 'Berhasil!',
+          message: 'Data komoditas dan threshold berhasil diperbarui.',
           type: 'success'
         });
       } else {
-        await commodityService.create(formData);
+        const response = await commodityService.create({ name: formData.name, unit: formData.unit });
+        const newId = response.data?.data?.id;
+        if (newId) {
+          await commodityService.updateThreshold(newId, thresholdData);
+        }
         showAlert({
-          title: 'Success!',
-          message: 'New commodity has been added to the catalog.',
+          title: 'Berhasil!',
+          message: 'Komoditas baru beserta threshold berhasil ditambahkan.',
           type: 'success'
         });
       }
       onRefresh();
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Failed to save commodity:', error);
+      console.error('Failed to save commodity and threshold:', error);
+      const serverMessage = error.response?.data?.message || 'Failed to save commodity. Please try again.';
       showAlert({
         title: 'Error!',
-        message: 'Failed to save commodity. Please try again.',
+        message: serverMessage,
         type: 'error'
       });
     } finally {
@@ -269,16 +299,17 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
           <table className="w-full text-left">
             <thead className="bg-gray-900/50 border-b border-gray-800">
               <tr>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest w-[180px]">Date</th>
+                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest w-[140px]">Date</th>
                 <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest">Name</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[150px]">Unit</th>
+                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest w-[200px]">Threshold & HET</th>
+                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[100px]">Unit</th>
                 <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[120px]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
               {loading ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-12 text-center">
+                  <td colSpan="5" className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-3">
                       <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
                       <span className="text-gray-500 text-sm font-medium">Synchronizing Catalog...</span>
@@ -296,6 +327,27 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
                     </td>
                     <td className="px-6 py-4">
                       <span className="text-white font-bold tracking-tight">{item.name}</span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1.5 text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-amber-500/90 font-semibold bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded text-[10px]" title="Threshold Waspada">
+                            ⚠️ {item.waspada_percentage !== null && item.waspada_percentage !== undefined ? `${item.waspada_percentage}%` : '10%'}
+                          </span>
+                          <span className="text-rose-500/90 font-semibold bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded text-[10px]" title="Threshold Kritis">
+                            🚨 {item.kritis_percentage !== null && item.kritis_percentage !== undefined ? `${item.kritis_percentage}%` : '25%'}
+                          </span>
+                        </div>
+                        {item.het_nominal ? (
+                          <span className="text-emerald-400/90 font-bold text-[11px] mt-0.5">
+                            HET: Rp {Number(item.het_nominal).toLocaleString('id-ID')}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500 italic text-[10px] mt-0.5">
+                            Tanpa HET
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-gray-400 font-medium text-right lowercase">{item.unit || 'kg'}</td>
                     <td className="px-6 py-4 text-right">
@@ -320,7 +372,7 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
                     No commodities found. Start by adding a new one.
                   </td>
                 </tr>
@@ -400,6 +452,65 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
             />
             <p className="text-[10px] text-gray-500 italic mt-1">* Backend requires unit (e.g. "kg")</p>
           </div>
+
+          <div className="border-t border-gray-800/60 pt-4 my-4">
+            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] mb-4">Pengaturan Threshold & HET</p>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-1">
+                  <span>⚠️ Batas Waspada</span>
+                  <span className="text-[10px] font-normal lowercase text-gray-600">(%)</span>
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  required
+                  placeholder="10"
+                  className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+                  value={formData.waspada_percentage}
+                  onChange={(e) => setFormData({ ...formData, waspada_percentage: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-1">
+                  <span>🚨 Batas Kritis</span>
+                  <span className="text-[10px] font-normal lowercase text-gray-600">(%)</span>
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  required
+                  placeholder="25"
+                  className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+                  value={formData.kritis_percentage}
+                  onChange={(e) => setFormData({ ...formData, kritis_percentage: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-1">
+              <span>💵 Nominal HAP / HET</span>
+              <span className="text-[10px] font-normal lowercase text-gray-600">(Rp)</span>
+            </label>
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="e.g. 14500 (kosongkan jika tidak ada)"
+              className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+              value={formData.het_nominal}
+              onChange={(e) => setFormData({ ...formData, het_nominal: e.target.value })}
+            />
+            <p className="text-[10px] text-gray-500 italic mt-1">* Melampaui HET otomatis memicu status "Kritis"</p>
+          </div>
+
           <div className="pt-4">
             <button
               type="submit"
