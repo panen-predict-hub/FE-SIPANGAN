@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { authService } from '../../api/services';
-import { Shield, Lock, User, Loader2, Database } from 'lucide-react';
+import { Shield, Lock, User, Loader2, Database, ArrowLeft } from 'lucide-react';
 import iconSipangan from '../../assets/icons/sipangan-icon.png';
 
 const Login = () => {
@@ -82,6 +82,17 @@ const Login = () => {
       >
         <div className="bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/5 rounded-[2.5rem] shadow-2xl p-10 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 text-gray-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-all mb-8 group/back"
+          >
+            <span className="w-7 h-7 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center group-hover/back:bg-white/10 group-hover/back:border-white/10 transition-all">
+              <ArrowLeft size={14} />
+            </span>
+            Kembali ke Beranda
+          </button>
           
           <div className="text-center mb-10">
             <img src={iconSipangan} alt="Sipangan Logo" className="w-16 h-16 rounded-2xl mx-auto object-cover shadow-2xl shadow-emerald-500/30 mb-6 rotate-3 hover:rotate-0 transition-transform duration-500" />
