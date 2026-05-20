@@ -163,10 +163,28 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
   
   const [isMoving, setIsMoving] = useState(false);
   const [isMapLocked, setIsMapLocked] = useState(() => window.innerWidth < 1024);
+  const [isMapStyleLoaded, setIsMapStyleLoaded] = useState(false);
 
-  // Initialize Map
+  // Synchronize dynamic props/states to refs to prevent stale closure bugs in MapLibre events
+  const geoDataRef = useRef(geoData);
+  const selectedRegionRef = useRef(selectedRegion);
+  const onRegionClickRef = useRef(onRegionClick);
+
   useEffect(() => {
-    if (!geoData || !mapContainerRef.current) return;
+    geoDataRef.current = geoData;
+  }, [geoData]);
+
+  useEffect(() => {
+    selectedRegionRef.current = selectedRegion;
+  }, [selectedRegion]);
+
+  useEffect(() => {
+    onRegionClickRef.current = onRegionClick;
+  }, [onRegionClick]);
+
+  // Initialize Map exactly ONCE on mount
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
@@ -205,59 +223,69 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
     mapRef.current = map;
 
     map.on('load', () => {
-      const processedGeoData = getProcessedGeoData(geoData, selectedRegion);
+      const currentGeoData = geoDataRef.current;
+      const currentSelectedRegion = selectedRegionRef.current;
 
-      map.addSource('regions', {
-        type: 'geojson',
-        data: processedGeoData
-      });
+      if (currentGeoData) {
+        const processedGeoData = getProcessedGeoData(currentGeoData, currentSelectedRegion);
 
-      // Add fill layer
-      map.addLayer({
-        id: 'regions-fill',
-        type: 'fill',
-        source: 'regions',
-        paint: {
-          'fill-color': ['get', 'statusColor'],
-          'fill-opacity': [
-            'case',
-            ['boolean', ['get', 'isSelected'], false], 0.85,
-            ['boolean', ['feature-state', 'hover'], false], 0.75,
-            0.45
-          ]
+        map.addSource('regions', {
+          type: 'geojson',
+          data: processedGeoData
+        });
+
+        // Add fill layer
+        map.addLayer({
+          id: 'regions-fill',
+          type: 'fill',
+          source: 'regions',
+          paint: {
+            'fill-color': ['get', 'statusColor'],
+            'fill-opacity': [
+              'case',
+              ['boolean', ['get', 'isSelected'], false], 0.85,
+              ['boolean', ['feature-state', 'hover'], false], 0.75,
+              0.45
+            ]
+          }
+        });
+
+        // Add outline layer
+        map.addLayer({
+          id: 'regions-outline',
+          type: 'line',
+          source: 'regions',
+          paint: {
+            'line-color': [
+              'case',
+              ['boolean', ['get', 'isSelected'], false], ['get', 'statusColor'],
+              '#0f172a'
+            ],
+            'line-width': [
+              'case',
+              ['boolean', ['get', 'isSelected'], false], 3.5,
+              1.0
+            ]
+          }
+        });
+
+        // Configure premium, smooth WebGL transitions for fill and stroke morphing
+        map.setPaintProperty('regions-fill', 'fill-color-transition', { duration: 300, delay: 0 });
+        map.setPaintProperty('regions-fill', 'fill-opacity-transition', { duration: 300, delay: 0 });
+        map.setPaintProperty('regions-outline', 'line-color-transition', { duration: 300, delay: 0 });
+        map.setPaintProperty('regions-outline', 'line-width-transition', { duration: 300, delay: 0 });
+
+        // Trigger initial camera focus if region pre-selected
+        if (currentSelectedRegion) {
+          refocusCamera(currentSelectedRegion, processedGeoData, true);
         }
-      });
-
-      // Add outline layer
-      map.addLayer({
-        id: 'regions-outline',
-        type: 'line',
-        source: 'regions',
-        paint: {
-          'line-color': [
-            'case',
-            ['boolean', ['get', 'isSelected'], false], ['get', 'statusColor'],
-            '#0f172a'
-          ],
-          'line-width': [
-            'case',
-            ['boolean', ['get', 'isSelected'], false], 3.5,
-            1.0
-          ]
-        }
-      });
-
-      // Set transitions
-      map.setPaintProperty('regions-fill', 'fill-opacity-transition', { duration: 0 });
-      map.setPaintProperty('regions-outline', 'line-opacity-transition', { duration: 0 });
+      }
 
       // Setup event handlers
       setupMapEvents(map);
 
-      // Trigger initial camera focus if region pre-selected
-      if (selectedRegion) {
-        refocusCamera(selectedRegion, processedGeoData, true);
-      }
+      // Mark the map style as fully loaded
+      setIsMapStyleLoaded(true);
     });
 
     return () => {
@@ -266,7 +294,7 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
         mapRef.current = null;
       }
     };
-  }, [geoData]);
+  }, []); // Empty dependency array prevents re-initializing on data change!
 
   // Setup Event Handlers
   const setupMapEvents = (map) => {
@@ -323,7 +351,9 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
 
         const feature = sortedFeatures[0];
         const fullRegionName = feature.properties.fullRegionName || feature.properties.name;
-        onRegionClick(fullRegionName);
+        if (onRegionClickRef.current) {
+          onRegionClickRef.current(fullRegionName);
+        }
       }
     });
 
@@ -393,7 +423,7 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
   // Handle Dynamic Selection & Data Changes
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !geoData) return;
+    if (!map || !isMapStyleLoaded || !geoData) return;
 
     const processedGeoData = getProcessedGeoData(geoData, selectedRegion);
     
@@ -405,8 +435,18 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
     if (selectedRegion !== prevRegionRef.current) {
       prevRegionRef.current = selectedRegion;
       refocusCamera(selectedRegion, processedGeoData, false);
+    } else if (selectedRegion) {
+      // If selection remains the same, but data changes (commodity switch), smoothly update active popup content
+      const feature = processedGeoData.features.find(f => {
+        const name = f.properties.name || f.properties.NAME || '';
+        const fullName = f.properties.fullRegionName || '';
+        return checkIsSelected(selectedRegion, name, fullName);
+      });
+      if (feature && popupRef.current) {
+        popupRef.current.setHTML(createPopupHTML(feature));
+      }
     }
-  }, [selectedRegion, geoData]);
+  }, [selectedRegion, geoData, isMapStyleLoaded]);
 
   // Handle Mobile Scroll Locking Controls
   useEffect(() => {
