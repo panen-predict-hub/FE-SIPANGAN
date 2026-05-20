@@ -118,3 +118,38 @@
     transform: translateX(-50%);
   }
 }
+
+/* Smooth fade transitions for Leaflet map overlay panes during movement */
+.leaflet-overlay-pane,
+.leaflet-cityPane-pane,
+.leaflet-city-pane {
+  transition: opacity 0ms !important; /* INSTANT fade-in when map stops moving */
+  opacity: 1 !important;
+}
+
+.map-moving .leaflet-overlay-pane,
+.map-moving .leaflet-cityPane-pane,
+.map-moving .leaflet-city-pane {
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) !important; /* Smooth, quick fade-out when moving starts */
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* MapLibre Popup Overrides */
+.maplibregl-popup-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: rgba(15, 23, 42, 0.95) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.95) !important;
+  border-left-color: rgba(15, 23, 42, 0.95) !important;
+  border-right-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+.maplibregl-popup-close-button {
+  display: none !important;
+}
