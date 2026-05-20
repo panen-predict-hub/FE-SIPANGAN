@@ -152,6 +152,59 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Tech Stack Section */}
+      <section className="relative px-4 md:px-0">
+        <div className="text-center mb-10 md:mb-16 space-y-3">
+          <div className="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-400 text-[10px] font-black uppercase tracking-widest">
+            💡 Teknologi & Arsitektur
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Modern Tech Stack</h2>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">Sinergi teknologi mutakhir untuk performa tinggi, akurasi prediksi, dan visualisasi interaktif.</p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          {[
+            {
+              category: "Frontend Core",
+              techs: ["React.js & Vite", "Tailwind CSS", "Framer Motion", "Recharts (Visualisasi)"],
+              glow: "from-blue-500/10 to-transparent"
+            },
+            {
+              category: "Backend API",
+              techs: ["Node.js", "Express.js", "JWT Authentication", "RESTful API Architecture"],
+              glow: "from-emerald-500/10 to-transparent"
+            },
+            {
+              category: "Predictive Analytics",
+              techs: ["Python", "Scikit-Learn (ML)", "Time Series Analytics", "AI Supply Forecasting"],
+              glow: "from-purple-500/10 to-transparent"
+            },
+            {
+              category: "Geospatial GIS",
+              techs: ["Leaflet.js Map", "React Leaflet", "TopoJSON / GeoJSON", "Choropleth Rendering"],
+              glow: "from-amber-500/10 to-transparent"
+            }
+          ].map((stack, i) => (
+            <div key={i} className="group relative overflow-hidden bg-gray-900/30 backdrop-blur-xl border border-white/5 rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-white/10">
+              {/* Background Glow */}
+              <div className={`absolute -inset-px bg-gradient-to-b ${stack.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none`}></div>
+              
+              <div className="relative z-10 space-y-4">
+                <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest block">{stack.category}</span>
+                <div className="space-y-2.5">
+                  {stack.techs.map((tech, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></span>
+                      <span className="text-xs font-bold text-gray-300 leading-normal">{tech}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Contact & Developer Info */}
       <section className="text-center py-12 md:py-20 relative border-t border-white/5 px-4 md:px-0 mt-16 md:mt-20">
         <div className="max-w-2xl mx-auto space-y-6 md:space-y-8">
