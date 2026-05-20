@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Map, LayoutDashboard, Menu, X, Shield, ChevronRight, Users } from 'lucide-react';
+import { Map, LayoutDashboard, Menu, X, Shield, ChevronRight, Users, HelpCircle } from 'lucide-react';
 import AlertNotification from '../components/AlertNotification';
 import iconSipangan from '../assets/icons/sipangan-icon.png';
 
@@ -12,6 +12,7 @@ const PublicLayout = () => {
     { name: 'Beranda', path: '/', icon: LayoutDashboard },
     { name: 'Geo Map', path: '/map', icon: Map },
     { name: 'Tim Kami', path: '/our-team', icon: Users },
+    { name: 'FAQ Pangan', path: '/faq', icon: HelpCircle },
   ];
 
   return (
