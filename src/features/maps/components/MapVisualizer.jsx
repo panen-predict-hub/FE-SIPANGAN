@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import MapLegend from './MapLegend';
 
-const MapController = ({ selectedRegion, geoData }) => {
+const MapController = ({ selectedRegion, geoData, isMapLocked }) => {
   const map = useMap();
   
   // Initialize City Pane for Z-index control inside the correct context
@@ -15,6 +15,19 @@ const MapController = ({ selectedRegion, geoData }) => {
       pane.style.pointerEvents = 'none';
     }
   }, [map]);
+
+  // Handle dynamic scroll-locking via direct Leaflet instances
+  useEffect(() => {
+    if (map) {
+      if (isMapLocked) {
+        map.dragging.disable();
+        if (map.touchZoom) map.touchZoom.disable();
+      } else {
+        map.dragging.enable();
+        if (map.touchZoom) map.touchZoom.enable();
+      }
+    }
+  }, [map, isMapLocked]);
 
   useEffect(() => {
     // Force Leaflet to recalculate its size after a small delay to handle responsive shifts
@@ -38,11 +51,13 @@ const MapController = ({ selectedRegion, geoData }) => {
       const feature = geoData.features.find(f => {
         const name = f.properties.name || f.properties.NAME || '';
         const fullName = f.properties.fullRegionName || '';
-        return name === selectedRegion || fullName === selectedRegion;
+        
+        // Clean and match
+        const clean = (s) => s.toLowerCase().replace(/kabupaten|kota|kab|city|kab\.|kota\./g, '').trim();
+        return clean(name) === clean(selectedRegion) || clean(fullName) === clean(selectedRegion);
       });
       
       if (feature) {
-
         const layer = L.geoJSON(feature);
         map.flyToBounds(layer.getBounds(), { 
           padding: isMobile ? [80, 80] : [150, 150], 
@@ -64,6 +79,23 @@ const MapController = ({ selectedRegion, geoData }) => {
 
 const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
   const geoJsonRef = React.useRef(null);
+  
+  // Mobile Map Scroll Lock (Lock dragging on mobile by default to allow easy scrolling)
+  const [isMapLocked, setIsMapLocked] = useState(() => {
+    return window.innerWidth < 1024;
+  });
+
+  // Helper function to check selection state with prefix cleanups
+  const checkIsSelected = (sel, name, fullName) => {
+    if (!sel) return false;
+    const clean = (s) => (s || '').toLowerCase().replace(/kabupaten|kota|kab|city|kab\.|kota\./g, '').trim();
+    
+    const cleanSel = clean(sel);
+    const cleanName = clean(name);
+    const cleanFull = clean(fullName);
+    
+    return cleanSel === cleanName || cleanSel === cleanFull;
+  };
 
   // Update styles and open popup manually when selectedRegion changes
   useEffect(() => {
@@ -75,7 +107,7 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
           const name = layer.feature.properties.name || layer.feature.properties.NAME || '';
           const fullName = layer.feature.properties.fullRegionName || '';
           
-          if (name === selectedRegion || fullName === selectedRegion) {
+          if (checkIsSelected(selectedRegion, name, fullName)) {
             layer.openPopup();
           }
         });
@@ -85,7 +117,6 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
 
 
   const getStatusColor = (status) => {
-
     switch (status?.toLowerCase()) {
       case 'aman': 
       case 'stabil': return '#10b981';
@@ -99,7 +130,10 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
   const mapStyle = (feature) => {
     const name = (feature.properties.name || feature.properties.NAME || '').toUpperCase();
     const isKota = name.includes('KOTA');
-    const isSelected = selectedRegion === (feature.properties.name || feature.properties.NAME);
+    const nameProp = feature.properties.name || feature.properties.NAME || '';
+    const fullNameProp = feature.properties.fullRegionName || '';
+    
+    const isSelected = checkIsSelected(selectedRegion, nameProp, fullNameProp);
     const statusColor = getStatusColor(feature.properties.status);
     
     return {
@@ -174,7 +208,10 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
     layer.on({
       mouseover: (e) => {
         const l = e.target;
-        if (selectedRegion !== name) {
+        const nameProp = feature.properties.name || feature.properties.NAME || '';
+        const fullNameProp = feature.properties.fullRegionName || '';
+        
+        if (!checkIsSelected(selectedRegion, nameProp, fullNameProp)) {
           l.setStyle({ 
             fillOpacity: 0.8, 
             weight: 3, 
@@ -188,7 +225,10 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
       },
       mouseout: (e) => {
         const l = e.target;
-        if (selectedRegion !== name) {
+        const nameProp = feature.properties.name || feature.properties.NAME || '';
+        const fullNameProp = feature.properties.fullRegionName || '';
+        
+        if (!checkIsSelected(selectedRegion, nameProp, fullNameProp)) {
           l.setStyle({ 
             fillOpacity: 0.45, 
             weight: 1, 
@@ -200,12 +240,8 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
         const fullRegionName = feature.properties.fullRegionName || name;
         onRegionClick(fullRegionName);
       }
-
     });
   };
-
-
-
 
   return (
     <div className="flex-1 w-full h-full relative rounded-3xl overflow-hidden border border-gray-800 shadow-2xl">
@@ -216,7 +252,7 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
         zoomControl={false}
         attributionControl={false}
       >
-        <MapController selectedRegion={selectedRegion} geoData={geoData} />
+        <MapController selectedRegion={selectedRegion} geoData={geoData} isMapLocked={isMapLocked} />
 
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -233,10 +269,18 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
           />
         )}
 
-
-
       </MapContainer>
       
+      {/* Mobile Map Scroll Lock Toggle Overlay */}
+      <button
+        type="button"
+        onClick={() => setIsMapLocked(!isMapLocked)}
+        className="absolute top-3 left-3 z-[1000] lg:hidden px-3.5 py-2 bg-gray-950/90 backdrop-blur-xl border border-white/10 text-[9px] font-black uppercase tracking-wider rounded-xl text-gray-200 flex items-center gap-2 shadow-2xl active:scale-95 transition-all"
+      >
+        <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: isMapLocked ? '#64748b' : '#10b981' }}></span>
+        {isMapLocked ? '🔒 Peta Terkunci (Scroll)' : '🔓 Peta Aktif (Geser)'}
+      </button>
+
       {!selectedRegion && <MapLegend />}
       
     </div>

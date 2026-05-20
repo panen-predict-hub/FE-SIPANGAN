@@ -5,44 +5,44 @@ import {
   TrendingUp,
   ShieldCheck,
   Zap,
-  BarChart3,
   Layers,
-  ArrowRight
+  ArrowRight,
+  BrainCircuit
 } from 'lucide-react';
 import PriceMarquee from '../../components/PriceMarquee';
 
 const LandingPage = () => {
   return (
-    <div className="space-y-24 pb-20 overflow-hidden">
+    <div className="space-y-16 md:space-y-24 pb-20 overflow-hidden">
       {/* Hero Section */}
-      <section className="relative pt-10">
-        <div className="relative text-center space-y-8 max-w-4xl mx-auto px-4 md:px-0">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500">
-            <Zap size={12} fill="currentColor" /> Capstone Project - Coding Camp 2026
+      <section className="relative pt-6 md:pt-10 px-4 md:px-0">
+        <div className="relative text-center space-y-6 md:space-y-8 max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500 max-w-full text-center">
+            <Zap size={12} fill="currentColor" className="shrink-0" /> 
+            <span className="truncate">Sistem & Analisis Ketahanan Pangan</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-[0.95] animate-in fade-in slide-in-from-bottom duration-700 delay-100">
-            Sistem Informasi <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">Ketahanan Pangan.</span>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.1] md:leading-[0.95] animate-in fade-in slide-in-from-bottom duration-700 delay-100">
+            Sistem Informasi <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 block sm:inline">Ketahanan Pangan.</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-400 font-medium max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-700 delay-200">
-            SIPANGAN adalah aplikasi inovatif hasil pengembangan Capstone Project untuk memonitor distribusi, fluktuasi harga, dan prediksi ketahanan komoditas pasar secara Real-Time.
+          <p className="text-xs sm:text-base md:text-xl text-gray-400 font-medium max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom duration-700 delay-200">
+            SIPANGAN adalah platform analitik cerdas berbasis spasial dan AI yang dirancang untuk memantau stabilitas harga, memetakan rantai pasok, dan memproyeksikan ketahanan komoditas pangan secara real-time demi mencegah krisis pasokan.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 animate-in fade-in slide-in-from-bottom duration-700 delay-300">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4 animate-in fade-in slide-in-from-bottom duration-700 delay-300 w-full max-w-md mx-auto sm:max-w-none">
             <Link
               to="/map"
-              className="group relative px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-3"
+              className="w-full sm:w-auto justify-center group relative px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-xs sm:text-sm shadow-xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-3"
             >
               Buka Peta Interaktif
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
               href="#about"
-              className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-sm border border-white/5 hover:border-white/10 transition-all"
+              className="w-full sm:w-auto text-center justify-center px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-xs sm:text-sm border border-white/5 hover:border-white/10 transition-all flex items-center"
             >
-              Tentang Proyek
+              Pelajari Fitur
             </a>
           </div>
         </div>
@@ -54,49 +54,49 @@ const LandingPage = () => {
       </section>
 
       {/* About Project */}
-      <section id="about" className="bg-emerald-500/5 border border-emerald-500/10 rounded-[3rem] p-8 md:p-16 relative overflow-hidden mx-4 md:mx-0">
-        <div className="absolute top-0 right-0 p-10 opacity-10">
+      <section id="about" className="bg-emerald-500/5 border border-emerald-500/10 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-16 relative overflow-hidden mx-4 md:mx-0">
+        <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none hidden lg:block">
           <Layers size={200} className="text-emerald-500" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10">
           <div className="space-y-6">
             <div className="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-300 text-[10px] font-black uppercase tracking-widest">
-              Latar Belakang
+              Latar Belakang & Urgensi
             </div>
-            <h2 className="text-4xl font-black text-white tracking-tight leading-tight">
-              Membangun Ekosistem <br /> Pangan yang Transparan.
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+              Membangun Ekosistem <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500 block sm:inline">Pangan yang Transparan.</span>
             </h2>
-            <p className="text-gray-400 font-medium text-lg leading-relaxed">
-              Aplikasi ini dikembangkan secara khusus sebagai pemenuhan tugas akhir (Capstone Project) dari program <strong>Coding Camp 2026</strong>. 
-              Fokus utama kami adalah mengatasi ketimpangan informasi harga pangan dan mendeteksi secara dini potensi kelangkaan komoditas di wilayah Jawa Timur.
+            <p className="text-gray-400 font-medium text-xs sm:text-base leading-relaxed">
+              Fluktuasi harga pangan yang ekstrem dan ketimpangan rantai pasok menjadi tantangan utama dalam menjaga stabilitas inflasi pangan daerah. 
+              <strong> SIPANGAN</strong> hadir sebagai solusi analitik berbasis data untuk mengatasi asimetri informasi harga, memitigasi risiko kelangkaan pasokan, serta mendeteksi secara dini gejolak harga komoditas pokok di wilayah Jawa Timur sebelum berdampak luas ke masyarakat.
             </p>
-            <div className="space-y-4 pt-4">
+            <div className="space-y-3 pt-2">
               {[
-                "Memanfaatkan data historis untuk mendeteksi anomali harga.",
-                "Memberikan peringatan dini (Alert) saat terjadi lonjakan ekstrem.",
-                "Menampilkan pemetaan spasial surplus/defisit pangan antar daerah.",
-                "Sistem manajemen data admin yang terintegrasi dan aman."
+                "Mendeteksi anomali harga pasar di tingkat kabupaten/kota secara instan.",
+                "Pemberian peringatan dini (Early Warning) otomatis saat terjadi lonjakan harga ekstrem.",
+                "Pemetaan spasial surplus dan defisit pangan berbasis data geografis real-time.",
+                "Pengambilan keputusan berbasis data AI untuk intervensi kebijakan ketahanan pasar."
               ].map((step, i) => (
-                <div key={i} className="flex items-start gap-4">
-                  <div className="w-6 h-6 shrink-0 bg-emerald-500 rounded-full flex items-center justify-center text-[10px] font-black text-white mt-0.5">
+                <div key={i} className="flex items-start gap-3">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 bg-emerald-500 rounded-full flex items-center justify-center text-[9px] sm:text-[10px] font-black text-white mt-0.5">
                     {i + 1}
                   </div>
-                  <span className="text-sm text-gray-300 font-bold leading-relaxed">{step}</span>
+                  <span className="text-xs sm:text-sm text-gray-300 font-bold leading-relaxed">{step}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="relative group">
-            <div className="absolute inset-0 bg-emerald-500/20 blur-3xl group-hover:bg-emerald-500/30 transition-all duration-700"></div>
-            <div className="relative bg-gray-950 border border-white/10 rounded-[2rem] p-2 overflow-hidden shadow-2xl">
-              <div className="bg-gray-900 h-64 md:h-80 rounded-[1.5rem] flex items-center justify-center relative overflow-hidden">
-                <TrendingUp size={120} className="text-emerald-500/20 animate-pulse" />
-                <div className="absolute bottom-6 left-6 right-6 p-4 bg-gray-950/80 backdrop-blur border border-white/5 rounded-xl">
+          <div className="relative group w-full">
+            <div className="absolute inset-0 bg-emerald-500/10 blur-3xl group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+            <div className="relative bg-gray-950 border border-white/10 rounded-[1.5rem] sm:rounded-[2rem] p-2 overflow-hidden shadow-2xl">
+              <div className="bg-gray-900 h-48 sm:h-64 lg:h-80 rounded-[1.2rem] sm:rounded-[1.5rem] flex items-center justify-center relative overflow-hidden">
+                <TrendingUp size={100} className="text-emerald-500/20 animate-pulse" />
+                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 p-3 sm:p-4 bg-gray-950/80 backdrop-blur border border-white/5 rounded-xl">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Akurasi Deteksi</span>
-                    <span className="text-[10px] font-black text-emerald-500">REAL-TIME</span>
+                    <span className="text-[8px] sm:text-[10px] font-black text-gray-500 uppercase tracking-widest">Akurasi Deteksi</span>
+                    <span className="text-[8px] sm:text-[10px] font-black text-emerald-500">REAL-TIME</span>
                   </div>
                   <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
                     <div className="h-full bg-emerald-500 w-[100%] animate-pulse"></div>
@@ -110,41 +110,41 @@ const LandingPage = () => {
 
       {/* Core Features */}
       <section id="features" className="relative px-4 md:px-0">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-3xl font-black text-white tracking-tight">Teknologi & Fitur Mutakhir</h2>
-          <p className="text-gray-500 font-medium">Solusi arsitektur cerdas yang menenagai SIPANGAN.</p>
+        <div className="text-center mb-10 md:mb-16 space-y-3">
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Teknologi & Fitur Mutakhir</h2>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">Solusi analisis komprehensif yang menenagai kedaulatan informasi pangan SIPANGAN.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {[
             {
-              title: "Geospatial Visualizer",
-              desc: "Pemetaan interaktif berbasis TopoJSON yang memungkinkan Anda melihat distribusi surplus dan defisit harga komoditas per wilayah secara langsung.",
+              title: "Geospatial Market Intelligence",
+              desc: "Pemetaan spasial berbasis peta choropleth dinamis untuk memetakan disparitas harga riil, surplus, dan defisit pasokan di 38 kabupaten/kota secara instan.",
               icon: MapIcon,
               color: "text-blue-500",
               bg: "bg-blue-500/10"
             },
             {
-              title: "Automated Early Warning",
-              desc: "Sistem pendeteksi anomali harga otomatis. Operator tidak perlu mengecek manual; sistem akan membunyikan 'Alert' bila terdeteksi lonjakan harga kritis.",
-              icon: Zap,
-              color: "text-emerald-500",
-              bg: "bg-emerald-500/10"
+              title: "AI Predictive Analytics",
+              desc: "Penerapan algoritma peramalan cerdas yang menganalisis data historis beruntun untuk memproyeksikan estimasi harga komoditas pada bulan berikutnya secara presisi.",
+              icon: BrainCircuit,
+              color: "text-purple-500",
+              bg: "bg-purple-500/10"
             },
             {
-              title: "Enterprise Security",
-              desc: "Keamanan data tingkat tinggi dengan autentikasi JWT Multi-Role (Super Admin, Admin, Operator) dan enkripsi untuk melindungi integritas sistem.",
-              icon: ShieldCheck,
+              title: "Early Warning System (EWS)",
+              desc: "Sistem deteksi anomali otomatis yang langsung mengklasifikasikan tingkat kerawanan wilayah menjadi status Aman, Waspada, atau Krisis secara akurat.",
+              icon: Zap,
               color: "text-amber-500",
               bg: "bg-amber-500/10"
             }
           ].map((feature, i) => (
-            <div key={i} className="p-8 bg-gray-900/40 backdrop-blur-xl border border-white/5 rounded-[2rem] hover:border-white/10 transition-all group">
-              <div className={`w-14 h-14 ${feature.bg} rounded-2xl flex items-center justify-center mb-6 border border-white/5`}>
-                <feature.icon size={28} className={feature.color} />
+            <div key={i} className="p-6 sm:p-8 bg-gray-900/40 backdrop-blur-xl border border-white/5 rounded-[1.5rem] sm:rounded-[2rem] hover:border-white/10 transition-all group">
+              <div className={`w-12 h-12 sm:w-14 sm:h-14 ${feature.bg} rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 border border-white/5`}>
+                <feature.icon size={24} className={feature.color} />
               </div>
-              <h3 className="text-xl font-black text-white mb-3 tracking-tight">{feature.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed font-medium">
+              <h3 className="text-lg sm:text-xl font-black text-white mb-2 sm:mb-3 tracking-tight">{feature.title}</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
                 {feature.desc}
               </p>
             </div>
@@ -152,27 +152,88 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Tech Stack Section */}
+      <section className="relative px-4 md:px-0">
+        <div className="text-center mb-10 md:mb-16 space-y-3">
+          <div className="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-400 text-[10px] font-black uppercase tracking-widest">
+            💡 Teknologi & Arsitektur
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Modern Tech Stack</h2>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">Sinergi teknologi mutakhir untuk performa tinggi, akurasi prediksi, dan visualisasi interaktif.</p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          {[
+            {
+              category: "Frontend Core",
+              techs: ["React.js & Vite", "Tailwind CSS", "Framer Motion", "Recharts (Visualisasi)"],
+              glow: "from-blue-500/10 to-transparent"
+            },
+            {
+              category: "Backend API",
+              techs: ["Node.js", "Express.js", "JWT Authentication", "RESTful API Architecture"],
+              glow: "from-emerald-500/10 to-transparent"
+            },
+            {
+              category: "Predictive Analytics",
+              techs: ["Python", "Scikit-Learn (ML)", "Time Series Analytics", "AI Supply Forecasting"],
+              glow: "from-purple-500/10 to-transparent"
+            },
+            {
+              category: "Geospatial GIS",
+              techs: ["Leaflet.js Map", "React Leaflet", "TopoJSON / GeoJSON", "Choropleth Rendering"],
+              glow: "from-amber-500/10 to-transparent"
+            }
+          ].map((stack, i) => (
+            <div key={i} className="group relative overflow-hidden bg-gray-900/30 backdrop-blur-xl border border-white/5 rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-white/10">
+              {/* Background Glow */}
+              <div className={`absolute -inset-px bg-gradient-to-b ${stack.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none`}></div>
+              
+              <div className="relative z-10 space-y-4">
+                <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest block">{stack.category}</span>
+                <div className="space-y-2.5">
+                  {stack.techs.map((tech, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></span>
+                      <span className="text-xs font-bold text-gray-300 leading-normal">{tech}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Contact & Developer Info */}
-      <section className="text-center py-20 relative border-t border-white/5 px-4 md:px-0 mt-20">
-        <div className="max-w-2xl mx-auto space-y-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/10 border border-blue-500/20 mb-2">
-            <span className="text-2xl font-black text-blue-500">C26</span>
+      <section className="text-center py-12 md:py-20 relative border-t border-white/5 px-4 md:px-0 mt-16 md:mt-20">
+        <div className="max-w-2xl mx-auto space-y-6 md:space-y-8">
+          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-blue-500/10 border border-blue-500/20 mb-1">
+            <span className="text-lg sm:text-2xl font-black text-blue-500">S26</span>
           </div>
-          <h2 className="text-3xl font-black text-white tracking-tight">Dikembangkan Oleh Tim Capstone</h2>
-          <p className="text-gray-500 font-medium leading-relaxed">
-            Terima kasih telah menggunakan SIPANGAN. Proyek ini merupakan bagian dari karya inovasi di <strong>Coding Camp 2026</strong>. 
-            Jika Anda memiliki pertanyaan, masukan, atau tawaran kerja sama untuk mengembangkan platform ini ke skala nasional, silakan hubungi kami.
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Kolaborasi & Hubungi Pengembang</h2>
+          <p className="text-xs sm:text-sm text-gray-500 font-medium leading-relaxed max-w-xl mx-auto">
+            SIPANGAN dirancang oleh para praktisi teknologi dan ilmuwan data untuk mewujudkan kedaulatan pangan berbasis integrasi teknologi modern. 
+            Jika Anda tertarik berkolaborasi, membutuhkan integrasi data sistem informasi pangan daerah, atau ingin memperluas cakupan platform ini ke skala nasional, silakan hubungi kami.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <a href="mailto:syahrefaldi@gmail.com" className="px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/20 hover:scale-[1.05] transition-all flex items-center justify-center gap-2">
-              📧 Hubungi via Email
+          <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2 w-full max-w-sm sm:max-w-none mx-auto">
+            <a 
+              href="mailto:syahrefaldi@gmail.com" 
+              className="w-full sm:w-auto px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+            >
+              Hubungi via Email
             </a>
-            <a href="https://github.com/panen-predict-hub" target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-xs border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2">
-              💻 GitHub Repository
+            <a 
+              href="https://github.com/panen-predict-hub" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2"
+            >
+              GitHub Repository
             </a>
           </div>
-          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mt-10">
-            &copy; 2026 SIPANGAN - Coding Camp Capstone Project. All rights reserved.
+          <p className="text-[8px] sm:text-[10px] text-gray-600 font-bold uppercase tracking-widest pt-6">
+            &copy; 2026 SIPANGAN - Sistem Informasi Ketahanan Pangan. All rights reserved.
           </p>
         </div>
       </section>
