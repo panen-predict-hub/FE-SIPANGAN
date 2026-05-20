@@ -104,22 +104,22 @@ const ManageData = () => {
         <div className="flex items-center gap-2 text-xs font-black text-gray-500 uppercase tracking-[0.3em]">
           Admin <ChevronRight size={12} /> Data Management
         </div>
-        <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-black text-white tracking-tight flex items-center gap-3">
-            <Database className="text-emerald-500" size={32} />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-3">
+            <Database className="text-emerald-500" size={28} />
             Kelola Data Pangan
           </h1>
           
           <button
             onClick={handleSyncWeather}
             disabled={syncingWeather}
-            className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20 w-full sm:w-auto shrink-0"
           >
             {syncingWeather ? <Loader2 className="animate-spin" size={18} /> : <CloudRain size={18} />}
             {syncingWeather ? 'Syncing...' : 'Sync Weather'}
           </button>
         </div>
-        <p className="text-gray-400 font-medium">
+        <p className="text-gray-400 font-medium text-sm sm:text-base">
           Manage commodity inventory and maintain historical price data across East Java.
         </p>
       </div>

@@ -199,13 +199,42 @@ const UserManagement = () => {
 
   const UserTable = ({ title, userList, roleColor, icon: Icon }) => (
     <div className="space-y-4">
-      <div className="flex items-center gap-3 ml-2">
+      <div className="flex items-center gap-3 ml-1 sm:ml-2">
         <Icon className={roleColor.split(' ')[1]} size={20} />
-        <h3 className="text-lg font-bold text-white tracking-tight">{title}</h3>
+        <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">{title}</h3>
         <span className="bg-white/5 px-3 py-1 rounded-full text-[10px] font-black text-gray-500 uppercase tracking-widest">{userList.length} Accounts</span>
       </div>
       <div className="bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl overflow-hidden shadow-xl">
-        <div className="overflow-x-auto">
+        {/* Mobile card view */}
+        <div className="block sm:hidden divide-y divide-gray-800">
+          {userList.length === 0 ? (
+            <div className="px-4 py-10 text-center">
+              <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Tidak ada data.</p>
+            </div>
+          ) : userList.map((user) => (
+            <div key={user.id} className="p-4 flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 shrink-0 ${roleColor.split(' ')[1]}`}>
+                <UserIcon size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-white text-sm truncate">{user.fullname}</p>
+                <p className="text-gray-500 text-xs font-medium">{user.username}</p>
+              </div>
+              <div className="flex items-center gap-1 shrink-0">
+                <button onClick={() => handleEditClick(user)} className="p-2.5 text-gray-600 hover:text-blue-400 hover:bg-blue-500/10 rounded-xl transition-all">
+                  <Edit2 size={16} />
+                </button>
+                {user.role !== 'super_admin' && (
+                  <button onClick={() => handleDeleteUser(user.id)} disabled={actionLoading} className="p-2.5 text-gray-600 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all disabled:opacity-30">
+                    <Trash2 size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Desktop table view */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left">
             <thead className="bg-gray-900/50 border-b border-gray-800">
               <tr>
@@ -268,18 +297,18 @@ const UserManagement = () => {
   );
 
   return (
-    <div className="max-w-6xl space-y-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
+    <div className="max-w-6xl space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end justify-between">
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-xs font-black text-gray-500 uppercase tracking-[0.3em]">
+          <div className="flex items-center flex-wrap gap-1 text-xs font-black text-gray-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
             Admin <ChevronRight size={12} /> Access Control
           </div>
-          <h1 className="text-4xl font-black text-white tracking-tight flex items-center gap-3">
-            <Users className="text-emerald-500" size={32} />
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-3">
+            <Users className="text-emerald-500" size={28} />
             Kelola Admin
           </h1>
-          <p className="text-gray-400 font-medium">
+          <p className="text-gray-400 font-medium text-sm sm:text-base">
             Manage administrative access, personnel hierarchy, and system permissions.
           </p>
         </div>
@@ -290,7 +319,7 @@ const UserManagement = () => {
             setFormData({ username: '', password: '', fullname: '', role: 'operator' });
             setShowAddModal(true);
           }}
-          className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-500/20 active:scale-95 whitespace-nowrap h-fit"
+          className="flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-500/20 active:scale-95 whitespace-nowrap h-fit w-full sm:w-auto"
         >
           <UserPlus size={18} />
           Tambah Pengguna
@@ -298,25 +327,24 @@ const UserManagement = () => {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="flex flex-col md:flex-row items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="relative flex-1 group">
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 z-10">
+          <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 z-10">
             <Search className="text-gray-500 group-focus-within:text-emerald-500 transition-colors" size={18} />
           </div>
           <input
             type="text"
-            placeholder="Cari nama atau username personel..."
+            placeholder="Cari nama atau username..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-white focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium placeholder:text-gray-600 shadow-inner"
+            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 text-white text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium placeholder:text-gray-600 shadow-inner"
           />
         </div>
       </div>
 
 
-
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 p-1 bg-white/5 backdrop-blur-xl border border-white/5 rounded-2xl w-full max-w-fit overflow-x-auto no-scrollbar">
+      <div className="flex items-center gap-1.5 p-1 bg-white/5 backdrop-blur-xl border border-white/5 rounded-2xl w-full overflow-x-auto no-scrollbar">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -324,7 +352,7 @@ const UserManagement = () => {
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
               className={`
-                relative flex items-center gap-3 px-6 py-3 rounded-xl text-sm font-bold transition-all flex-shrink-0
+                relative flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex-shrink-0
                 ${isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'}
               `}
             >
@@ -434,7 +462,7 @@ const UserManagement = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6 pb-12">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Username</label>
                       <input

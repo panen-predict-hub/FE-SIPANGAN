@@ -141,40 +141,40 @@ const ActivityLogs = () => {
   };
 
   return (
-    <div className="max-w-6xl space-y-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
+    <div className="max-w-6xl space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-xs font-black text-gray-500 uppercase tracking-[0.3em]">
+        <div className="flex items-center flex-wrap gap-1 text-xs font-black text-gray-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
           Admin <ChevronRightIcon size={12} /> Security Audit
         </div>
-        <h1 className="text-4xl font-black text-white tracking-tight flex items-center gap-3">
-          <History className="text-blue-500" size={32} /> Log Aktivitas
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-3">
+          <History className="text-blue-500" size={28} /> Log Aktivitas
         </h1>
-        <p className="text-gray-400 font-medium">
+        <p className="text-gray-400 font-medium text-sm sm:text-base">
           Audit trail sistem untuk memantau setiap perubahan data dan aktivitas personel.
         </p>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4 sm:gap-6">
         <div className="relative group">
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 z-10">
+          <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 z-10">
             <Search className="text-gray-500 group-focus-within:text-blue-500 transition-colors" size={18} />
           </div>
           <input
             type="text"
-            placeholder="Cari berdasarkan pelaku atau detail..."
+            placeholder="Cari pelaku atau detail..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-white focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium placeholder:text-gray-600 shadow-inner"
+            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 text-white text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium placeholder:text-gray-600 shadow-inner"
           />
         </div>
 
-        <div className="flex items-center gap-2 p-1 bg-white/5 backdrop-blur-xl border border-white/5 rounded-2xl w-full max-fit overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-1.5 p-1 bg-white/5 backdrop-blur-xl border border-white/5 rounded-2xl w-full overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
-              <button key={tab.id} onClick={() => handleTabChange(tab.id)} className={`relative flex items-center gap-3 px-6 py-3 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}>
+              <button key={tab.id} onClick={() => handleTabChange(tab.id)} className={`relative flex items-center gap-2 px-3 sm:px-5 py-2.5 sm:py-3 rounded-xl text-[11px] sm:text-xs font-bold transition-all whitespace-nowrap flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}>
                 {isActive && <motion.div layoutId="activeTabLog" className="absolute inset-0 bg-gray-800 border border-gray-700 rounded-xl" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />}
-                <span className="relative z-10 flex items-center gap-2"><tab.icon size={16} className={isActive ? tab.color : 'text-current'} />{tab.label}</span>
+                <span className="relative z-10 flex items-center gap-1.5"><tab.icon size={14} className={isActive ? tab.color : 'text-current'} />{tab.label}</span>
               </button>
             );
           })}
@@ -183,14 +183,36 @@ const ActivityLogs = () => {
 
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div key={activeTab} custom={direction} variants={variants} initial="enter" animate="center" exit="exit" transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }} className="bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl overflow-hidden shadow-xl flex flex-col">
-          <div className="overflow-x-auto flex-1">
+          {/* Mobile card view */}
+          <div className="block sm:hidden divide-y divide-gray-800">
+            {loading ? (
+              <div className="px-4 py-16 text-center text-xs font-bold text-gray-600 uppercase tracking-widest">Memuat Log...</div>
+            ) : filteredLogs.length === 0 ? (
+              <div className="px-4 py-16 text-center text-xs font-bold text-gray-600 uppercase tracking-widest">Tidak ada aktivitas.</div>
+            ) : filteredLogs.map((log) => (
+              <div key={log.id} className="p-4 space-y-2">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="text-white font-bold text-sm">{log.fullname}</span>
+                  <div className={`inline-flex px-2.5 py-1 rounded-lg text-[9px] font-black border whitespace-nowrap ${getActionColor(log.action)}`}>
+                    {getActionLabel(log.action)}
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                  <Clock size={11} /> {formatDate(log.created_at)}
+                </div>
+                <p className="text-gray-400 text-xs font-medium break-words line-clamp-2">{formatDetails(log.details)}</p>
+              </div>
+            ))}
+          </div>
+          {/* Desktop table view */}
+          <div className="hidden sm:block overflow-x-auto flex-1">
             <table className="w-full text-left">
               <thead className="bg-gray-900/50 border-b border-gray-800 sticky top-0 z-10 backdrop-blur-md">
                 <tr>
-                  <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[180px]">Waktu</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[200px]">Pelaku</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[180px]">Aksi</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Detail</th>
+                  <th className="px-4 lg:px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[160px] lg:w-[180px]">Waktu</th>
+                  <th className="px-4 lg:px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[140px] lg:w-[200px]">Pelaku</th>
+                  <th className="px-4 lg:px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest w-[160px] lg:w-[180px]">Aksi</th>
+                  <th className="px-4 lg:px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Detail</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
@@ -200,24 +222,24 @@ const ActivityLogs = () => {
                   <tr><td colSpan="4" className="px-8 py-20 text-center text-xs font-bold text-gray-600 uppercase tracking-widest">Tidak ada aktivitas.</td></tr>
                 ) : filteredLogs.map((log) => (
                   <tr key={log.id} className="group hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4">
+                    <td className="px-4 lg:px-6 py-4">
                        <div className="flex items-center gap-2 text-[11px] text-gray-400 font-medium whitespace-nowrap"><Clock size={12} /> {formatDate(log.created_at)}</div>
                     </td>
-                    <td className="px-6 py-4 text-white font-bold text-sm tracking-tight">{log.fullname}</td>
-                    <td className="px-6 py-4">
-                      <div className={`inline-flex px-3 py-1.5 rounded-lg text-[9px] font-black border text-center items-center justify-center whitespace-nowrap ${getActionColor(log.action)}`}>
+                    <td className="px-4 lg:px-6 py-4 text-white font-bold text-sm tracking-tight">{log.fullname}</td>
+                    <td className="px-4 lg:px-6 py-4">
+                      <div className={`inline-flex px-2.5 lg:px-3 py-1.5 rounded-lg text-[9px] font-black border text-center items-center justify-center whitespace-nowrap ${getActionColor(log.action)}`}>
                         {getActionLabel(log.action)}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-400 text-xs font-medium max-w-md line-clamp-2 whitespace-normal break-words">{formatDetails(log.details)}</td>
+                    <td className="px-4 lg:px-6 py-4 text-gray-400 text-xs font-medium max-w-xs lg:max-w-md line-clamp-2 whitespace-normal break-words">{formatDetails(log.details)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           {totalPages > 1 && (
-            <div className="px-8 py-6 border-t border-white/5 flex items-center justify-between">
-              <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Halaman {page} dari {totalPages}</p>
+            <div className="px-4 sm:px-8 py-4 sm:py-6 border-t border-white/5 flex items-center justify-between gap-2">
+              <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Hal. {page} / {totalPages}</p>
               <div className="flex gap-2">
                 <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2 bg-white/5 border border-white/5 rounded-lg text-gray-500 hover:text-white disabled:opacity-30"><ChevronLeft size={18} /></button>
                 <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="p-2 bg-white/5 border border-white/5 rounded-lg text-gray-500 hover:text-white disabled:opacity-30"><ChevronRight size={18} /></button>

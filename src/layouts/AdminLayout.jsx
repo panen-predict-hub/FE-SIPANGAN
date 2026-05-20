@@ -150,7 +150,7 @@ const AdminLayout = () => {
           </div>
         </header>
 
-        <div className={`flex-1 flex flex-col min-h-0 ${location.pathname === '/admin/map' ? 'px-2 py-2 lg:px-6 lg:py-0 lg:overflow-hidden' : 'p-4 lg:p-10 overflow-y-auto custom-scrollbar'}`}>
+        <div className={`flex-1 flex flex-col min-h-0 ${location.pathname === '/admin/map' ? 'px-2 py-2 lg:px-6 lg:py-0 lg:overflow-hidden' : 'p-3 sm:p-5 lg:p-10 overflow-y-auto custom-scrollbar'}`}>
           <Outlet />
         </div>
       </main>

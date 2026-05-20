@@ -30,7 +30,7 @@ const FaqPage = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 pb-20 animate-in fade-in duration-500">
+    <div className="w-full max-w-4xl mx-auto space-y-12 pb-20 animate-in fade-in duration-500">
       {/* Header */}
       <section className="relative text-center space-y-4 pt-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em]">
@@ -48,14 +48,14 @@ const FaqPage = () => {
       </section>
 
       {/* Accordion List */}
-      <section className="space-y-4">
+      <section className="w-full space-y-4">
         {faqs.map((faq, index) => {
           const isOpen = activeIndex === index;
 
           return (
             <div 
               key={index}
-              className="group border border-white/5 hover:border-white/10 rounded-[2rem] bg-gray-900/20 backdrop-blur-xl transition-all duration-300 overflow-hidden"
+              className="w-full group border border-white/5 hover:border-white/10 rounded-[2rem] bg-gray-900/20 backdrop-blur-xl transition-all duration-300 overflow-hidden"
             >
               <button
                 onClick={() => setActiveIndex(isOpen ? null : index)}
