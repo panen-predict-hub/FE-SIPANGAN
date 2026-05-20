@@ -168,7 +168,7 @@ const LandingPage = () => {
               href="mailto:syahrefaldi@gmail.com" 
               className="w-full sm:w-auto px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
             >
-              📧 Hubungi via Email
+              Hubungi via Email
             </a>
             <a 
               href="https://github.com/panen-predict-hub" 
@@ -176,7 +176,7 @@ const LandingPage = () => {
               rel="noreferrer" 
               className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2"
             >
-              💻 GitHub Repository
+              GitHub Repository
             </a>
           </div>
           <p className="text-[8px] sm:text-[10px] text-gray-600 font-bold uppercase tracking-widest pt-6">
