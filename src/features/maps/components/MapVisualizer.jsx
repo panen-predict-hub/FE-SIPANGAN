@@ -5,6 +5,17 @@ import MapLegend from './MapLegend';
 
 const checkIsSelected = (sel, name, fullName) => {
   if (!sel) return false;
+
+  const rawSel = sel.toLowerCase();
+  const rawName = (name || '').toLowerCase();
+  const rawFull = (fullName || '').toLowerCase();
+
+  const selIsKota = rawSel.includes('kota');
+  const nameIsKota = rawName.includes('kota') || rawFull.includes('kota');
+
+  // Strict separation of Kota and Kabupaten
+  if (selIsKota !== nameIsKota) return false;
+
   const clean = (s) => (s || '').toLowerCase().replace(/kabupaten|kota|kab|city|kab\.|kota\./g, '').trim();
   
   const cleanSel = clean(sel);
@@ -12,6 +23,13 @@ const checkIsSelected = (sel, name, fullName) => {
   const cleanFull = clean(fullName);
   
   return cleanSel === cleanName || cleanSel === cleanFull;
+};
+
+const isFeatureCity = (feature) => {
+  if (!feature || !feature.properties) return false;
+  const name = (feature.properties.name || feature.properties.NAME || '').toUpperCase();
+  const fullName = (feature.properties.fullRegionName || '').toUpperCase();
+  return name.includes('KOTA') || fullName.includes('KOTA');
 };
 
 const getStatusColor = (status) => {
@@ -44,33 +62,33 @@ const createPopupHTML = (feature) => {
   const trendClass = trend === 'up' ? 'text-red-400' : trend === 'down' ? 'text-emerald-400' : 'text-blue-400';
 
   return `
-    <div class="p-4 min-w-[220px] bg-gray-900/95 backdrop-blur-xl text-white rounded-2xl border border-white/10 shadow-2xl overflow-hidden relative">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 blur-3xl rounded-full -mr-12 -mt-12 pointer-events-none"></div>
+    <div class="p-2.5 sm:p-4 min-w-[170px] sm:min-w-[220px] bg-gray-900/95 backdrop-blur-xl text-white rounded-xl sm:rounded-2xl border border-white/10 shadow-2xl overflow-hidden relative">
+      <div class="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 bg-emerald-500/10 blur-2xl sm:blur-3xl rounded-full -mr-8 -mt-8 sm:-mr-12 sm:-mt-12 pointer-events-none"></div>
       
       <div class="relative z-10">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-[8px] uppercase tracking-[0.2em] text-gray-500 font-black">Region Overview</span>
-          <span class="text-[8px] text-gray-600 font-bold">${lastUpdate}</span>
+        <div class="flex items-center justify-between mb-1.5 sm:mb-3">
+          <span class="text-[7px] sm:text-[8px] uppercase tracking-[0.2em] text-gray-500 font-black">Region Overview</span>
+          <span class="text-[7px] sm:text-[8px] text-gray-600 font-bold">${lastUpdate}</span>
         </div>
 
-        <div class="mb-4">
-          <h3 class="text-xl font-black text-white tracking-tight leading-none mb-1">${name}</h3>
-          <div class="flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full" style="background-color: ${statusColor}"></span>
-            <span class="text-[9px] font-black uppercase tracking-widest" style="color: ${statusColor}">${status}</span>
+        <div class="mb-2 sm:mb-4">
+          <h3 class="text-xs sm:text-xl font-black text-white tracking-tight leading-tight mb-1">${name}</h3>
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <span class="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full" style="background-color: ${statusColor}"></span>
+            <span class="text-[7px] sm:text-[9px] font-black uppercase tracking-widest" style="color: ${statusColor}">${status}</span>
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 p-3 bg-white/5 rounded-xl border border-white/5">
+        <div class="grid grid-cols-2 gap-2 sm:gap-3 p-2 sm:p-3 bg-white/5 rounded-lg sm:rounded-xl border border-white/5">
           <div class="flex flex-col">
-            <span class="text-[8px] text-gray-500 font-black uppercase mb-1">Current Price</span>
-            <span class="text-sm font-black text-emerald-400">${formattedPrice}</span>
+            <span class="text-[7px] sm:text-[8px] text-gray-500 font-black uppercase mb-0.5 sm:mb-1">Current Price</span>
+            <span class="text-[10px] sm:text-sm font-black text-emerald-400">${formattedPrice}</span>
           </div>
-          <div class="flex flex-col border-l border-white/10 pl-3">
-            <span class="text-[8px] text-gray-500 font-black uppercase mb-1">Trend</span>
-            <div class="flex items-center gap-1">
-              <span class="text-xs font-black ${trendClass}">${trendIcon}</span>
-              <span class="text-[9px] font-black uppercase ${trendClass}">${trend}</span>
+          <div class="flex flex-col border-l border-white/10 pl-2 sm:pl-3">
+            <span class="text-[7px] sm:text-[8px] text-gray-500 font-black uppercase mb-0.5 sm:mb-1">Trend</span>
+            <div class="flex items-center gap-0.5 sm:gap-1">
+              <span class="text-[9px] sm:text-xs font-black ${trendClass}">${trendIcon}</span>
+              <span class="text-[8px] sm:text-[9px] font-black uppercase ${trendClass}">${trend}</span>
             </div>
           </div>
         </div>
@@ -122,9 +140,18 @@ const getProcessedGeoData = (geoData, selectedRegion) => {
     };
   });
 
+  // Sort features so that KABUPATEN (non-city) are drawn first, and KOTA (city) are drawn last (on top)
+  const sortedFeatures = [...processedFeatures].sort((a, b) => {
+    const aIsCity = isFeatureCity(a);
+    const bIsCity = isFeatureCity(b);
+    if (!aIsCity && bIsCity) return -1;
+    if (aIsCity && !bIsCity) return 1;
+    return 0;
+  });
+
   return {
     ...geoData,
-    features: processedFeatures
+    features: sortedFeatures
   };
 };
 
@@ -255,10 +282,8 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
         }
 
         const sortedFeatures = [...e.features].sort((a, b) => {
-          const aName = (a.properties.name || '').toUpperCase();
-          const bName = (b.properties.name || '').toUpperCase();
-          const aIsCity = aName.includes('KOTA');
-          const bIsCity = bName.includes('KOTA');
+          const aIsCity = isFeatureCity(a);
+          const bIsCity = isFeatureCity(b);
           if (aIsCity && !bIsCity) return -1;
           if (!aIsCity && bIsCity) return 1;
           return 0;
@@ -289,10 +314,8 @@ const MapVisualizer = ({ geoData, selectedRegion, onRegionClick }) => {
     map.on('click', 'regions-fill', (e) => {
       if (e.features.length > 0) {
         const sortedFeatures = [...e.features].sort((a, b) => {
-          const aName = (a.properties.name || '').toUpperCase();
-          const bName = (b.properties.name || '').toUpperCase();
-          const aIsCity = aName.includes('KOTA');
-          const bIsCity = bName.includes('KOTA');
+          const aIsCity = isFeatureCity(a);
+          const bIsCity = isFeatureCity(b);
           if (aIsCity && !bIsCity) return -1;
           if (!aIsCity && bIsCity) return 1;
           return 0;

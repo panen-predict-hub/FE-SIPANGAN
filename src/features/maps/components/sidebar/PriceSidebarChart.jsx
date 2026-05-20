@@ -159,9 +159,15 @@ const PriceSidebarChart = ({
                   tickFormatter={(val) => `${val/1000}k`}
                 />
                 <RechartsTooltip 
-                  contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '16px', padding: '12px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
-                  itemStyle={{ fontWeight: '900', fontSize: '12px' }}
-                  labelStyle={{ color: '#64748b', marginBottom: '4px', fontWeight: 'bold', fontSize: '10px' }}
+                  contentStyle={{ 
+                    backgroundColor: '#0f172a', 
+                    border: '1px solid #1e293b', 
+                    borderRadius: '12px', 
+                    padding: typeof window !== 'undefined' && window.innerWidth < 640 ? '6px 10px' : '12px', 
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' 
+                  }}
+                  itemStyle={{ fontWeight: '900', fontSize: typeof window !== 'undefined' && window.innerWidth < 640 ? '10px' : '12px' }}
+                  labelStyle={{ color: '#64748b', marginBottom: '2px', fontWeight: 'bold', fontSize: typeof window !== 'undefined' && window.innerWidth < 640 ? '8px' : '10px' }}
                   formatter={(value, name) => [
                     `Rp ${new Intl.NumberFormat('id-ID').format(value)}`, 
                     name === 'actualPrice' ? 'Current Price' : 'Forecasted'
