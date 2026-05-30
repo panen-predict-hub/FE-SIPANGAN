@@ -43,7 +43,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
   return (
     <div className="w-full lg:w-[450px] bg-gray-900/40 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 ease-out overflow-hidden h-full">
       {/* Header */}
-      <div className="p-6 flex items-center justify-between border-b border-gray-800/50">
+      <div className="p-4 sm:p-6 flex items-center justify-between border-b border-gray-800/50">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2 py-0.5 bg-white/5 text-gray-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-white/10">
@@ -53,7 +53,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
               Status: {status === 'tanpa_data' ? 'Tanpa Data' : (status || 'Normal')}
             </span>
           </div>
-          <h3 className="text-2xl font-black text-white tracking-tight">{region}</h3>
+          <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight">{region}</h3>
         </div>
 
         <button 
@@ -64,10 +64,10 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
         </button>
       </div>
 
-      <div className="flex-1 p-4 space-y-4 overflow-y-auto custom-scrollbar">
+      <div className="flex-1 p-3 sm:p-4 space-y-3 sm:space-y-4 overflow-y-auto custom-scrollbar">
         {/* Stats Grid - Stable layout to prevent flicker */}
         <div className={`grid grid-cols-1 ${predictedPrice > 0 || isLoading ? 'sm:grid-cols-2' : 'sm:grid-cols-1'} gap-4`}>
-          <div className={`p-5 bg-gray-800/20 rounded-2xl border border-gray-700/20 hover:border-emerald-500/30 transition-colors duration-300 ${isLoading ? 'animate-pulse' : ''}`}>
+          <div className={`p-4 sm:p-5 bg-gray-800/20 rounded-2xl border border-gray-700/20 hover:border-emerald-500/30 transition-colors duration-300 ${isLoading ? 'animate-pulse' : ''}`}>
             <div className="flex items-center justify-between mb-3">
               <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Current Price</p>
               <div className={`p-1.5 ${isNoData ? 'bg-slate-500/10' : calculatedTrend === 'up' ? 'bg-red-500/10' : calculatedTrend === 'down' ? 'bg-emerald-500/10' : 'bg-blue-500/10'} rounded-lg`}>
@@ -77,7 +77,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
                  <ArrowRight size={14} className="text-blue-500" />}
               </div>
             </div>
-            <p className="text-2xl font-black text-white">
+            <p className="text-xl sm:text-2xl font-black text-white">
               {isNoData ? (
                 <span className="text-sm font-bold text-gray-500 uppercase tracking-widest">Belum Terdata</span>
               ) : (
@@ -100,7 +100,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
               <div className="h-3 w-20 bg-gray-800/50 rounded-md"></div>
             </div>
           ) : predictedPrice > 0 ? (
-            <div className="p-5 bg-amber-500/5 rounded-2xl border border-amber-500/10 transition-colors duration-300 animate-in fade-in zoom-in duration-500">
+            <div className="p-4 sm:p-5 bg-amber-500/5 rounded-2xl border border-amber-500/10 transition-colors duration-300 animate-in fade-in zoom-in duration-500">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[10px] text-amber-500/60 uppercase font-black tracking-widest">Forecasted Price</p>
                 <div className="p-1.5 bg-amber-500/10 rounded-lg">
@@ -108,7 +108,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <p className="text-2xl font-black text-white">
+                <p className="text-xl sm:text-2xl font-black text-white">
                   <span className="text-xs text-amber-500 mr-1">Rp</span>
                   {new Intl.NumberFormat('id-ID').format(predictedPrice)}
                 </p>
@@ -159,7 +159,7 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
       </div>
 
       {/* Footer / Legend */}
-      <div className="p-6 border-t border-gray-800/50 bg-gray-900/50 flex justify-center gap-8">
+      <div className="p-4 sm:p-6 border-t border-gray-800/50 bg-gray-900/50 flex justify-center gap-4 sm:gap-8">
         <div className="flex items-center gap-2">
           <div className="w-3 h-1 bg-emerald-500 rounded-full"></div>
           <span className="text-[9px] text-gray-500 font-black uppercase tracking-widest">Historical</span>
