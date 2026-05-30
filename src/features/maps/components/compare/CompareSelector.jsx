@@ -29,11 +29,11 @@ const CompareSelector = ({
       
       <div 
         onClick={onToggle}
-        className={`w-full bg-gray-900/50 border border-gray-800/80 ${hoverBorderColor} rounded-2xl p-4 flex items-center justify-between cursor-pointer transition-all text-white`}
+        className={`w-full bg-gray-900/50 border border-gray-800/80 ${hoverBorderColor} rounded-2xl p-3 sm:p-4 flex items-center justify-between cursor-pointer transition-all text-white`}
       >
         <div className="flex items-center gap-3">
           <MapPin className={pinColor} size={18} />
-          <span className="text-sm font-bold">
+          <span className="text-xs sm:text-sm font-bold">
             {region ? region.name : `Pilih ${label.replace('Wilayah Pembanding ', 'Wilayah ')}`}
           </span>
         </div>

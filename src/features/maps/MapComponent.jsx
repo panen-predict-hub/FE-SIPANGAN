@@ -167,7 +167,7 @@ const MapComponent = () => {
 
   if (isMapLoading) {
     return (
-      <div className="w-full h-[600px] flex flex-col items-center justify-center bg-[#020617] border border-gray-800 rounded-3xl">
+      <div className="w-full h-[500px] sm:h-[600px] flex flex-col items-center justify-center bg-[#020617] border border-gray-800 rounded-3xl">
         <div className="relative">
           <div className="h-16 w-16 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin"></div>
           <div className="absolute inset-0 h-16 w-16 border-4 border-emerald-500/10 rounded-full animate-pulse"></div>
@@ -181,7 +181,7 @@ const MapComponent = () => {
 
   if (mapError) {
     return (
-      <div className="w-full h-[600px] flex flex-col items-center justify-center bg-[#020617] border border-red-900/30 rounded-3xl p-10 text-center">
+      <div className="w-full h-[500px] sm:h-[600px] flex flex-col items-center justify-center bg-[#020617] border border-red-900/30 rounded-3xl p-10 text-center">
         <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4 border border-red-500/20">
           <span className="text-red-500 text-2xl font-bold">!</span>
         </div>
@@ -222,7 +222,7 @@ const MapComponent = () => {
 
 
         {/* Analytics Sidebar or Region List */}
-        <div className="w-full h-[650px] lg:h-full lg:w-[450px] flex flex-col relative min-h-0 shrink-0">
+        <div className="w-full h-[520px] sm:h-[600px] lg:h-full lg:w-[450px] flex flex-col relative min-h-0 shrink-0">
 
           {selectedRegion ? (
             <div className="flex-1 flex flex-col min-h-0 animate-in slide-in-from-right duration-500">
