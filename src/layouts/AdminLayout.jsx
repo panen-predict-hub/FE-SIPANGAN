@@ -95,13 +95,13 @@ const AdminLayout = () => {
                   key={item.path}
                   to={item.path}
                   className={`
-                    flex items-center gap-4 px-4 py-4 rounded-2xl text-base font-bold transition-all duration-300
+                    flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300
                     ${isActive
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-lg shadow-emerald-500/5'
                       : 'text-gray-500 hover:text-white hover:bg-white/5 border border-transparent'}
                   `}
                 >
-                  <item.icon size={22} />
+                  <item.icon size={18} />
                   {item.label}
                 </Link>
               );
@@ -110,21 +110,21 @@ const AdminLayout = () => {
         </nav>
 
         <div className="p-6 border-t border-white/5 space-y-4">
-          <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/5 border border-white/10">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-500 to-blue-500 flex items-center justify-center">
-              <User size={14} className="text-white" />
+          <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10">
+            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-emerald-500 to-blue-500 flex items-center justify-center shrink-0">
+              <User size={12} className="text-white" />
             </div>
             <div className="flex flex-col overflow-hidden">
               <span className="text-xs font-bold text-white truncate">{userFullname}</span>
-              <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-widest">{userRole.replace('_', ' ')}</span>
+              <span className="text-[9px] text-emerald-500 font-bold uppercase tracking-widest leading-none mt-0.5">{userRole.replace('_', ' ')}</span>
             </div>
           </div>
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-4 px-4 py-4 w-full text-gray-500 hover:text-red-400 hover:bg-red-500/5 rounded-2xl transition-all duration-300 font-bold text-base"
+            className="flex items-center gap-3 px-4 py-2.5 w-full text-gray-500 hover:text-red-400 hover:bg-red-500/5 rounded-xl transition-all duration-300 font-bold text-sm"
           >
-            <LogOut size={22} />
+            <LogOut size={18} />
             Keluar Sistem
           </button>
         </div>

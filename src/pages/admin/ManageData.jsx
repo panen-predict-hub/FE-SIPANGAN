@@ -98,25 +98,26 @@ const ManageData = () => {
   };
 
   return (
-    <div className="max-w-6xl space-y-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
+    <div className="max-w-6xl flex flex-col gap-6 sm:gap-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
       {/* Page Header */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-xs font-black text-gray-500 uppercase tracking-[0.3em]">
           Admin <ChevronRight size={12} /> Data Management
         </div>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-3">
-            <Database className="text-emerald-500" size={28} />
-            Kelola Data Pangan
+        <div className="flex items-center justify-between gap-3 w-full">
+          <h1 className="text-lg sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-2 sm:gap-3 min-w-0">
+            <Database className="text-emerald-500 shrink-0" size={20} />
+            <span className="truncate">Kelola Data Pangan</span>
           </h1>
           
           <button
             onClick={handleSyncWeather}
             disabled={syncingWeather}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20 w-full sm:w-auto shrink-0"
+            className="flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20 shrink-0 h-[34px] sm:h-[42px]"
           >
-            {syncingWeather ? <Loader2 className="animate-spin" size={18} /> : <CloudRain size={18} />}
-            {syncingWeather ? 'Syncing...' : 'Sync Weather'}
+            {syncingWeather ? <Loader2 className="animate-spin" size={14} /> : <CloudRain size={14} />}
+            <span className="hidden sm:inline">{syncingWeather ? 'Syncing...' : 'Sync Weather'}</span>
+            <span className="sm:hidden">{syncingWeather ? 'Syncing...' : 'Sync'}</span>
           </button>
         </div>
         <p className="text-gray-400 font-medium text-sm sm:text-base">
@@ -125,7 +126,7 @@ const ManageData = () => {
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 p-1 bg-white/5 backdrop-blur-xl border border-white/5 rounded-2xl w-full max-w-fit overflow-x-auto no-scrollbar">
+      <div className="flex items-center gap-1.5 p-1 bg-white/5 backdrop-blur-xl border border-white/5 rounded-2xl w-full max-w-fit overflow-x-auto no-scrollbar">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -133,7 +134,7 @@ const ManageData = () => {
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
               className={`
-                relative flex items-center gap-3 px-6 py-3 rounded-xl text-sm font-bold transition-all flex-shrink-0
+                relative flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex-shrink-0
                 ${isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'}
               `}
             >
@@ -144,8 +145,8 @@ const ManageData = () => {
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <span className="relative z-10 flex items-center gap-3">
-                <tab.icon size={22} className={isActive ? tab.color : 'text-current'} />
+              <span className="relative z-10 flex items-center gap-2">
+                <tab.icon size={16} className={isActive ? tab.color : 'text-current'} />
                 {tab.label}
               </span>
             </button>

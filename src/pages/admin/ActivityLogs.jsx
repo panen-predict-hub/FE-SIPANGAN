@@ -141,30 +141,28 @@ const ActivityLogs = () => {
   };
 
   return (
-    <div className="max-w-6xl space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
+    <div className="max-w-6xl flex flex-col gap-6 sm:gap-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
       <div className="flex flex-col gap-2">
         <div className="flex items-center flex-wrap gap-1 text-xs font-black text-gray-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
           Admin <ChevronRightIcon size={12} /> Security Audit
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-3">
-          <History className="text-blue-500" size={28} /> Log Aktivitas
+        <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-2.5 sm:gap-3">
+          <History className="text-blue-500 shrink-0" size={24} /> Log Aktivitas
         </h1>
         <p className="text-gray-400 font-medium text-sm sm:text-base">
           Audit trail sistem untuk memantau setiap perubahan data dan aktivitas personel.
         </p>
       </div>
 
-      <div className="flex flex-col gap-4 sm:gap-6">
-        <div className="relative group">
-          <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 z-10">
-            <Search className="text-gray-500 group-focus-within:text-blue-500 transition-colors" size={18} />
-          </div>
+      <div className="flex flex-col gap-4 sm:gap-5">
+        <div className="relative bg-white/5 border border-white/8 hover:bg-white/10 hover:border-white/12 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 rounded-xl transition-all flex items-center py-3 sm:py-3.5">
+          <Search className="absolute left-4 text-gray-500" size={20} />
           <input
             type="text"
             placeholder="Cari pelaku atau detail..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 text-white text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium placeholder:text-gray-600 shadow-inner"
+            className="w-full bg-transparent border-none pl-12 pr-4 text-sm sm:text-base text-white placeholder:text-gray-500 focus:outline-none font-bold"
           />
         </div>
 
@@ -172,9 +170,9 @@ const ActivityLogs = () => {
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
-              <button key={tab.id} onClick={() => handleTabChange(tab.id)} className={`relative flex items-center gap-2 px-3 sm:px-5 py-2.5 sm:py-3 rounded-xl text-[11px] sm:text-xs font-bold transition-all whitespace-nowrap flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}>
+              <button key={tab.id} onClick={() => handleTabChange(tab.id)} className={`relative flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[10px] sm:text-xs font-bold transition-all whitespace-nowrap flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}>
                 {isActive && <motion.div layoutId="activeTabLog" className="absolute inset-0 bg-gray-800 border border-gray-700 rounded-xl" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />}
-                <span className="relative z-10 flex items-center gap-1.5"><tab.icon size={14} className={isActive ? tab.color : 'text-current'} />{tab.label}</span>
+                <span className="relative z-10 flex items-center gap-1.5"><tab.icon size={13} className={isActive ? tab.color : 'text-current'} />{tab.label}</span>
               </button>
             );
           })}

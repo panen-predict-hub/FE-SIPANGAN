@@ -297,15 +297,15 @@ const UserManagement = () => {
   );
 
   return (
-    <div className="max-w-6xl space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
+    <div className="max-w-6xl flex flex-col gap-6 sm:gap-8 animate-in fade-in slide-in-from-bottom duration-700 pb-20">
       {/* Page Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end justify-between">
         <div className="flex flex-col gap-2">
           <div className="flex items-center flex-wrap gap-1 text-xs font-black text-gray-500 uppercase tracking-[0.2em] sm:tracking-[0.3em]">
             Admin <ChevronRight size={12} /> Access Control
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-3">
-            <Users className="text-emerald-500" size={28} />
+          <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight flex items-center gap-2.5 sm:gap-3">
+            <Users className="text-emerald-500 shrink-0" size={24} />
             Kelola Admin
           </h1>
           <p className="text-gray-400 font-medium text-sm sm:text-base">
@@ -319,25 +319,23 @@ const UserManagement = () => {
             setFormData({ username: '', password: '', fullname: '', role: 'operator' });
             setShowAddModal(true);
           }}
-          className="flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-blue-500/20 active:scale-95 whitespace-nowrap h-fit w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white h-[42px] sm:h-[46px] px-4 rounded-xl font-black uppercase tracking-widest text-[11px] sm:text-xs transition-all shadow-lg shadow-blue-500/20 active:scale-95 whitespace-nowrap w-full sm:w-auto"
         >
-          <UserPlus size={18} />
+          <UserPlus size={16} />
           Tambah Pengguna
         </button>
       </div>
 
       {/* Filter & Search Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-        <div className="relative flex-1 group">
-          <div className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 z-10">
-            <Search className="text-gray-500 group-focus-within:text-emerald-500 transition-colors" size={18} />
-          </div>
+        <div className="relative flex-1 bg-white/5 border border-white/8 hover:bg-white/10 hover:border-white/12 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 rounded-xl transition-all flex items-center py-3 sm:py-3.5">
+          <Search className="absolute left-4 text-gray-500" size={20} />
           <input
             type="text"
             placeholder="Cari nama atau username..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 text-white text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium placeholder:text-gray-600 shadow-inner"
+            className="w-full bg-transparent border-none pl-12 pr-4 text-sm sm:text-base text-white placeholder:text-gray-500 focus:outline-none font-bold"
           />
         </div>
       </div>
@@ -352,7 +350,7 @@ const UserManagement = () => {
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
               className={`
-                relative flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex-shrink-0
+                relative flex items-center gap-2 px-3 py-2 sm:px-6 sm:py-2.5 rounded-xl text-xs font-bold transition-all flex-shrink-0
                 ${isActive ? 'text-white' : 'text-gray-500 hover:text-gray-300'}
               `}
             >
@@ -363,10 +361,10 @@ const UserManagement = () => {
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <span className="relative z-10 flex items-center gap-3">
-                <tab.icon size={18} className={isActive ? tab.color : 'text-current'} />
+              <span className="relative z-10 flex items-center gap-1.5 sm:gap-2">
+                <tab.icon size={15} className={isActive ? tab.color : 'text-current'} />
                 {tab.label}
-                <span className={`text-[10px] px-2 py-0.5 rounded-md ${isActive ? 'bg-white/10 text-white' : 'bg-white/5 text-gray-600'}`}>
+                <span className={`text-[9px] px-1.5 py-0.5 rounded-md ${isActive ? 'bg-white/10 text-white' : 'bg-white/5 text-gray-600'}`}>
                   {tab.data.length}
                 </span>
               </span>
@@ -432,7 +430,7 @@ const UserManagement = () => {
       {/* Add User Modal */}
       <AnimatePresence>
         {showAddModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -444,73 +442,73 @@ const UserManagement = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="w-full max-w-lg bg-[#0f1117] border border-white/10 rounded-[2.5rem] shadow-2xl relative"
+              className="w-full max-w-md bg-[#0f1117]/95 border border-white/10 rounded-2xl shadow-2xl relative z-10 overflow-hidden"
             >
-              <div className="p-10">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                    {editingUser ? <Edit2 className="text-white" size={24} /> : <UserPlus className="text-white" size={24} />}
+              <div className="p-5 sm:p-6 md:p-8">
+                <div className="flex items-center gap-3.5 mb-5 sm:mb-6">
+                  <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
+                    {editingUser ? <Edit2 className="text-white" size={20} /> : <UserPlus className="text-white" size={20} />}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-white tracking-tighter">
+                    <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
                       {editingUser ? 'Perbarui Pengguna' : 'Tambah Pengguna'}
                     </h3>
-                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">
+                    <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
                       {editingUser ? 'Perbarui informasi personel sistem' : 'Daftarkan personel baru sistem'}
                     </p>
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6 pb-12">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
                       <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Username</label>
                       <input
                         required
                         type="text"
                         value={formData.username}
                         onChange={(e) => setFormData({...formData, username: e.target.value})}
-                        className={`w-full bg-white/5 border border-white/5 rounded-2xl px-4 py-4 text-white focus:outline-none transition-all font-medium ${editingUser ? 'opacity-50 cursor-not-allowed' : 'focus:border-emerald-500/50'}`}
+                        className={`w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none transition-all font-medium ${editingUser ? 'opacity-50 cursor-not-allowed' : 'focus:border-emerald-500/50'}`}
                         placeholder="username"
                         readOnly={!!editingUser}
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Password</label>
                       <input
                         required={!editingUser}
                         type="password"
                         value={formData.password}
                         onChange={(e) => setFormData({...formData, password: e.target.value})}
-                        className="w-full bg-white/5 border border-white/5 rounded-2xl px-4 py-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all font-medium placeholder:text-gray-700"
+                        className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/50 transition-all font-medium placeholder:text-gray-700"
                         placeholder={editingUser ? "•••••••• (opsional)" : "••••••••"}
                       />
                       {editingUser && <p className="text-[8px] font-bold text-gray-600 uppercase tracking-tight ml-1">Kosongkan jika tidak diubah</p>}
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Nama Lengkap</label>
                     <input
                       required
                       type="text"
                       value={formData.fullname}
                       onChange={(e) => setFormData({...formData, fullname: e.target.value})}
-                      className="w-full bg-white/5 border border-white/5 rounded-2xl px-4 py-4 text-white focus:outline-none focus:border-emerald-500/50 transition-all font-medium"
+                      className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/50 transition-all font-medium"
                       placeholder="John Doe"
                     />
                   </div>
 
-                  <div className="space-y-2 relative">
+                  <div className="space-y-1.5 relative">
                     <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Peran (Role)</label>
                     <div className="relative">
                       <button
                         type="button"
                         onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                        className="w-full bg-white/5 border border-white/5 rounded-2xl px-4 py-4 text-white flex items-center justify-between focus:outline-none focus:border-emerald-500/50 transition-all font-medium text-left"
+                        className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white flex items-center justify-between focus:outline-none focus:border-emerald-500/50 transition-all font-medium text-left"
                       >
                         <span className="capitalize">{formData.role.replace('_', ' ')}</span>
-                        <ChevronDown size={18} className={`text-gray-500 transition-transform duration-300 ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown size={16} className={`text-gray-500 transition-transform duration-300 ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
                       </button>
 
                       <AnimatePresence>
@@ -519,9 +517,9 @@ const UserManagement = () => {
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute z-[110] left-0 right-0 mt-2 bg-[#1a1d26] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl"
+                            className="absolute z-[110] left-0 right-0 mt-1.5 bg-[#1a1d26] border border-white/10 rounded-xl shadow-2xl overflow-hidden backdrop-blur-xl"
                           >
-                            <div className="p-2 space-y-1">
+                            <div className="p-1.5 space-y-1">
                               {currentUserRole === 'super_admin' && (
                                 <button
                                   type="button"
@@ -529,13 +527,13 @@ const UserManagement = () => {
                                     setFormData({ ...formData, role: 'admin' });
                                     setIsRoleDropdownOpen(false);
                                   }}
-                                  className={`w-full px-4 py-3 rounded-xl text-sm font-bold text-left transition-all flex items-center gap-3
+                                  className={`w-full px-3 py-2 rounded-lg text-xs font-bold text-left transition-all flex items-center gap-2.5
                                     ${formData.role === 'admin'
                                       ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/20'
                                       : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'}
                                   `}
                                 >
-                                  <Shield size={14} />
+                                  <Shield size={13} />
                                   <span>Admin</span>
                                 </button>
                               )}
@@ -545,13 +543,13 @@ const UserManagement = () => {
                                   setFormData({ ...formData, role: 'operator' });
                                   setIsRoleDropdownOpen(false);
                                 }}
-                                className={`w-full px-4 py-3 rounded-xl text-sm font-bold text-left transition-all flex items-center gap-3
+                                className={`w-full px-3 py-2 rounded-lg text-xs font-bold text-left transition-all flex items-center gap-2.5
                                   ${formData.role === 'operator'
                                     ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/20'
                                     : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'}
                                 `}
                               >
-                                <Shield size={14} />
+                                <Shield size={13} />
                                 <span>Operator</span>
                               </button>
                             </div>
@@ -561,20 +559,20 @@ const UserManagement = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-4 pt-4">
+                  <div className="flex gap-3 pt-3">
                     <button
                       type="button"
                       onClick={() => setShowAddModal(false)}
-                      className="flex-1 px-4 py-5 rounded-2xl bg-white/5 text-gray-400 font-black uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all"
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 text-gray-400 font-bold uppercase tracking-wider text-[11px] hover:bg-white/10 transition-all border border-white/5"
                     >
                       Batal
                     </button>
                     <button
                       type="submit"
                       disabled={actionLoading}
-                      className="flex-1 px-4 py-5 rounded-2xl bg-emerald-500 text-white font-black uppercase tracking-widest text-[10px] hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500 text-white font-bold uppercase tracking-wider text-[11px] hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50"
                     >
-                      {actionLoading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : (editingUser ? 'Update Data' : 'Simpan Data')}
+                      {actionLoading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : (editingUser ? 'Update' : 'Simpan')}
                     </button>
                   </div>
                 </form>
