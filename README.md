@@ -100,7 +100,7 @@ graph TD
     end
 
     subgraph Database ["Penyimpanan Data"]
-        Postgres[(Database PostgreSQL)]
+        MySQL[(Database MySQL)]
     end
 
     UI -->|Request API dengan API Key| API_Gateway
@@ -118,29 +118,29 @@ graph TD
 Proyek ini menggunakan pola organisasi berbasis fitur (*feature-based folder structure*) untuk modul peta yang kompleks, serta berbasis halaman untuk modul umum:
 
 ```text
-FE-SIPANGAN/
-├── public/                 # Aset statis public (favicon, logo, manifest PWA)
-├── src/
-│   ├── api/                # Konfigurasi HTTP Client
-│   │   ├── axiosClient.js  # Interceptor axios untuk penanganan JWT, Token Refresh, & API Key
-│   │   └── services.js     # Definisi pemanggilan layanan endpoint API
-│   ├── assets/             # Aset gambar & ilustrasi lokal
-│   ├── components/         # Komponen global reusable (dropdown, marquee, modal alert)
-│   ├── features/           # Modul fitur kompleks (Geospatial & Map)
-│   │   └── maps/
-│   │       ├── components/ # Komponen spesifik peta (sidebar, modal bandingkan, legenda)
-│   │       ├── hooks/      # Custom hooks pengolahan data peta spasial
-│   │       └── MapComponent.jsx # Wrapper utama komponen Leaflet Map
-│   ├── layouts/            # Layout struktur halaman (PublicLayout & AdminLayout)
-│   ├── pages/              # Halaman-halaman aplikasi
-│   │   ├── admin/          # Fitur & dashboard khusus administrator (CRUD, Logs, Users)
-│   │   └── public/         # Halaman yang dapat diakses publik (Landing, Map, FAQ, Team)
-│   ├── App.jsx             # Pengaturan routing utama (React Router DOM)
-│   ├── index.css           # Konfigurasi Tailwind & Style Global Custom
-│   └── main.jsx            # Entry point utama React
-├── .env.example            # Contoh konfigurasi environment variables
-├── tailwind.config.js      # Konfigurasi utilitas & tema Tailwind CSS
-└── vite.config.js          # Konfigurasi bundler Vite dan Plugin PWA
+📁 FE-SIPANGAN/
+├── 📁 public/                 # Aset statis public (favicon, logo, manifest PWA)
+├── 📁 src/
+│   ├── 📁 api/                # Konfigurasi HTTP Client
+│   │   ├── 📄 axiosClient.js  # Interceptor axios untuk penanganan JWT, Token Refresh, & API Key
+│   │   └── 📄 services.js     # Definisi pemanggilan layanan endpoint API
+│   ├── 📁 assets/             # Aset gambar & ilustrasi lokal
+│   ├── 📁 components/         # Komponen global reusable (dropdown, marquee, modal alert)
+│   ├── 📁 features/           # Modul fitur kompleks (Geospatial & Map)
+│   │   └── 📁 maps/
+│   │       ├── 📁 components/ # Komponen spesifik peta (sidebar, modal bandingkan, legenda)
+│   │       ├── 📁 hooks/      # Custom hooks pengolahan data peta spasial
+│   │       └── 📄 MapComponent.jsx # Wrapper utama komponen Leaflet Map
+│   ├── 📁 layouts/            # Layout struktur halaman (PublicLayout & AdminLayout)
+│   ├── 📁 pages/              # Halaman-halaman aplikasi
+│   │   ├── 📁 admin/          # Fitur & dashboard khusus administrator (CRUD, Logs, Users)
+│   │   └── 📁 public/         # Halaman yang dapat diakses publik (Landing, Map, FAQ, Team)
+│   ├── 📄 App.jsx             # Pengaturan routing utama (React Router DOM)
+│   ├── 📄 index.css           # Konfigurasi Tailwind & Style Global Custom
+│   └── 📄 main.jsx            # Entry point utama React
+├── 📄 .env.example            # Contoh konfigurasi environment variables
+├── 📄 tailwind.config.js      # Konfigurasi utilitas & tema Tailwind CSS
+└── 📄 vite.config.js          # Konfigurasi bundler Vite dan Plugin PWA
 ```
 
 ---
@@ -219,8 +219,9 @@ Integrasi API pada SIPANGAN Frontend dirancang dengan standar keamanan tinggi me
 
 Aplikasi ini dikembangkan dengan dedikasi penuh oleh tim **S26** dalam program Capstone Project:
 
-*   **Syahrefaldi** — *Lead Developer / Frontend & GIS Integration* — [GitHub Profile](https://github.com/syahrefaldi) | [syahrefaldi@gmail.com](mailto:syahrefaldi@gmail.com)
-*   *(Silakan tambahkan profil anggota tim S26 lainnya di sini)*
+*   **Refaldi Julidinsyah** — *Lead Developer / Frontend & GIS Integration* — [GitHub Profile](https://github.com/rfldisyah) | [syahrefaldi@gmail.com](mailto:syahrefaldi@gmail.com)
+*   **Labib Abdullah** — *Lead Developer / Backend & Database Management* — [GitHub Profile](https://github.com/LabibAbdullah1) | [labibabdullahhasan@gmail.com](mailto:labibabdullahhasan@gmail.com)
+
 
 Kami sangat terbuka untuk kolaborasi, feedback, dan perluasan platform untuk mendukung program ketahanan pangan di berbagai provinsi di Indonesia.
 

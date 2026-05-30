@@ -36,7 +36,7 @@ const OurTeam = () => {
       bio: "Bertanggung jawab atas arsitektur frontend dan integrasi backend. Fokus pada performa dan UX aplikasi Sipangan.",
       socials: {
         github: "https://github.com/rfldisyah",
-        linkedin: "https://www.linkedin.com/in/refaldi-julidinsyah-06320a278",
+        linkedin: "https://www.linkedin.com/in/refaldijulidinsyah",
         email: "mailto:syahrefaldi@gmail.com"
       }
     },
