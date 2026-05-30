@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, X, Github, Linkedin, Mail, Code2, Database, BrainCircuit } from 'lucide-react';
 import fsFE from '../../assets/images/fs-fe.jpg';
@@ -197,34 +198,13 @@ const OurTeam = () => {
     </div>
   );
 
-  return (
-    <div className="space-y-10 pb-20">
-      {/* Header */}
-      <section className="relative pt-10 pb-10 border-b border-white/5 flex flex-col items-center text-center">
-        <div className="max-w-4xl px-4 md:px-0 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] mb-6">
-            <Users size={12} fill="currentColor" /> The Developers
-          </div>
-          <h1 className="text-3xl md:text-6xl font-black text-white tracking-tight leading-[1] mb-4 md:mb-6">
-            Tim Capstone <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">Sipangan.</span>
-          </h1>
-          <p className="text-sm md:text-lg text-gray-400 font-medium max-w-2xl leading-relaxed px-2 md:px-0">
-            Mengenal lebih dekat 6 mahasiswa di balik inovasi Sistem Informasi Ketahanan Pangan (SIPANGAN) untuk program Coding Camp 2026.
-          </p>
-        </div>
-      </section>
-
-      <section className="pt-8">
-        <TeamSection title="Fullstack Team" members={fullstackData} />
-        <TeamSection title="Data Science Team" members={dsData} />
-        <TeamSection title="AI Engineering Team" members={aiData} />
-      </section>
-
-      {/* Instant Blur Backdrop - rendered separately from AnimatePresence to avoid delay */}
+  const modalContent = (
+    <>
+      {/* Instant Blur Backdrop - via Portal, bypasses all parent stacking contexts */}
       {selectedMember && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-xl z-[9998]"
+          className="fixed inset-0 backdrop-blur-xl z-[9998]"
+          style={{ background: 'rgba(2, 6, 23, 0.6)' }}
           onClick={() => setSelectedMember(null)}
         />
       )}
@@ -328,7 +308,38 @@ const OurTeam = () => {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
+  );
+
+  return (
+    <>
+      <div className="space-y-10 pb-20">
+        {/* Header */}
+        <section className="relative pt-10 pb-10 border-b border-white/5 flex flex-col items-center text-center">
+          <div className="max-w-4xl px-4 md:px-0 flex flex-col items-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] mb-6">
+              <Users size={12} fill="currentColor" /> The Developers
+            </div>
+            <h1 className="text-3xl md:text-6xl font-black text-white tracking-tight leading-[1] mb-4 md:mb-6">
+              Tim Capstone <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">Sipangan.</span>
+            </h1>
+            <p className="text-sm md:text-lg text-gray-400 font-medium max-w-2xl leading-relaxed px-2 md:px-0">
+              Mengenal lebih dekat 6 mahasiswa di balik inovasi Sistem Informasi Ketahanan Pangan (SIPANGAN) untuk program Coding Camp 2026.
+            </p>
+          </div>
+        </section>
+
+        <section className="pt-8">
+          <TeamSection title="Fullstack Team" members={fullstackData} />
+          <TeamSection title="Data Science Team" members={dsData} />
+          <TeamSection title="AI Engineering Team" members={aiData} />
+        </section>
+      </div>
+
+      {/* Portal: render modal & backdrop directly into document.body */}
+      {createPortal(modalContent, document.body)}
+    </>
   );
 };
 

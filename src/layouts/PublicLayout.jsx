@@ -16,7 +16,7 @@ const PublicLayout = () => {
   ];
 
   return (
-    <div className={`${location.pathname === '/map' ? 'lg:h-screen lg:overflow-hidden' : 'min-h-screen'} bg-[#020617] text-gray-100 flex flex-col relative overflow-x-hidden`}>
+    <div className={`${location.pathname === '/map' ? 'lg:h-screen lg:overflow-hidden' : 'min-h-screen'} bg-[#020617] text-gray-100 flex flex-col`}>
       {/* Background Texture & Gradients */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(16,185,129,0.1),transparent_50%)]"></div>
