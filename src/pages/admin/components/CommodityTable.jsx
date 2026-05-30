@@ -255,42 +255,42 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2 shrink-0">
-          <Package className="text-emerald-500" size={20} />
+    <div className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+        <h2 className="text-base sm:text-lg font-black text-white flex items-center gap-2 shrink-0 hidden sm:flex uppercase tracking-wider">
+          <Package className="text-emerald-500" size={16} />
           Commodity Catalog
         </h2>
         
-        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full xl:w-auto">
-          {/* Matching filter container style from PriceTable */}
-          <div className="flex flex-col sm:flex-row items-stretch gap-2 p-1 bg-white/5 border border-white/5 rounded-2xl w-full md:w-auto">
-            <div className="relative w-full sm:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-              <input
-                type="text"
-                placeholder="Search commodity name..."
-                className="w-full bg-transparent border-none pl-12 pr-4 py-2.5 text-sm text-white placeholder:text-gray-600 focus:outline-none"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2.5 w-full xl:w-auto">
+          {/* Styled search container to match CustomDropdown */}
+          <div className="relative w-full sm:w-80 bg-white/5 border border-white/8 hover:bg-white/10 hover:border-white/12 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 rounded-xl transition-all flex items-center py-3 sm:py-3.5">
+            <Search className="absolute left-4 text-gray-500" size={20} />
+            <input
+              type="text"
+              placeholder="Search commodity name..."
+              className="w-full bg-transparent border-none pl-12 pr-4 text-sm sm:text-base text-white placeholder:text-gray-500 focus:outline-none font-bold"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           
-          <button
-            onClick={exportToPDF}
-            disabled={loading || filteredCommodities.length === 0}
-            className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/5 hover:border-white/10 text-gray-300 hover:text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all active:scale-95 shrink-0"
-          >
-            <FileText size={18} className="text-emerald-500" /> <span>Export PDF</span>
-          </button>
+          <div className="flex items-center gap-2 w-full md:w-auto">
+            <button
+              onClick={exportToPDF}
+              disabled={loading || filteredCommodities.length === 0}
+              className="flex-1 md:flex-none flex items-center justify-center gap-1.5 h-[42px] sm:h-[46px] px-3 bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/5 hover:border-white/10 text-gray-300 hover:text-white rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all active:scale-95 shrink-0"
+            >
+              <FileText size={14} className="text-emerald-500" /> <span>Export PDF</span>
+            </button>
 
-          <button
-            onClick={() => handleOpenModal()}
-            className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-emerald-500/20 active:scale-95 shrink-0"
-          >
-            <Plus size={18} /> Add Commodity
-          </button>
+            <button
+              onClick={() => handleOpenModal()}
+              className="flex-1 md:flex-none flex items-center justify-center gap-1.5 h-[42px] sm:h-[46px] px-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-emerald-500/20 active:scale-95 shrink-0"
+            >
+              <Plus size={14} /> <span>Add Commodity</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -299,11 +299,11 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
           <table className="w-full text-left">
             <thead className="bg-gray-900/50 border-b border-gray-800">
               <tr>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest w-[140px]">Date</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest">Name</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest w-[200px]">Threshold & HET</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[100px]">Unit</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[120px]">Actions</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest w-[110px] sm:w-[140px]">Date</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest">Name</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest w-[150px] sm:w-[200px]">Threshold & HET</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[70px] sm:w-[100px]">Unit</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[90px] sm:w-[120px]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
@@ -319,52 +319,52 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
               ) : currentItems.length > 0 ? (
                 currentItems.map((item) => (
                   <tr key={item.id} className="group hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 text-gray-400 text-sm font-medium">
-                        <Calendar size={14} className="text-gray-600" />
-                        {new Date(item.created_at || item.updated_at || Date.now()).toLocaleDateString('id-ID')}
+                    <td className="px-4 sm:px-6 py-3 sm:py-4">
+                      <div className="flex items-center gap-1.5 text-gray-400 text-xs sm:text-sm font-medium">
+                        <Calendar size={13} className="text-gray-600 shrink-0" />
+                        <span>{new Date(item.created_at || item.updated_at || Date.now()).toLocaleDateString('id-ID')}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-white font-bold tracking-tight">{item.name}</span>
+                    <td className="px-4 sm:px-6 py-3 sm:py-4">
+                      <span className="text-white font-bold tracking-tight text-xs sm:text-sm">{item.name}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col gap-1.5 text-xs">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-amber-500/90 font-semibold bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded text-[10px]" title="Threshold Waspada">
+                    <td className="px-4 sm:px-6 py-3 sm:py-4">
+                      <div className="flex flex-col gap-1 text-[10px] sm:text-xs">
+                        <div className="flex items-center gap-1">
+                          <span className="text-amber-500/90 font-semibold bg-amber-500/10 border border-amber-500/20 px-1 py-0.5 rounded text-[9px] sm:text-[10px]" title="Threshold Waspada">
                             ⚠️ {item.waspada_percentage !== null && item.waspada_percentage !== undefined ? `${item.waspada_percentage}%` : '10%'}
                           </span>
-                          <span className="text-rose-500/90 font-semibold bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded text-[10px]" title="Threshold Kritis">
+                          <span className="text-rose-500/90 font-semibold bg-rose-500/10 border border-rose-500/20 px-1 py-0.5 rounded text-[9px] sm:text-[10px]" title="Threshold Kritis">
                             🚨 {item.kritis_percentage !== null && item.kritis_percentage !== undefined ? `${item.kritis_percentage}%` : '25%'}
                           </span>
                         </div>
                         {item.het_nominal ? (
-                          <span className="text-emerald-400/90 font-bold text-[11px] mt-0.5">
+                          <span className="text-emerald-400/90 font-bold text-[10px] sm:text-[11px] mt-0.5">
                             HET: Rp {Number(item.het_nominal).toLocaleString('id-ID')}
                           </span>
                         ) : (
-                          <span className="text-gray-500 italic text-[10px] mt-0.5">
+                          <span className="text-gray-500 italic text-[9px] sm:text-[10px] mt-0.5">
                             Tanpa HET
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-400 font-medium text-right lowercase">{item.unit || 'kg'}</td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 text-gray-400 font-medium text-xs sm:text-sm text-right lowercase">{item.unit || 'kg'}</td>
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 text-right">
+                      <div className="flex items-center justify-end gap-1.5 sm:gap-2">
                         <button
                           onClick={() => handleOpenModal(item)}
-                          className="p-2 text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
                           title="Edit"
                         >
-                          <Edit2 size={16} />
+                          <Edit2 size={14} />
                         </button>
                         <button
                           onClick={() => handleDelete(item.id)}
-                          className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                           title="Delete"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>
@@ -429,38 +429,38 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
         title={currentCommodity ? 'Edit Commodity' : 'New Commodity'}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-xs font-black text-gray-500 uppercase tracking-widest">Commodity Name</label>
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Commodity Name</label>
             <input
               type="text"
               required
               placeholder="e.g. Beras Premium"
-              className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+              className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/50 transition-colors font-medium"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
           </div>
-          <div className="space-y-2">
-            <label className="text-xs font-black text-gray-500 uppercase tracking-widest">Measurement Unit</label>
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Measurement Unit</label>
             <input
               type="text"
               required
               placeholder="e.g. kg, liter, ikat"
-              className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+              className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/50 transition-colors font-medium"
               value={formData.unit}
               onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
             />
-            <p className="text-[10px] text-gray-500 italic mt-1">* Backend requires unit (e.g. "kg")</p>
+            <p className="text-[9px] font-bold text-gray-600 uppercase tracking-tight ml-1">* Backend requires unit (e.g. "kg")</p>
           </div>
 
-          <div className="border-t border-gray-800/60 pt-4 my-4">
-            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] mb-4">Pengaturan Threshold & HET</p>
+          <div className="border-t border-gray-800/60 pt-4">
+            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest ml-1 mb-3">Pengaturan Threshold & HET</p>
             
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-1">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1 flex items-center gap-1">
                   <span>⚠️ Batas Waspada</span>
-                  <span className="text-[10px] font-normal lowercase text-gray-600">(%)</span>
+                  <span className="text-[9px] font-normal lowercase text-gray-600">(%)</span>
                 </label>
                 <input
                   type="number"
@@ -469,15 +469,15 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
                   step="0.01"
                   required
                   placeholder="10"
-                  className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+                  className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/50 transition-colors font-medium"
                   value={formData.waspada_percentage}
                   onChange={(e) => setFormData({ ...formData, waspada_percentage: e.target.value })}
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-1">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1 flex items-center gap-1">
                   <span>🚨 Batas Kritis</span>
-                  <span className="text-[10px] font-normal lowercase text-gray-600">(%)</span>
+                  <span className="text-[9px] font-normal lowercase text-gray-600">(%)</span>
                 </label>
                 <input
                   type="number"
@@ -486,7 +486,7 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
                   step="0.01"
                   required
                   placeholder="25"
-                  className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+                  className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/50 transition-colors font-medium"
                   value={formData.kritis_percentage}
                   onChange={(e) => setFormData({ ...formData, kritis_percentage: e.target.value })}
                 />
@@ -494,36 +494,40 @@ const CommodityTable = ({ commodities, loading, onRefresh }) => {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-black text-gray-500 uppercase tracking-widest flex items-center gap-1">
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1 flex items-center gap-1">
               <span>💵 Nominal HAP / HET</span>
-              <span className="text-[10px] font-normal lowercase text-gray-600">(Rp)</span>
+              <span className="text-[9px] font-normal lowercase text-gray-600">(Rp)</span>
             </label>
             <input
               type="number"
               min="0"
               step="0.01"
               placeholder="e.g. 14500 (kosongkan jika tidak ada)"
-              className="w-full bg-[#0a0a0a] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500/50 transition-colors"
+              className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/50 transition-colors font-medium placeholder:text-gray-700"
               value={formData.het_nominal}
               onChange={(e) => setFormData({ ...formData, het_nominal: e.target.value })}
             />
-            <p className="text-[10px] text-gray-500 italic mt-1">* Melampaui HET otomatis memicu status "Kritis"</p>
+            <p className="text-[9px] font-bold text-gray-600 uppercase tracking-tight ml-1">* Melampaui HET otomatis memicu status "Kritis"</p>
           </div>
 
-          <div className="pt-4">
+          <div className="flex gap-3 pt-3">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 text-gray-400 font-bold uppercase tracking-wider text-[11px] hover:bg-white/10 transition-all border border-white/5 h-[42px]"
+            >
+              Batal
+            </button>
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-black uppercase tracking-widest py-4 rounded-2xl transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 rounded-xl bg-emerald-500 text-white font-bold uppercase tracking-wider text-[11px] hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50 h-[42px] flex items-center justify-center gap-2"
             >
               {submitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Processing...
-                </>
+                <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                currentCommodity ? 'Update Commodity' : 'Create Commodity'
+                currentCommodity ? 'Update' : 'Simpan'
               )}
             </button>
           </div>

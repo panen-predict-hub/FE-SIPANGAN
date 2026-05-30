@@ -142,7 +142,7 @@ const GuideModal = ({ isOpen, onClose }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-            className="relative w-full max-w-lg border border-white/10 rounded-[2.5rem] bg-gray-950/90 backdrop-blur-2xl p-8 md:p-10 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-lg border border-white/10 rounded-[2rem] sm:rounded-[2.5rem] bg-gray-950/90 backdrop-blur-2xl p-5 sm:p-8 md:p-10 shadow-2xl overflow-hidden"
           >
             {/* Glass Radial Glow */}
             <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -151,7 +151,7 @@ const GuideModal = ({ isOpen, onClose }) => {
             </div>
 
             {/* Header Steps */}
-            <div className="relative z-10 flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+            <div className="relative z-10 flex items-center justify-between mb-5 sm:mb-8 border-b border-white/5 pb-4">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-emerald-400">
                   <HelpCircle size={18} />
@@ -191,7 +191,7 @@ const GuideModal = ({ isOpen, onClose }) => {
                       <span className="px-2.5 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[8px] font-black uppercase tracking-widest rounded-full">
                         {steps[currentStep].badge}
                       </span>
-                      <h3 className="text-lg font-black text-white mt-1 tracking-tight">
+                      <h3 className="text-base sm:text-lg font-black text-white mt-1 tracking-tight">
                         {steps[currentStep].title}
                       </h3>
                     </div>
@@ -208,7 +208,7 @@ const GuideModal = ({ isOpen, onClose }) => {
               </AnimatePresence>
 
               {/* Bottom Controls */}
-              <div className="relative z-10 flex items-center justify-between pt-8 border-t border-white/5 mt-8">
+              <div className="relative z-10 flex items-center justify-between pt-5 sm:pt-8 border-t border-white/5 mt-5 sm:mt-8">
                 {/* Dots indicator */}
                 <div className="flex gap-2">
                   {steps.map((_, i) => (

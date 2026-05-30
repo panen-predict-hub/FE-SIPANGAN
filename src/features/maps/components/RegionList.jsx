@@ -32,9 +32,9 @@ const RegionList = ({ regions, onRegionClick, selectedCommodity }) => {
   return (
     <div className="w-full bg-gray-900/40 backdrop-blur-xl border border-gray-800 rounded-3xl shadow-2xl flex flex-col h-full overflow-hidden animate-in fade-in slide-in-from-right duration-700">
 
-      <div className="p-4 border-b border-gray-800/50 space-y-3">
+      <div className="p-3.5 sm:p-4 border-b border-gray-800/50 space-y-2 sm:space-y-3">
         <div>
-          <h3 className="text-lg font-black text-white tracking-tight">Region Explorer</h3>
+          <h3 className="text-base sm:text-lg font-black text-white tracking-tight">Region Explorer</h3>
           <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-1">
             Browse Market Status across East Java
           </p>
@@ -52,31 +52,31 @@ const RegionList = ({ regions, onRegionClick, selectedCommodity }) => {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto min-h-0 custom-scrollbar p-4 space-y-2">
+      <div className="flex-1 overflow-y-auto min-h-0 custom-scrollbar p-3 sm:p-4 space-y-1.5 sm:space-y-2">
 
         {filteredRegions.length > 0 ? (
           filteredRegions.map((region) => (
             <button
               key={region.name}
               onClick={() => onRegionClick(region.name)}
-              className="w-full flex items-center justify-between p-4 bg-gray-800/10 hover:bg-gray-800/40 border border-gray-700/20 hover:border-emerald-500/30 rounded-2xl transition-all group text-left"
+              className="w-full flex items-center justify-between p-3 sm:p-4 bg-gray-800/10 hover:bg-gray-800/40 border border-gray-700/20 hover:border-emerald-500/30 rounded-2xl transition-all group text-left"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-2.5 bg-gray-800/50 rounded-xl border border-gray-700/50 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all">
-                  <MapPin className="text-gray-500 group-hover:text-emerald-500 transition-colors" size={18} />
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="p-2 sm:p-2.5 bg-gray-800/50 rounded-xl border border-gray-700/50 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all">
+                  <MapPin className="text-gray-500 group-hover:text-emerald-500 transition-colors" size={16} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-emerald-400 transition-colors">
+                  <h4 className="text-xs sm:text-sm font-bold text-white tracking-tight group-hover:text-emerald-400 transition-colors">
                      {region.name}
                   </h4>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className={`text-[10px] font-black uppercase tracking-tighter ${getStatusColor(region.status)}`}>
+                  <div className="flex items-center gap-1.5 sm:gap-2 mt-1">
+                    <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-tighter ${getStatusColor(region.status)}`}>
                       {region.status === 'tanpa_data' ? 'Tanpa Data' : (region.status || 'NORMAL')}
                     </span>
                     <span className="w-1 h-1 bg-gray-700 rounded-full"></span>
                     <div className="flex items-center gap-1">
                       {region.price > 0 && <TrendingUp size={10} className="text-amber-500" />}
-                      <span className="text-[10px] text-gray-400 font-bold">
+                      <span className="text-[9px] sm:text-[10px] text-gray-400 font-bold">
                         {region.price > 0 ? `Rp ${new Intl.NumberFormat('id-ID').format(region.price)}` : 'Belum Terdata'}
                       </span>
                     </div>
@@ -84,7 +84,7 @@ const RegionList = ({ regions, onRegionClick, selectedCommodity }) => {
                 </div>
 
               </div>
-              <ChevronRight className="text-gray-700 group-hover:text-emerald-500 transform group-hover:translate-x-1 transition-all" size={18} />
+              <ChevronRight className="text-gray-700 group-hover:text-emerald-500 transform group-hover:translate-x-0.5 sm:group-hover:translate-x-1 transition-all" size={16} />
             </button>
           ))
         ) : (

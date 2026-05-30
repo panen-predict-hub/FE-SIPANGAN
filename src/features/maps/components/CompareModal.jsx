@@ -179,7 +179,7 @@ const CompareModal = ({ isOpen, onClose, regionList, selectedCommodity }) => {
                 <GitCompare size={22} className="animate-pulse" />
               </div>
               <div>
-                <h3 className="text-xl font-black text-white tracking-tight">Perbandingan Harga Wilayah</h3>
+                <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">Perbandingan Harga Wilayah</h3>
                 <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-0.5">
                   Bandingkan kestabilan pasar & cuaca di Jawa Timur
                 </p>

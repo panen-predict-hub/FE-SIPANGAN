@@ -24,18 +24,18 @@ const CustomDropdown = ({ value, onChange, options, placeholder, icon: Icon }) =
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          flex items-center justify-between w-full px-4 py-2.5 rounded-xl text-sm font-bold transition-all
+          flex items-center justify-between w-full px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all
           bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10
           ${isOpen ? 'ring-2 ring-emerald-500/20 border-emerald-500/50' : ''}
           text-gray-300
         `}
       >
         <div className="flex items-center gap-3">
-          {Icon && <Icon size={20} className="text-gray-500" />}
+          {Icon && <Icon size={16} className="text-gray-500" />}
           <span className="truncate">{selectedOption.label}</span>
         </div>
         <ChevronDown 
-          size={18} 
+          size={15} 
           className={`text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
         />
       </button>
@@ -59,14 +59,14 @@ const CustomDropdown = ({ value, onChange, options, placeholder, icon: Icon }) =
                     setIsOpen(false);
                   }}
                   className={`
-                    flex items-center justify-between w-full px-4 py-3 rounded-xl text-sm font-medium transition-all
+                    flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all
                     ${value === option.value 
                       ? 'bg-emerald-500/10 text-emerald-400' 
                       : 'text-gray-400 hover:bg-white/5 hover:text-white'}
                   `}
                 >
                   <span className="truncate">{option.label}</span>
-                  {value === option.value && <Check size={18} className="text-emerald-500" />}
+                  {value === option.value && <Check size={16} className="text-emerald-500" />}
                 </button>
               ))}
             </div>

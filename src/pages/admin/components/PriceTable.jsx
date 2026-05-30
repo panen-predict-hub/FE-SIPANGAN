@@ -313,18 +313,18 @@ const PriceTable = ({ commodities }) => {
   const modalRegionOptions = regions.map(r => ({ label: r.name, value: r.id }));
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-4 sm:gap-6">
       {/* Header & Controls */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2 shrink-0">
-          <TrendingUp className="text-blue-500" size={20} />
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+        <h2 className="text-base sm:text-lg font-black text-white flex items-center gap-2 shrink-0 hidden sm:flex uppercase tracking-wider">
+          <TrendingUp className="text-blue-500" size={16} />
           Price Records
         </h2>
         
-        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full xl:w-auto">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2.5 w-full xl:w-auto">
           {/* Custom Filter UI */}
-          <div className="flex flex-col sm:flex-row items-stretch gap-2 p-1 bg-white/5 border border-white/5 rounded-2xl w-full md:w-auto">
-            <div className="w-full sm:w-56">
+          <div className="flex flex-col sm:flex-row items-stretch gap-2 w-full md:w-auto">
+            <div className="w-full sm:w-48">
               <CustomDropdown
                 value={filters.commodity}
                 onChange={(val) => setFilters({ ...filters, commodity: val })}
@@ -333,7 +333,7 @@ const PriceTable = ({ commodities }) => {
                 icon={Package}
               />
             </div>
-            <div className="w-full sm:w-64">
+            <div className="w-full sm:w-56">
               <CustomDropdown
                 value={filters.region}
                 onChange={(val) => setFilters({ ...filters, region: val })}
@@ -344,20 +344,22 @@ const PriceTable = ({ commodities }) => {
             </div>
           </div>
 
-          <button
-            onClick={exportToPDF}
-            disabled={loading || prices.length === 0}
-            className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/5 hover:border-white/10 text-gray-300 hover:text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all active:scale-95 shrink-0"
-          >
-            <FileText size={18} className="text-blue-500" /> <span>Export PDF</span>
-          </button>
+          <div className="flex items-center gap-2 w-full md:w-auto">
+            <button
+              onClick={exportToPDF}
+              disabled={loading || prices.length === 0}
+              className="flex-1 md:flex-none flex items-center justify-center gap-1.5 h-[42px] sm:h-[46px] px-3 bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/5 hover:border-white/10 text-gray-300 hover:text-white rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all active:scale-95 shrink-0"
+            >
+              <FileText size={14} className="text-blue-500" /> <span>Export PDF</span>
+            </button>
 
-          <button
-            onClick={() => handleOpenModal()}
-            className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 shrink-0"
-          >
-            <Plus size={18} /> <span className="sm:inline">New Entry</span>
-          </button>
+            <button
+              onClick={() => handleOpenModal()}
+              className="flex-1 md:flex-none flex items-center justify-center gap-1.5 h-[42px] sm:h-[46px] px-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20 active:scale-95 shrink-0"
+            >
+              <Plus size={14} /> <span>New Entry</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -367,10 +369,10 @@ const PriceTable = ({ commodities }) => {
           <table className="w-full text-left">
             <thead className="bg-gray-900/50 border-b border-gray-800">
               <tr>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest w-[180px]">Date</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest">Region</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[150px]">Price</th>
-                <th className="px-6 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[120px]">Actions</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest w-[110px] sm:w-[180px]">Date</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest">Region</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[100px] sm:w-[150px]">Price</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest text-right w-[90px] sm:w-[120px]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
@@ -386,31 +388,31 @@ const PriceTable = ({ commodities }) => {
               ) : currentPrices.length > 0 ? (
                 currentPrices.map((item) => (
                   <tr key={item.id} className="group hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 text-gray-400 text-sm font-medium">
-                        <Calendar size={14} className="text-gray-600" />
-                        {new Date(item.date).toLocaleDateString('id-ID')}
+                    <td className="px-4 sm:px-6 py-3 sm:py-4">
+                      <div className="flex items-center gap-1.5 text-gray-400 text-xs sm:text-sm font-medium">
+                        <Calendar size={13} className="text-gray-600 shrink-0" />
+                        <span>{new Date(item.date).toLocaleDateString('id-ID')}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-400 font-medium">{item.region}</td>
-                    <td className="px-6 py-4 text-right">
-                      <span className="text-emerald-500 font-black text-sm">
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 text-gray-400 font-medium text-xs sm:text-sm">{item.region}</td>
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 text-right">
+                      <span className="text-emerald-500 font-black text-xs sm:text-sm">
                         Rp {(parseInt(item.price) || 0).toLocaleString('id-ID')}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-4 sm:px-6 py-3 sm:py-4 text-right">
+                      <div className="flex items-center justify-end gap-1.5 sm:gap-2">
                         <button
                           onClick={() => handleOpenModal(item)}
-                          className="p-2 text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-blue-400 hover:bg-blue-500/10 rounded-lg transition-colors"
                         >
-                          <Edit2 size={16} />
+                          <Edit2 size={14} />
                         </button>
                         <button
                           onClick={() => handleDelete(item.id)}
-                          className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>
@@ -491,8 +493,8 @@ const PriceTable = ({ commodities }) => {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-xs font-black text-gray-500 uppercase tracking-widest ml-1">Commodity</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Commodity</label>
               <CustomDropdown
                 value={formData.commodity_id}
                 onChange={(val) => setFormData({ ...formData, commodity_id: val })}
@@ -501,8 +503,8 @@ const PriceTable = ({ commodities }) => {
                 icon={Package}
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-xs font-black text-gray-500 uppercase tracking-widest ml-1">Region</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Region</label>
               <CustomDropdown
                 value={formData.region_id}
                 onChange={(val) => setFormData({ ...formData, region_id: val })}
@@ -514,42 +516,46 @@ const PriceTable = ({ commodities }) => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-xs font-black text-gray-500 uppercase tracking-widest ml-1">Price (IDR)</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Price (IDR)</label>
               <input
                 type="number"
                 required
                 placeholder="e.g. 12500"
-                className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all placeholder:text-gray-700 font-medium"
+                className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all placeholder:text-gray-700 font-medium"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-xs font-black text-gray-500 uppercase tracking-widest ml-1">Record Date</label>
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Record Date</label>
               <input
                 type="date"
                 required
-                className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium"
+                className="w-full bg-white/5 border border-white/5 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all font-medium"
                 value={formData.date}
                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               />
             </div>
           </div>
 
-          <div className="pt-4">
+          <div className="flex gap-3 pt-3">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 text-gray-400 font-bold uppercase tracking-wider text-[11px] hover:bg-white/10 transition-all border border-white/5 h-[42px]"
+            >
+              Batal
+            </button>
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white font-black uppercase tracking-widest py-4 rounded-2xl transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 rounded-xl bg-blue-500 text-white font-bold uppercase tracking-wider text-[11px] hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50 h-[42px] flex items-center justify-center gap-2"
             >
               {submitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Saving Record...
-                </>
+                <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                currentPrice ? 'Update Record' : 'Create Record'
+                currentPrice ? 'Update' : 'Simpan'
               )}
             </button>
           </div>

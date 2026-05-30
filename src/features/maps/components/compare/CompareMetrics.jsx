@@ -60,10 +60,10 @@ const CompareMetrics = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* Card Region A */}
-        <div className="bg-emerald-500/5 border border-emerald-500/10 hover:border-emerald-500/20 transition-all rounded-3xl p-5 flex flex-col justify-between">
+        <div className="bg-emerald-500/5 border border-emerald-500/10 hover:border-emerald-500/20 transition-all rounded-3xl p-4 sm:p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-lg font-black text-white">{regionA.name}</h4>
+              <h4 className="text-base sm:text-lg font-black text-white">{regionA.name}</h4>
               <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded border ${getStatusStyle(regionA.status)}`}>
                 {regionA.status === 'tanpa_data' ? 'Tanpa Data' : (regionA.status || 'NORMAL')}
               </span>
@@ -71,7 +71,7 @@ const CompareMetrics = ({
             
             <div className="mb-4">
               <p className="text-[8px] text-gray-500 font-black uppercase tracking-widest mb-1">Harga Terkini</p>
-              <p className="text-3xl font-black text-white">
+              <p className="text-2xl sm:text-3xl font-black text-white">
                 {regionA.price > 0 ? (
                   <>
                     <span className="text-xs text-emerald-500 mr-1">Rp</span>
@@ -110,10 +110,10 @@ const CompareMetrics = ({
         </div>
 
         {/* Card Region B */}
-        <div className="bg-indigo-500/5 border border-indigo-500/10 hover:border-indigo-500/20 transition-all rounded-3xl p-5 flex flex-col justify-between">
+        <div className="bg-indigo-500/5 border border-indigo-500/10 hover:border-indigo-500/20 transition-all rounded-3xl p-4 sm:p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-lg font-black text-white">{regionB.name}</h4>
+              <h4 className="text-base sm:text-lg font-black text-white">{regionB.name}</h4>
               <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded border ${getStatusStyle(regionB.status)}`}>
                 {regionB.status === 'tanpa_data' ? 'Tanpa Data' : (regionB.status || 'NORMAL')}
               </span>
@@ -121,7 +121,7 @@ const CompareMetrics = ({
             
             <div className="mb-4">
               <p className="text-[8px] text-gray-500 font-black uppercase tracking-widest mb-1">Harga Terkini</p>
-              <p className="text-3xl font-black text-white">
+              <p className="text-2xl sm:text-3xl font-black text-white">
                 {regionB.price > 0 ? (
                   <>
                     <span className="text-xs text-indigo-400 mr-1">Rp</span>
@@ -163,8 +163,8 @@ const CompareMetrics = ({
 
       {/* Direct Delta Comparison Box */}
       {priceDiff && (
-        <div className="p-5 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl flex items-center gap-4 animate-in fade-in zoom-in duration-500">
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl shrink-0">
+        <div className="p-4 sm:p-5 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl flex items-center gap-4 animate-in fade-in zoom-in duration-500">
+          <div className="p-2.5 sm:p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl shrink-0">
             <TrendingDown className="animate-bounce" size={24} style={{ animationDuration: '2s' }} />
           </div>
           <div>
