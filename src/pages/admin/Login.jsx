@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { authService } from '../../api/services';
 import { Shield, Lock, User, Loader2, Database, ArrowLeft } from 'lucide-react';
-import iconSipangan from '../../assets/icons/sipangan-icon.png';
+import iconSipangan from '../../assets/icons/icon-sipangan-removebg-preview.png';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -94,10 +94,12 @@ const Login = () => {
             Kembali ke Beranda
           </button>
           
-          <div className="text-center mb-10">
-            <img src={iconSipangan} alt="Sipangan Logo" className="w-16 h-16 rounded-2xl mx-auto object-cover shadow-2xl shadow-emerald-500/30 mb-6 rotate-3 hover:rotate-0 transition-transform duration-500" />
-            <h1 className="text-3xl font-black text-white tracking-tighter mb-2">SIPANGAN</h1>
-            <p className="text-xs font-black text-gray-500 uppercase tracking-[0.3em]">Administrator Access</p>
+          <div className="flex flex-col items-center text-center gap-3 mb-10">
+            <img src={iconSipangan} alt="Sipangan Logo" className="w-24 h-24 object-contain rotate-3 hover:rotate-0 transition-transform duration-500" />
+            <div>
+              <h1 className="text-4xl font-black text-white tracking-tighter leading-none mb-1">SIPANGAN</h1>
+              <p className="text-[10px] font-black text-emerald-500/80 uppercase tracking-[0.25em] mt-1">Administrator Access</p>
+            </div>
           </div>
 
           {error && (
