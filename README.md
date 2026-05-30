@@ -1,13 +1,15 @@
 # 🥗 SIPANGAN (Sistem Informasi & Analisis Ketahanan Pangan) — Frontend
 
-[![React](https://img.shields.io/badge/React-18.2.0-blue.svg?logo=react&logoColor=white)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8.0.12-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.5-38B2AC.svg?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-B1E229.svg?logo=leaflet&logoColor=black)](https://leafletjs.com/)
-[![PWA](https://img.shields.io/badge/PWA-Enabled-009688.svg?logo=progressive-web-apps&logoColor=white)](https://vite-pwa-org.netlify.app/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Leaflet](https://img.shields.io/badge/leaflet-%23B1E229.svg?style=for-the-badge&logo=leaflet&logoColor=black)](https://leafletjs.com/)
+[![Framer Motion](https://img.shields.io/badge/framer%20motion-%230055FF.svg?style=for-the-badge&logo=framer&logoColor=white)](https://framer.com/motion/)
+[![PWA](https://img.shields.io/badge/PWA-Enabled-%23009688.svg?style=for-the-badge&logo=progressive-web-apps&logoColor=white)](https://vite-pwa-org.netlify.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 **SIPANGAN** adalah platform analitik cerdas berbasis spasial (GIS) dan AI (Artificial Intelligence) yang dirancang khusus untuk memantau stabilitas harga komoditas pangan, memetakan surplus/defisit pasokan, serta memproyeksikan pergerakan harga pangan di masa depan secara real-time. Proyek ini dikembangkan oleh tim pengembang **S26** sebagai wujud kontribusi teknologi untuk memperkuat ketahanan pangan nasional dan mencegah gejolak inflasi daerah, dengan visualisasi pre-konfigurasi untuk wilayah **Jawa Timur**.
+
 
 ---
 
