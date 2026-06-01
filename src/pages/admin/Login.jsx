@@ -46,7 +46,12 @@ const Login = () => {
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('userRole', role);
         localStorage.setItem('userFullname', fullname);
-        navigate('/admin/manage');
+        
+        if (role === 'super_admin' || role === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/admin/manage');
+        }
       } else {
         setError('Respons server tidak valid.');
       }

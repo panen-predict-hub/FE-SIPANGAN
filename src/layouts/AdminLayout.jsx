@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, Database, User, Map, Menu, X, ShieldCheck, History } from 'lucide-react';
+import { LogOut, Database, User, Map, Menu, X, ShieldCheck, History, LayoutDashboard } from 'lucide-react';
 import { authService } from '../api/services';
 import AlertNotification from '../components/AlertNotification';
 import iconSipangan from '../assets/icons/icon-sipangan-removebg-preview.png';
@@ -34,6 +34,7 @@ const AdminLayout = () => {
   const userFullname = localStorage.getItem('userFullname') || 'Administrator';
 
   const navItems = [
+    { path: '/admin/dashboard', label: 'Ringkasan Sistem', icon: LayoutDashboard, roles: ['super_admin', 'admin'] },
     { path: '/admin/map', label: 'Peta Interaktif', icon: Map, roles: ['super_admin', 'admin', 'operator'] },
     { path: '/admin/manage', label: 'Kelola Data Pangan', icon: Database, roles: ['super_admin', 'admin', 'operator'] },
     { path: '/admin/users', label: 'Kelola Admin', icon: ShieldCheck, roles: ['super_admin', 'admin'] },

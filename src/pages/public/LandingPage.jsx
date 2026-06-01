@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Map as MapIcon,
@@ -7,11 +7,36 @@ import {
   Zap,
   Layers,
   ArrowRight,
-  BrainCircuit
+  BrainCircuit,
+  Mail,
+  Github
 } from 'lucide-react';
 import PriceMarquee from '../../components/PriceMarquee';
 
 const LandingPage = () => {
+  const techStacks = [
+    {
+      category: "Frontend Core",
+      techs: ["React.js & Vite", "Tailwind CSS", "Framer Motion", "Recharts (Visualisasi)"],
+      glow: "from-blue-500/10 to-transparent"
+    },
+    {
+      category: "Backend API",
+      techs: ["Node.js", "Express.js", "JWT Authentication", "RESTful API Architecture"],
+      glow: "from-emerald-500/10 to-transparent"
+    },
+    {
+      category: "Predictive Analytics",
+      techs: ["Python", "Scikit-Learn (ML)", "Time Series Analytics", "AI Supply Forecasting"],
+      glow: "from-purple-500/10 to-transparent"
+    },
+    {
+      category: "Geospatial GIS",
+      techs: ["Leaflet.js Map", "React Leaflet", "TopoJSON / GeoJSON", "Choropleth Rendering"],
+      glow: "from-amber-500/10 to-transparent"
+    }
+  ];
+
   return (
     <div className="space-y-16 md:space-y-24 pb-20 overflow-hidden">
       {/* Hero Section */}
@@ -19,7 +44,7 @@ const LandingPage = () => {
         <div className="relative text-center space-y-6 md:space-y-8 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500 max-w-full text-center">
             <Zap size={12} fill="currentColor" className="shrink-0" /> 
-            <span className="truncate">Sistem & Analisis Ketahanan Pangan</span>
+            <span className="truncate">Platform Analisis Spasial & AI</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.1] md:leading-[0.95] animate-in fade-in slide-in-from-bottom duration-700 delay-100">
@@ -162,77 +187,101 @@ const LandingPage = () => {
           <p className="text-xs sm:text-sm text-gray-500 font-medium">Sinergi teknologi mutakhir untuk performa tinggi, akurasi prediksi, dan visualisasi interaktif.</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {[
-            {
-              category: "Frontend Core",
-              techs: ["React.js & Vite", "Tailwind CSS", "Framer Motion", "Recharts (Visualisasi)"],
-              glow: "from-blue-500/10 to-transparent"
-            },
-            {
-              category: "Backend API",
-              techs: ["Node.js", "Express.js", "JWT Authentication", "RESTful API Architecture"],
-              glow: "from-emerald-500/10 to-transparent"
-            },
-            {
-              category: "Predictive Analytics",
-              techs: ["Python", "Scikit-Learn (ML)", "Time Series Analytics", "AI Supply Forecasting"],
-              glow: "from-purple-500/10 to-transparent"
-            },
-            {
-              category: "Geospatial GIS",
-              techs: ["Leaflet.js Map", "React Leaflet", "TopoJSON / GeoJSON", "Choropleth Rendering"],
-              glow: "from-amber-500/10 to-transparent"
-            }
-          ].map((stack, i) => (
-            <div key={i} className="group relative overflow-hidden bg-gray-900/30 backdrop-blur-xl border border-white/5 rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-white/10">
-              {/* Background Glow */}
-              <div className={`absolute -inset-px bg-gradient-to-b ${stack.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none`}></div>
-              
-              <div className="relative z-10 space-y-4">
-                <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest block">{stack.category}</span>
-                <div className="space-y-2.5">
-                  {stack.techs.map((tech, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></span>
-                      <span className="text-xs font-bold text-gray-300 leading-normal">{tech}</span>
+        {/* 2-Column Grid (Frontend left, Backend right, etc.) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {techStacks.map((stack, i) => {
+            // Triple the items to make the horizontal scroll seamless and long enough
+            const displayTechs = [...stack.techs, ...stack.techs, ...stack.techs];
+
+            return (
+              <div 
+                key={i} 
+                className="group relative overflow-hidden bg-gray-900/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 transition-all duration-300 hover:border-white/10 hover:-translate-y-1 hover:shadow-2xl"
+              >
+                {/* Background Glow */}
+                <div className={`absolute -inset-px bg-gradient-to-b ${stack.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none`}></div>
+                
+                <div className="relative z-10 space-y-4">
+                  {/* Category Header */}
+                  <span className="text-[10px] font-black text-gray-400 group-hover:text-emerald-400 transition-colors uppercase tracking-[0.2em] block">
+                    {stack.category}
+                  </span>
+                  
+                  {/* Horizontal Scrolling Badges inside each card */}
+                  <div className="w-full overflow-hidden relative py-2 no-scrollbar flex items-center">
+                    {/* Gradients overlay to fade out the inside edges */}
+                    <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-gray-950/20 to-transparent z-10 pointer-events-none"></div>
+                    <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-gray-950/20 to-transparent z-10 pointer-events-none"></div>
+
+                    <div 
+                      className="flex items-center gap-2 min-w-max"
+                      style={{
+                        animation: `marquee 18s linear infinite`,
+                      }}
+                    >
+                      {displayTechs.map((tech, idx) => (
+                        <span 
+                          key={idx} 
+                          className="px-3.5 py-1.5 bg-white/5 border border-white/5 rounded-full text-xs font-bold text-gray-300 select-none hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all cursor-default"
+                        >
+                          {tech}
+                        </span>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
       {/* Contact & Developer Info */}
-      <section className="text-center py-12 md:py-20 relative border-t border-white/5 px-4 md:px-0 mt-16 md:mt-20">
+      <section className="text-center py-12 md:py-20 relative border-t border-white/5 px-4 md:px-0 mt-16 md:mt-20 group">
         <div className="max-w-2xl mx-auto space-y-6 md:space-y-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-blue-500/10 border border-blue-500/20 mb-1">
-            <span className="text-lg sm:text-2xl font-black text-blue-500">S26</span>
+          {/* Futuristic Glowing Team Badge */}
+          <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-white/[0.06] mb-1 group-hover:scale-105 transition-all duration-500 shadow-xl shadow-blue-500/5">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-emerald-500/20 blur-[15px] opacity-40 rounded-2xl transition-opacity group-hover:opacity-60" />
+            <span className="relative z-10 text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">S26</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Kolaborasi & Hubungi Pengembang</h2>
-          <p className="text-xs sm:text-sm text-gray-500 font-medium leading-relaxed max-w-xl mx-auto">
+
+          <div className="space-y-3">
+            <span className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.25em] block">
+              Kolaborasi Masa Depan
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-none">
+              Kolaborasi &{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400">
+                Hubungi Pengembang
+              </span>
+            </h2>
+          </div>
+
+          <p className="text-xs sm:text-sm text-gray-400 font-medium leading-relaxed max-w-xl mx-auto">
             SIPANGAN dirancang oleh para praktisi teknologi dan ilmuwan data untuk mewujudkan kedaulatan pangan berbasis integrasi teknologi modern. 
             Jika Anda tertarik berkolaborasi, membutuhkan integrasi data sistem informasi pangan daerah, atau ingin memperluas cakupan platform ini ke skala nasional, silakan hubungi kami.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2 w-full max-w-sm sm:max-w-none mx-auto">
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2 w-full max-w-sm sm:max-w-none mx-auto">
             <a 
-              href="mailto:syahrefaldi@gmail.com" 
-              className="w-full sm:w-auto px-8 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+              href="mailto:syahrefaldi@gmail.com?subject=Kolaborasi%20Platform%20SIPANGAN&body=Halo%20Tim%20S26%20SIPANGAN,%250D%250ASaya%20tertarik%20untuk%20mengetahui%20lebih%20lanjut%20tentang%20kemungkinan%20kolaborasi..." 
+              className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5"
             >
+              <Mail size={14} className="shrink-0" />
               Hubungi via Email
             </a>
             <a 
               href="https://github.com/panen-predict-hub" 
               target="_blank" 
               rel="noreferrer" 
-              className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] sm:text-xs border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.02] active:scale-[0.98]"
             >
+              <Github size={14} className="shrink-0" />
               GitHub Repository
             </a>
           </div>
-          <p className="text-[8px] sm:text-[10px] text-gray-600 font-bold uppercase tracking-widest pt-6">
+
+          <p className="text-[8px] sm:text-[10px] text-gray-600 font-bold uppercase tracking-widest pt-8">
             &copy; 2026 SIPANGAN - Sistem Informasi Ketahanan Pangan. All rights reserved.
           </p>
         </div>

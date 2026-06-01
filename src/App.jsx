@@ -10,6 +10,7 @@ import Login from './pages/admin/Login';
 import ManageData from './pages/admin/ManageData';
 import UserManagement from './pages/admin/UserManagement';
 import ActivityLogs from './pages/admin/ActivityLogs';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 const useAuth = () => {
   const token = localStorage.getItem('accessToken');
@@ -29,6 +30,14 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   return children;
+};
+
+const AdminIndexRedirect = () => {
+  const userRole = localStorage.getItem('userRole') || 'operator';
+  if (userRole === 'super_admin' || userRole === 'admin') {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+  return <Navigate to="/admin/manage" replace />;
 };
 
 const App = () => {
@@ -54,7 +63,15 @@ const App = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="/admin/manage" replace />} />
+          <Route index element={<AdminIndexRedirect />} />
+          <Route 
+            path="dashboard" 
+            element={
+              <ProtectedRoute allowedRoles={['super_admin', 'admin']}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
           <Route path="manage" element={<ManageData />} />
           <Route path="map" element={<MapViewPage />} />
           

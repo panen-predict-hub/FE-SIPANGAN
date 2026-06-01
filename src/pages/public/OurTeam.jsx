@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Users, X, Github, Linkedin, Mail, Code2, Database, BrainCircuit } from 'lucide-react';
 import fsFE from '../../assets/images/fs-fe.jpg';
 import fsBE from '../../assets/images/fs-be.jpeg';
+import ds1 from '../../assets/images/ds-1.JPEG';
+import ds2 from '../../assets/images/ds-2.jpeg';
+
 
 const OurTeam = () => {
   const [selectedMember, setSelectedMember] = useState(null);
@@ -68,14 +71,14 @@ const OurTeam = () => {
       roleBg: "bg-emerald-500/10",
       roleBorder: "border-emerald-500/20",
       university: "Universitas Islam Negeri Sultan Syarif Kasim Riau",
-      major: "Teknik Informatika",
+      major: "Sistem Informasi",
       semester: 6,
-      photo: "https://ui-avatars.com/api/?name=Shofia+Ariska&background=10B981&color=fff&size=256",
-      bio: "Ahli dalam analisis data dan pembersihan data historis harga pangan untuk prediksi masa depan.",
+      photo: ds1,
+      bio: "Bertanggung jawab dalam pengolahan dan analisis data pangan untuk mendukung forecasting serta dokumentasi laporan proyek.",
       socials: {
-        github: "#",
-        linkedin: "#",
-        email: "mailto:alan@example.com"
+        github: "https://github.com/shofiaariska",
+        linkedin: "https://www.linkedin.com/in/shofia-ariska-7a392b40b",
+        email: "mailto:shofiaariskaa17@gmail.com"
       }
     },
     {
@@ -87,28 +90,28 @@ const OurTeam = () => {
       roleBg: "bg-emerald-500/10",
       roleBorder: "border-emerald-500/20",
       university: "Universitas Islam Negeri Sultan Syarif Kasim Riau",
-      major: "Teknik Informatika",
+      major: "Sistem Informasi",
       semester: 6,
-      photo: "https://ui-avatars.com/api/?name=Meila+Anriana&background=10B981&color=fff&size=256",
-      bio: "Membuat visualisasi data tingkat lanjut (Recharts) dan analisis statistik terkait fluktuasi harga komoditas.",
+      photo: ds2,
+      bio: "Fokus pada visualisasi data analitik dan analisis statistik fluktuasi harga komoditas pangan secara mendalam.",
       socials: {
-        github: "#",
-        linkedin: "#",
-        email: "mailto:ada@example.com"
+        github: "https://github.com/meilaanri",
+        linkedin: "https://www.linkedin.com/in/meila-anriana-02560340b",
+        email: "mailto:anrianaaa.k@gmail.com"
       }
     },
     {
       id: "ai-1",
-      name: "Andrew Ng",
+      name: "Louis Claudio",
       role: "AI Engineer",
       roleIcon: BrainCircuit,
       roleColor: "text-amber-500",
       roleBg: "bg-amber-500/10",
       roleBorder: "border-amber-500/20",
-      university: "Institut Teknologi Bandung",
+      university: "Universitas Sumatera Utara",
       major: "Teknik Informatika",
-      semester: 7,
-      photo: "https://ui-avatars.com/api/?name=Andrew+Ng&background=F59E0B&color=fff&size=256",
+      semester: 6,
+      photo: "https://ui-avatars.com/api/?name=Louis+Claudio&background=F59E0B&color=fff&size=256",
       bio: "Merancang model Machine Learning untuk Early Warning System dan deteksi anomali pada data harga pangan.",
       socials: {
         github: "#",
@@ -118,15 +121,15 @@ const OurTeam = () => {
     },
     {
       id: "ai-2",
-      name: "Fei-Fei Li",
+      name: "I Putu Reynanda Putra Dynatha",
       role: "AI Engineer",
       roleIcon: BrainCircuit,
       roleColor: "text-amber-500",
       roleBg: "bg-amber-500/10",
       roleBorder: "border-amber-500/20",
-      university: "Universitas Airlangga",
-      major: "Sistem Informasi",
-      semester: 7,
+      university: "Universitas Mataram",
+      major: "Teknik Informatika",
+      semester: 2,
       photo: "https://ui-avatars.com/api/?name=Fei-Fei+Li&background=F59E0B&color=fff&size=256",
       bio: "Fokus pada integrasi pipeline AI/ML ke backend dan memonitor akurasi prediksi kelangkaan komoditas secara real-time.",
       socials: {
