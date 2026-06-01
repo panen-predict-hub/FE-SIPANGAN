@@ -221,11 +221,20 @@ Integrasi API pada SIPANGAN Frontend dirancang dengan standar keamanan tinggi me
 
 Aplikasi ini dikembangkan dengan dedikasi penuh oleh tim **S26** dalam program Capstone Project:
 
-*   **Refaldi Julidinsyah** — *Lead Developer / Frontend & GIS Integration* — [GitHub Profile](https://github.com/rfldisyah) | [syahrefaldi@gmail.com](mailto:syahrefaldi@gmail.com)
-*   **Labib Abdullah** — *Lead Developer / Backend & Database Management* — [GitHub Profile](https://github.com/LabibAbdullah1) | [labibabdullahhasan@gmail.com](mailto:labibabdullahhasan@gmail.com)
+**🖥️ Fullstack Developer**
+*   **Refaldi Julidinsyah** — *Lead Developer / Frontend & GIS Integration* — [GitHub](https://github.com/rfldisyah) | [syahrefaldi@gmail.com](mailto:syahrefaldi@gmail.com)
+*   **Labib Abdullah** — *Lead Developer / Backend & Database Management* — [GitHub](https://github.com/LabibAbdullah1) | [labibabdullahhasan@gmail.com](mailto:labibabdullahhasan@gmail.com)
 
+**📊 Data Scientist**
+*   **Shofia Ariska** — *Data Science / Pengolahan & Analisis Data* — [GitHub](https://github.com/shofiaariska) | [shofiaariskaa17@gmail.com](mailto:shofiaariskaa17@gmail.com)
+*   **Meila Anriana** — *Data Science / Visualisasi & Analisis Statistik* — [GitHub](https://github.com/meilaanri) | [anrianaaa.k@gmail.com](mailto:anrianaaa.k@gmail.com)
+
+**🤖 AI Engineer**
+*   **Louis Claudio** — *AI Engineer / Machine Learning & Early Warning System* — [GitHub](#) | Universitas Sumatera Utara
+*   **I Putu Reynanda Putra Dynatha** — *AI Engineer / Integrasi Pipeline AI/ML* — [GitHub](#) | Universitas Mataram
 
 Kami sangat terbuka untuk kolaborasi, feedback, dan perluasan platform untuk mendukung program ketahanan pangan di berbagai provinsi di Indonesia.
+
 
 ---
 
