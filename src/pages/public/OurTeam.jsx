@@ -6,6 +6,8 @@ import fsFE from '../../assets/images/fs-fe.jpg';
 import fsBE from '../../assets/images/fs-be.jpeg';
 import ds1 from '../../assets/images/ds-1.JPEG';
 import ds2 from '../../assets/images/ds-2.jpeg';
+import ai1 from '../../assets/images/ai-1.jpeg';
+import ai2 from '../../assets/images/ai-2.png';
 
 
 const OurTeam = () => {
@@ -109,14 +111,14 @@ const OurTeam = () => {
       roleBg: "bg-amber-500/10",
       roleBorder: "border-amber-500/20",
       university: "Universitas Sumatera Utara",
-      major: "Teknik Informatika",
+      major: "Teknologi Informasi",
       semester: 6,
-      photo: "https://ui-avatars.com/api/?name=Louis+Claudio&background=F59E0B&color=fff&size=256",
-      bio: "Merancang model Machine Learning untuk Early Warning System dan deteksi anomali pada data harga pangan.",
+      photo: ai1,
+      bio: "Bertanggung jawab dalam riset dan pelatihan model machine learning untuk prediksi harga pangan, mulai dari seleksi fitur, tuning hyperparameter, hingga evaluasi performa model secara menyeluruh.",
       socials: {
-        github: "#",
-        linkedin: "#",
-        email: "mailto:andrew@example.com"
+        github: "https://github.com/claudio9924",
+        linkedin: "www.linkedin.com/in/louis-claudio",
+        email: "mailto:louisclaudio17@gmail.com"
       }
     },
     {
@@ -130,12 +132,12 @@ const OurTeam = () => {
       university: "Universitas Mataram",
       major: "Teknik Informatika",
       semester: 2,
-      photo: "https://ui-avatars.com/api/?name=Fei-Fei+Li&background=F59E0B&color=fff&size=256",
-      bio: "Fokus pada integrasi pipeline AI/ML ke backend dan memonitor akurasi prediksi kelangkaan komoditas secara real-time.",
+      photo: ai2,
+      bio: "Berfokus pada pipeline inferensi dan integrasi model AI ke dalam sistem produksi, memastikan hasil prediksi dapat dikonsumsi secara efisien oleh layanan backend aplikasi Sipangan.",
       socials: {
-        github: "#",
-        linkedin: "#",
-        email: "mailto:feifei@example.com"
+        github: "https://github.com/asreyn",
+        linkedin: "www.linkedin.com/in/reynanda-dynatha",
+        email: "mailto:reydynatha@gmail.com"
       }
     }
   ];
