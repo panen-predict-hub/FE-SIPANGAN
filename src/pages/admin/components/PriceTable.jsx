@@ -5,7 +5,7 @@ import autoTable from 'jspdf-autotable';
 import AdminModal from './AdminModal';
 import CustomAlert from '../../../components/CustomAlert';
 import CustomDropdown from '../../../components/CustomDropdown';
-import { priceService, mapService } from '../../../api/services';
+import { priceService, mapService, predictionService } from '../../../api/services';
 
 const JAWA_TIMUR_REGIONS = [
   "Kabupaten Bangkalan", "Kabupaten Banyuwangi", "Kabupaten Blitar", "Kabupaten Bojonegoro", 
@@ -26,6 +26,7 @@ const PriceTable = ({ commodities }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPrice, setCurrentPrice] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [predicting, setPredicting] = useState(false);
   
   // Alert State
   const [alertConfig, setAlertConfig] = useState({
@@ -194,6 +195,49 @@ const PriceTable = ({ commodities }) => {
     });
   };
 
+  const handleRecalculatePrediction = async () => {
+    if (!filters.commodity || !filters.region) return;
+
+    setPredicting(true);
+    try {
+      const response = await predictionService.getPrediction(filters.commodity, filters.region, true);
+      const predData = response.data?.data || response.data;
+      
+      const predictionsArray = predData?.predictions || (Array.isArray(predData) ? predData : (predData ? [predData] : []));
+      
+      if (predictionsArray.length > 0) {
+        const latestPred = predictionsArray[0];
+        const formattedPrice = new Intl.NumberFormat('id-ID').format(latestPred.price);
+        const formattedDate = new Date(latestPred.date).toLocaleDateString('id-ID', {
+          month: 'long',
+          year: 'numeric'
+        });
+        
+        showAlert({
+          title: 'Prediksi Diperbarui!',
+          message: `Model AI berhasil memproses ulang data. Hasil estimasi harga untuk ${filters.commodity} di ${filters.region} pada bulan ${formattedDate} adalah Rp ${formattedPrice}.`,
+          type: 'success'
+        });
+      } else {
+        showAlert({
+          title: 'Gagal Mendapatkan Prediksi',
+          message: 'Model AI berhasil dipanggil, tetapi tidak mengembalikan hasil prediksi yang valid.',
+          type: 'warning'
+        });
+      }
+    } catch (error) {
+      console.error('Failed to recalculate prediction:', error);
+      const errorMessage = error.response?.data?.message || 'Gagal memproses ulang prediksi. Pastikan data historis minimal 36 bulan tersedia.';
+      showAlert({
+        title: 'Gagal Memperbarui Prediksi',
+        message: errorMessage,
+        type: 'error'
+      });
+    } finally {
+      setPredicting(false);
+    }
+  };
+
   const exportToPDF = () => {
     try {
       const doc = new jsPDF();
@@ -345,6 +389,17 @@ const PriceTable = ({ commodities }) => {
           </div>
 
           <div className="flex items-center gap-2 w-full md:w-auto">
+            {filters.commodity && filters.region && (
+              <button
+                onClick={handleRecalculatePrediction}
+                disabled={predicting}
+                className="flex-1 md:flex-none flex items-center justify-center gap-1.5 h-[42px] sm:h-[46px] px-3 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-purple-500/20 active:scale-95 shrink-0"
+              >
+                {predicting ? <Loader2 className="animate-spin" size={14} /> : <TrendingUp size={14} />}
+                <span>{predicting ? 'Calculating...' : 'Recalculate AI'}</span>
+              </button>
+            )}
+
             <button
               onClick={exportToPDF}
               disabled={loading || prices.length === 0}

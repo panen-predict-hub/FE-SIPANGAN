@@ -28,8 +28,8 @@ export const priceService = {
 };
 
 export const predictionService = {
-  getPrediction: (commodity, region) =>
-    axiosClient.get('predict', { params: { commodity, region } }),
+  getPrediction: (commodity, region, force = false) =>
+    axiosClient.get('predict', { params: { commodity, region, force: force ? 'true' : undefined } }),
 };
 
 export const mapService = {
