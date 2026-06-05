@@ -201,6 +201,7 @@ const PriceTable = ({ commodities }) => {
     setPredicting(true);
     try {
       const response = await predictionService.getPrediction(filters.commodity, filters.region, true);
+      console.log('Prediction API Response:', response);
       const predData = response.data?.data || response.data;
       
       const predictionsArray = predData?.predictions || (Array.isArray(predData) ? predData : (predData ? [predData] : []));
