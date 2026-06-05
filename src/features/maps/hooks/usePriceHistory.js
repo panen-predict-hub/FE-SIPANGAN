@@ -18,7 +18,6 @@ const usePriceHistory = () => {
       const apiCommodityName = commodity.trim();
 
       // Fetch both history and prediction in parallel
-      // We fetch 'limit' points from the history
       const [historyResponse, predictionResponse] = await Promise.all([
         priceService.getHistory({ commodity: apiCommodityName, region: apiRegionName, limit }),
         predictionService.getPrediction(apiCommodityName, apiRegionName).catch(() => null)
@@ -35,16 +34,47 @@ const usePriceHistory = () => {
         date: d.date || d.created_at || d.tanggal
       })).filter(d => d.price && d.date);
 
+      // Group history by month (YYYY-MM) to ensure only one data point per month (on the 1st)
+      const monthlyGroups = {};
+      processedHistory.forEach(d => {
+        const dateObj = new Date(d.date);
+        const yearMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
+        // Keep the latest record of each month
+        if (!monthlyGroups[yearMonth] || new Date(d.date) > new Date(monthlyGroups[yearMonth].date)) {
+          monthlyGroups[yearMonth] = d;
+        }
+      });
+
+      // Map back to array, setting the date to the 1st of that month
+      let monthlyHistory = Object.keys(monthlyGroups).map(yearMonth => {
+        const originalData = monthlyGroups[yearMonth];
+        const [year, month] = yearMonth.split('-').map(Number);
+        // Normalize date to the 1st of the month at midday (to prevent timezone shift issues)
+        const normalizedDate = new Date(year, month - 1, 1, 12, 0, 0);
+        return {
+          ...originalData,
+          date: normalizedDate.toISOString()
+        };
+      });
+
       // Sort ascending for the chart
-      let sortedData = [...processedHistory]
+      let sortedData = [...monthlyHistory]
         .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      // Slice to take only the latest 'limit' number of months
+      if (sortedData.length > limit) {
+        sortedData = sortedData.slice(-limit);
+      }
 
 
       // FALLBACK: If history is empty but we have currentPriceData from overview
       const fallbackPrice = currentPriceData?.price || currentPriceData?.harga || currentPriceData?.current_price;
       if (sortedData.length === 0 && fallbackPrice) {
+        const normalizedDate = new Date();
+        normalizedDate.setDate(1); // Set to 1st of current month
+        normalizedDate.setHours(12, 0, 0, 0);
         sortedData = [{
-          date: new Date().toISOString(),
+          date: normalizedDate.toISOString(),
           price: fallbackPrice,
           actualPrice: fallbackPrice,
           region: regionName,
@@ -65,18 +95,19 @@ const usePriceHistory = () => {
         const predictionsArray = predData?.predictions || (Array.isArray(predData) ? predData : (predData ? [predData] : []));
         
         if (predictionsArray.length > 0) {
-          predictionPoints = predictionsArray.map((p, index) => {
+          // Limit to exactly 1 prediction point (1 month ahead)
+          const firstPred = predictionsArray[0];
+          const predDate = new Date(lastDate);
+          predDate.setMonth(lastDate.getMonth() + 1);
+          predDate.setDate(1);
+          predDate.setHours(12, 0, 0, 0);
 
-            const predDate = p.date ? new Date(p.date) : new Date(lastDate);
-            if (!p.date) predDate.setMonth(lastDate.getMonth() + (index + 1));
-
-            return {
-              ...lastActual,
-              date: predDate.toISOString(),
-              price: p.price || p.predictedPrice || p.harga_prediksi,
-              isPrediction: true
-            };
-          });
+          predictionPoints = [{
+            ...lastActual,
+            date: predDate.toISOString(),
+            price: firstPred.price || firstPred.predictedPrice || firstPred.harga_prediksi,
+            isPrediction: true
+          }];
         }
 
         const actualData = sortedData.map(d => ({ ...d, actualPrice: d.price || d.actualPrice, predictedPrice: null }));

@@ -138,7 +138,7 @@ const PriceSidebarChart = ({
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} opacity={0.5} />
-                <XAxis 
+                 <XAxis 
                   dataKey="date" 
                   stroke="#475569" 
                   fontSize={10} 
@@ -159,20 +159,41 @@ const PriceSidebarChart = ({
                   tickFormatter={(val) => `${val/1000}k`}
                 />
                 <RechartsTooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#0f172a', 
-                    border: '1px solid #1e293b', 
-                    borderRadius: '12px', 
-                    padding: typeof window !== 'undefined' && window.innerWidth < 640 ? '6px 10px' : '12px', 
-                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' 
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      let displayPayload = payload;
+                      // Deduplicate at bridge point (where actualPrice and predictedPrice are both present and equal)
+                      if (payload.length > 1) {
+                        const actual = payload.find(p => p.dataKey === 'actualPrice');
+                        const predict = payload.find(p => p.dataKey === 'predictedPrice');
+                        if (actual && predict && actual.value === predict.value) {
+                          displayPayload = [actual];
+                        }
+                      }
+
+                      return (
+                        <div className="bg-[#0f172a] border border-gray-800 rounded-2xl p-3 shadow-2xl">
+                          <p className="text-[10px] text-gray-500 font-bold mb-1">
+                            {new Date(label).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          </p>
+                          <div className="space-y-1">
+                            {displayPayload.map((item, index) => {
+                              const isActual = item.dataKey === 'actualPrice';
+                              return (
+                                <p 
+                                  key={index} 
+                                  className={`text-xs font-black ${isActual ? 'text-emerald-500' : 'text-amber-500'}`}
+                                >
+                                  {isActual ? 'Current Price' : 'Forecasted'} : Rp {new Intl.NumberFormat('id-ID').format(item.value)}
+                                </p>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
                   }}
-                  itemStyle={{ fontWeight: '900', fontSize: typeof window !== 'undefined' && window.innerWidth < 640 ? '10px' : '12px' }}
-                  labelStyle={{ color: '#64748b', marginBottom: '2px', fontWeight: 'bold', fontSize: typeof window !== 'undefined' && window.innerWidth < 640 ? '8px' : '10px' }}
-                  formatter={(value, name) => [
-                    `Rp ${new Intl.NumberFormat('id-ID').format(value)}`, 
-                    name === 'actualPrice' ? 'Current Price' : 'Forecasted'
-                  ]}
-                  labelFormatter={(label) => new Date(label).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
                 />
                 <Area 
                   type="monotone" 

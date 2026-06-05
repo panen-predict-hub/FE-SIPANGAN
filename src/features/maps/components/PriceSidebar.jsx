@@ -87,6 +87,11 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
                 </>
               )}
             </p>
+            {!isNoData && (
+              <p className="text-[9px] text-gray-500 font-bold uppercase mt-1">
+                {latestActual?.date ? `Update: ${new Date(latestActual.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : 'Update Terbaru'}
+              </p>
+            )}
           </div>
 
           {/* Show Forecasted Price or Shimmers / Skeletons if loading */}
@@ -104,21 +109,27 @@ const PriceSidebar = ({ region, regionId, status, currentPrice, trend, prices, i
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[10px] text-amber-500/60 uppercase font-black tracking-widest">Forecasted Price</p>
                 <div className="p-1.5 bg-amber-500/10 rounded-lg">
-                  <TrendingUp size={14} className="text-amber-500" />
+                  {predictedPrice >= (currentPrice || priceFromHistory) ? (
+                    <TrendingUp size={14} className="text-amber-500" />
+                  ) : (
+                    <TrendingDown size={14} className="text-amber-500" />
+                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <p className="text-xl sm:text-2xl font-black text-white">
                   <span className="text-xs text-amber-500 mr-1">Rp</span>
                   {new Intl.NumberFormat('id-ID').format(predictedPrice)}
                 </p>
                 {(currentPrice || priceFromHistory) > 0 && (
-                  <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${predictedPrice >= (currentPrice || priceFromHistory) ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}`}>
+                  <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-md ${predictedPrice >= (currentPrice || priceFromHistory) ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'} whitespace-nowrap`}>
                     {predictedPrice >= (currentPrice || priceFromHistory) ? '+' : ''}{((predictedPrice - (currentPrice || priceFromHistory)) / (currentPrice || priceFromHistory) * 100).toFixed(1)}%
                   </span>
                 )}
               </div>
-              <p className="text-[9px] text-gray-500 font-bold uppercase mt-1">Next Month Estimate</p>
+              <p className="text-[9px] text-gray-500 font-bold uppercase mt-1">
+                {firstPrediction?.date ? `Estimasi ${new Date(firstPrediction.date).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}` : 'Next Month Estimate'}
+              </p>
             </div>
           ) : null}
         </div>
