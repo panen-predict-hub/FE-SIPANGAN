@@ -27,6 +27,8 @@ const PriceTable = ({ commodities }) => {
   const [currentPrice, setCurrentPrice] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [predicting, setPredicting] = useState(false);
+  const [activePrediction, setActivePrediction] = useState(null);
+  const [fetchingPrediction, setFetchingPrediction] = useState(false);
   
   // Alert State
   const [alertConfig, setAlertConfig] = useState({
@@ -76,6 +78,33 @@ const PriceTable = ({ commodities }) => {
   useEffect(() => {
     fetchPrices();
     setCurrentPage(1); // Reset to first page when filters change
+  }, [filters]);
+
+  useEffect(() => {
+    const fetchActivePrediction = async () => {
+      if (filters.commodity && filters.region) {
+        setFetchingPrediction(true);
+        try {
+          const response = await predictionService.getPrediction(filters.commodity, filters.region, false);
+          const predData = response.data?.data || response.data;
+          const predictionsArray = predData?.predictions || (Array.isArray(predData) ? predData : (predData ? [predData] : []));
+          if (predictionsArray.length > 0) {
+            setActivePrediction(predictionsArray[0]);
+          } else {
+            setActivePrediction(null);
+          }
+        } catch (error) {
+          console.error('Failed to fetch active prediction:', error);
+          setActivePrediction(null);
+        } finally {
+          setFetchingPrediction(false);
+        }
+      } else {
+        setActivePrediction(null);
+      }
+    };
+
+    fetchActivePrediction();
   }, [filters]);
 
   const fetchRegions = async () => {
@@ -208,6 +237,7 @@ const PriceTable = ({ commodities }) => {
       
       if (predictionsArray.length > 0) {
         const latestPred = predictionsArray[0];
+        setActivePrediction(latestPred);
         const formattedPrice = new Intl.NumberFormat('id-ID').format(latestPred.price);
         const formattedDate = new Date(latestPred.date).toLocaleDateString('id-ID', {
           month: 'long',
@@ -390,17 +420,6 @@ const PriceTable = ({ commodities }) => {
           </div>
 
           <div className="flex items-center gap-2 w-full md:w-auto">
-            {filters.commodity && filters.region && (
-              <button
-                onClick={handleRecalculatePrediction}
-                disabled={predicting}
-                className="flex-1 md:flex-none flex items-center justify-center gap-1.5 h-[42px] sm:h-[46px] px-3 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-purple-500/20 active:scale-95 shrink-0"
-              >
-                {predicting ? <Loader2 className="animate-spin" size={14} /> : <TrendingUp size={14} />}
-                <span>{predicting ? 'Calculating...' : 'Recalculate AI'}</span>
-              </button>
-            )}
-
             <button
               onClick={exportToPDF}
               disabled={loading || prices.length === 0}
@@ -418,6 +437,48 @@ const PriceTable = ({ commodities }) => {
           </div>
         </div>
       </div>
+
+      {/* Active Prediction Info Banner */}
+      {filters.commodity && filters.region && (activePrediction || fetchingPrediction) && (
+        <div className="bg-purple-950/20 border border-purple-500/20 backdrop-blur-md rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg shadow-purple-500/5">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-purple-500/10 rounded-xl text-purple-400">
+              {fetchingPrediction ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <TrendingUp className="w-5 h-5" />
+              )}
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-purple-400 uppercase tracking-widest">Prediksi AI Bulan Depan</p>
+              <h3 className="text-sm sm:text-base font-black text-white">
+                {fetchingPrediction ? 'Memuat estimasi harga...' : `${filters.commodity} di ${filters.region}`}
+              </h3>
+            </div>
+          </div>
+          
+          {!fetchingPrediction && activePrediction && (
+            <div className="flex flex-row items-center gap-4 text-left sm:text-right">
+              <div>
+                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">
+                  Estimasi ({new Date(activePrediction.date).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })})
+                </p>
+                <p className="text-base sm:text-lg font-black text-purple-400">
+                  Rp {new Intl.NumberFormat('id-ID').format(activePrediction.price)}
+                </p>
+              </div>
+              <button
+                onClick={handleRecalculatePrediction}
+                disabled={predicting}
+                title="Hitung ulang prediksi secara manual"
+                className="p-2 bg-white/5 hover:bg-white/10 active:scale-95 text-gray-400 hover:text-white rounded-lg transition-all disabled:opacity-50"
+              >
+                {predicting ? <Loader2 className="animate-spin w-4 h-4" /> : <TrendingUp className="w-4 h-4" />}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Table */}
       <div className="bg-white/5 backdrop-blur-md border border-white/5 rounded-2xl overflow-hidden shadow-xl flex flex-col">
